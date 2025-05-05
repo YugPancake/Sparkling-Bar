@@ -2,7 +2,39 @@
 
 {% block content %}
 
-<h2 class="page_title">Главная страница</h2>
+<div class="banner">
+    <div class="banner-images">
+        <img class="active" src="{{ url_for('static', filename='image/banner1.png') }}" alt="Картинка банера 1" />
+        <img src="{{ url_for('static', filename='image/banner2.png') }}" alt="Картинка банера 2" />
+        <img src="{{ url_for('static', filename='image/banner3.png') }}" alt="Картинка банера 3" />
+        <img src="{{ url_for('static', filename='image/banner4.png') }}" alt="Картинка банера 4" />
+    </div>
+    <button class="prev" onclick="changeImage(-1)">
+        <img src="{{ url_for('static', filename='image/arrow-left.svg') }}" alt="Назад" />
+    </button>
+    <button class="next" onclick="changeImage(1)">
+        <img src="{{ url_for('static', filename='image/arrow-right.svg') }}" alt="Вперед" />
+    </button>
+</div>
+
+<script>
+    let currentIndex = 0;
+    const images = document.querySelectorAll('.banner-images img');
+    const bannerImages = document.querySelector('.banner-images');
+
+    function changeImage(direction) {
+        currentIndex += direction;
+
+        if (currentIndex < 0) {
+            currentIndex = images.length - 1;
+        } else if (currentIndex >= images.length) {
+            currentIndex = 0;
+        }
+
+        const offset = -currentIndex * 100;
+        bannerImages.style.transform = `translateX(${offset}%)`;
+    }
+</script>
 
 
 {% endblock %}
