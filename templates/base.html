@@ -20,15 +20,21 @@
                 <div class="search_bar">
                     <p>поиск</p>
                 </div>
+
 				<div class="pages_nav">
                     <a class="nav_buttons" href="{{ url_for('table_map') }}">Столы</a>
                     <a class="nav_buttons" href="{{ url_for('profile') }}">Профиль</a>
                     <a class="nav_buttons" href="{{ url_for('cart') }}">Корзина</a>
 				</div>
+                
 			</nav>
 		</header>
 
-		<main>{% block content %}{% endblock %}</main>
+		<main class="content">{% block content %}{% endblock %}</main>
+
+        <footer>
+        <img class="logo_bw" src="{{ url_for('static', filename='image/logo_bw.svg') }}" alt="Логотип" />
+        </footer>
 
 	</body>
 </html>

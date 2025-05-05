@@ -32,7 +32,7 @@ a {
 }
 
 nav {
-	font-size: 20px;
+	font-size: 18px;
 	display: flex;
 	align-content: center;
 	flex-direction: row;
@@ -61,4 +61,15 @@ nav {
 
 .nav_buttons{
     padding-left: 20px;
+}
+
+main{
+    flex: 1
+}
+
+footer{
+    background-color: #141414;
+    height: 297px;
+    margin: 0 -95px 0 -95px;
+    
 }
