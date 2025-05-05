@@ -13,4 +13,3 @@ class Table(SqlAlchemyBase):
     seating_capacity = sqlalchemy.Column(sqlalchemy.Integer, nullable=False)
 
     all_reserv = orm.relationship('Reserv', back_populates="table")
-    time_slots = orm.relationship('TimeSlot', back_populates="table")

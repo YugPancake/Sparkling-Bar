@@ -10,10 +10,6 @@ class TimeSlot(SqlAlchemyBase):
     date = sqlalchemy.Column(sqlalchemy.Date, nullable=False)
     start = sqlalchemy.Column(sqlalchemy.Time, nullable=False)
     end = sqlalchemy.Column(sqlalchemy.Time, nullable=False)
-    table_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('tables.table_id'), nullable=False)
-    status = sqlalchemy.Column(sqlalchemy.Enum('доступен', 'недоступен'), nullable=False)
-
-    table = orm.relationship('Table')
     
     all_reserv = orm.relationship('Reserv', back_populates="time")
     
