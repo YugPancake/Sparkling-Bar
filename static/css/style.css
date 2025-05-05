@@ -141,3 +141,10 @@ button {
     right: 10px;
 }
 
+.title{
+    font-size: 32px;
+}
+
+.specials{
+    padding: 40px 0 0 0;
+}
