@@ -1,0 +1,64 @@
+@font-face {
+	font-family: 'Russo_One';
+	src: url('../fonts/RussoOne-Regular.ttf') format('truetype');
+}
+
+body {
+	background-color: #191919;
+    padding: 0 95px 0 95px;
+	margin: 0;
+	font-family: Russo_One;
+    color: white;
+}
+
+a {
+    font-family: Russo_One;
+	text-decoration: none;
+	color: white;
+}
+
+.header {
+    font-family: Russo_One;
+	height: 96px;
+	margin: -1px -50px 0 -50px;
+    border: 1px solid white;
+    border-bottom-left-radius: 20px; 
+    border-bottom-right-radius: 20px;
+    padding-left: 50px;
+	display: flex;
+	align-content: center;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav {
+	font-size: 20px;
+	display: flex;
+	align-content: center;
+	flex-direction: row;
+	align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.catalog_button{
+    padding-left: 18px
+}
+
+.search_bar{
+    font-size: 16px;
+    background-color: white;
+    width: 580px;
+    height: 50px;
+    color: #F08BFF;
+    border-radius: 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 21px;
+    margin: 0 10px 0 30px;
+}
+
+.nav_buttons{
+    padding-left: 20px;
+}
