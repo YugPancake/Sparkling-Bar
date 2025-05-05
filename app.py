@@ -18,6 +18,30 @@ def load_user(user_id):
 @app.route('/', methods=['GET', 'POST'])
 def home():   
     return render_template('index.html', title="Главная страница")
+
+@app.route('/catalog')
+def catalog():
+    return render_template('catalog.html')
+
+@app.route('/table_map')
+def table_map():
+    return render_template('table_map.html')
+
+@app.route('/profile')
+def profile():
+    return render_template('profile.html')
+
+@app.route('/cart')
+def cart():
+    return render_template('cart.html')
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+@app.route('/register')
+def register():
+    return render_template('register.html')
     
 if __name__ == '__main__':
     db_session.global_init("db/bar.db")
