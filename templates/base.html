@@ -34,6 +34,18 @@
 
         <footer>
         <img class="logo_bw" src="{{ url_for('static', filename='image/logo_bw.svg') }}" alt="Логотип" />
+        <div class="pages_nav_footer">
+                <a class="nav_buttons_footer" href="{{ url_for('home') }}">Главная</a>
+                <a class="nav_buttons_footer" href="{{ url_for('profile') }}">Каталог</a>
+                <a class="nav_buttons_footer" href="{{ url_for('table_map') }}">Карта столов</a>
+		</div>
+        <div class="category_nav_footer">
+                <a class="nav_buttons_footer" href="{{ url_for('catalog') }}">Закуски</a>
+                <a class="nav_buttons_footer" href="{{ url_for('catalog') }}">Коктейли</a>
+                <a class="nav_buttons_footer" href="{{ url_for('catalog') }}">Настойки</a>
+                <a class="nav_buttons_footer" href="{{ url_for('catalog') }}">Безалкогольные коктейли</a>
+		</div>
+        <p class="signature">by Little Sparks team</p>
         </footer>
 
 	</body>
