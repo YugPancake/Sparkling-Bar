@@ -56,6 +56,40 @@
     </div>
 </div>
 
+<div class="mini_catalog">
+    <div class="choice_bar">
+        <a href="{{ url_for('catalog') }}" class="mini_catalog_button">Смотреть все</a>
+        
+        <div class="mini_catalog_text_container" onclick="toggleText(event)">
+            <span class="mini_catalog_choice white">Закуски</span> 
+            <span class="mini_catalog_choice red">Закуски</span>
+            <span class="mini_catalog_choice blue">Закуски</span>
+        </div>
+
+        
+        <div class="mini_catalog_text_container" onclick="toggleText(event)">
+            <span class="mini_catalog_choice white">Коктейли</span>
+            <span class="mini_catalog_choice red">Коктейли</span>
+            <span class="mini_catalog_choice blue">Коктейли</span>
+        </div>
+
+        
+        <div class="mini_catalog_text_container" onclick="toggleText(event)">
+            <span class="mini_catalog_choice white">Настойки</span>
+            <span class="mini_catalog_choice red">Настойки</span>
+            <span class="mini_catalog_choice blue">Настойки</span>
+        </div>
+
+        
+        <div class="mini_catalog_text_container" onclick="toggleText(event)">
+            <span class="mini_catalog_choice white">Безалкогольные коктейли</span>
+            <span class="mini_catalog_choice red">Безалкогольные коктейли</span>
+            <span class="mini_catalog_choice blue">Безалкогольные коктейли</span>
+        </div>
+    </div>
+</div>
+
+
 <script>
     let currentIndex = 0;
     const images = document.querySelectorAll('.banner-images img');
@@ -72,6 +106,35 @@
 
         const offset = -currentIndex * 100;
         bannerImages.style.transform = `translateX(${offset}%)`;
+    }
+
+    let currentExpanded = null; // Переменная для отслеживания текущего открытого элемента
+
+    function toggleText(event) {
+        const textContainer = event.currentTarget; // Получаем элемент, на который кликнули
+        const whiteText = textContainer.querySelector('.white');
+        const redText = textContainer.querySelector('.red');
+        const blueText = textContainer.querySelector('.blue');
+
+        // Если текущий элемент уже открыт, закрываем его
+        if (currentExpanded === textContainer) {
+            redText.style.opacity = '0';
+            blueText.style.opacity = '0';
+            currentExpanded = null; // Сбрасываем текущий открытый элемент
+        } else {
+            // Закрываем предыдущий элемент, если он открыт
+            if (currentExpanded) {
+                const previousRedText = currentExpanded.querySelector('.red');
+                const previousBlueText = currentExpanded.querySelector('.blue');
+                previousRedText.style.opacity = '0';
+                previousBlueText.style.opacity = '0';
+            }
+
+           
+        redText.style.opacity = '1';
+        blueText.style.opacity = '1';
+        currentExpanded = textContainer;
+        }
     }
 </script>
 

@@ -4,6 +4,7 @@
 }
 
 body {
+    font-size: 20px;
 	background-color: #191919;
     padding: 0 95px 0 95px;
 	margin: 0;
@@ -152,7 +153,7 @@ button {
 .specials_container{
     display: flex;
     flex-direction: row;
-    margin: 20px 0 60px 0;
+    margin: 20px 0 0 0;
     justify-content: space-between;
 }
 
@@ -196,4 +197,75 @@ button {
     margin: 0;
     font-size: 40px;
     color: #F08BFF;
+}
+
+.mini_catalog{
+    margin: 60px 0 0 0;
+}
+
+.choice_bar{
+    position: relative;
+	height: 52px;
+    border: 1px solid white;
+    border-radius: 20px; 
+    padding: 0 75px;
+	display: flex;
+	align-content: center;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mini_catalog_button{
+    color: #F08BFF;
+    padding-right: 100px;
+}
+
+.mini_catalog_text_container{
+    position: relative;
+    height: 52px;
+    cursor: pointer;
+}
+
+.mini_catalog_text_container:nth-child(2) {
+        margin-right: -90px;
+    }
+
+.mini_catalog_text_container:nth-child(3) {
+        margin-right: -90px;
+    }
+
+.mini_catalog_text_container:nth-child(4) {
+        margin-right: -90px;
+    }
+
+.mini_catalog_choice {
+    white-space: nowrap;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.2s ease;
+    opacity: 0;
+    gap: 100px;
+    margin: 14px -250px 0 -290px;
+}
+
+.white {
+    color: white;
+    opacity: 1;
+}
+
+.red {
+    color: #FF0000;
+    top: -2px;
+    left: 2px;
+    mix-blend-mode: lighten;
+    z-index: -1;
+}
+
+.blue {
+    color: #00A3FF;
+    top: 2px;
+    left: -2px;
+    mix-blend-mode: lighten;
+    z-index: -2;
 }
