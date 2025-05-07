@@ -15,13 +15,13 @@
         <p>
             {{ form.surname(size=32, placeholder="Фамилия", class="input_field") }}<br>
             {% for error in form.surname.errors %}
-                <span class="error">{{ error }}</span>
+                <span style="color: red;">{{ error }}</span>
             {% endfor %}
         </p>
         <p>
             {{ form.phone(size=32, placeholder="Телефон", class="input_field") }}<br>
             {% for error in form.phone.errors %}
-                <span class="error">{{ error }}</span>
+                <span style="color: red;">{{ error }}</span>
             {% endfor %}
         </p>
         <p>

@@ -9,6 +9,7 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from data.fill_products import fill_products_from_csv
 from login import LoginForm
 from register import RegisterForm
+from add_product import ProductForm
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret_key'
@@ -89,6 +90,29 @@ def register():
         return redirect('/login')
     return render_template('register.html', form=form)
 
+@app.route('/add_product', methods=['GET', 'POST'])
+def add_product():
+    form = ProductForm()
+    db_sess = db_session.create_session()
+    if db_sess.query(Product).filter(Product.prod_name == form.prod_name.data).first():
+            return render_template('add_product.html',
+                                   form=form,
+                                   message="Такой продукт уже есть в меню")
+    if form.validate_on_submit():
+        new_product = Product(
+            prod_name=form.prod_name.data,
+            prod_volume=form.prod_volume.data,
+            prod_category=form.prod_category.data,
+            price=form.price.data,
+            description=form.description.data,
+            img_prod=form.img_prod.data
+        )
+        db_sess.add(new_product)
+        db_sess.commit()
+        flash('Продукт успешно добавлен!', 'success')
+        return redirect(url_for('add_product'))
+
+    return render_template('add_product.html', form=form)
 
 @app.route('/get_products')
 def get_products():
