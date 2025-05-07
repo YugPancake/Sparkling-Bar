@@ -97,6 +97,7 @@ footer{
 .nav_buttons_footer{
     padding-bottom: 10px;
     color: #898989;
+    font-size: 16px;
 }
 
 .signature{
@@ -104,6 +105,7 @@ footer{
     position: absolute;
     bottom: 10px;
     right: 100px;
+    font-size: 16px;
 }
 
 .banner {
