@@ -54,6 +54,7 @@ def login():
                                form=form)
        
     return render_template('login.html', form=form)
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
@@ -80,6 +81,8 @@ def register():
         db_sess.commit()
         return redirect('/login')
     return render_template('register.html', form=form)
+
+
 if __name__ == '__main__':
     db_session.global_init("db/bar.db")
 
