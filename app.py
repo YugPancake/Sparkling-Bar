@@ -92,5 +92,7 @@ def register():
 
 if __name__ == '__main__':
     db_session.global_init("db/bar.db")
+    
+   # fill_products_from_csv('C:\\Users\\1\\Desktop\\программирование\\Веб-разработка\\Курсовая 2 и проект\\продукты1.csv')
     app.run()    
  
