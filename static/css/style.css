@@ -272,6 +272,7 @@ button {
 
 .mini_catalog_container {
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
     margin: 46px 0 0 0;
     justify-content: space-between;
@@ -282,6 +283,7 @@ button {
     width: 275px;
     height: 385px;
     border-radius: 20px;
+    margin-bottom: 40px;
 }
 
 .catalog_card_content{
@@ -292,7 +294,7 @@ button {
 
 .catalog_card_image img{
     width: 233px;
-    height: auto;
+    height: 233px;
     border-radius: 15px;
 }
 

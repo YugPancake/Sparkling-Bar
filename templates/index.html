@@ -89,19 +89,21 @@
     </div>
 
     <div class="mini_catalog_container">
+        {% for product in products %}
         <div class="catalog_card">
             <div class="catalog_card_content">
 
                 <div class="catalog_card_image">
-                    <img src="{{ url_for('static', filename='image/card_image.png') }}" alt="Карточка товара" />
+                    <img src="{{ product.img_prod }}" alt="{{ product.prod_name }}" />
                 </div>
 
                 <div class="catalog_card_info">
-                    <p class="catalog_card_price">0000 P</p>
-                    <p class="catalog_card_title">Текст текст текст текст текст текст текст текст</p>
+                    <p class="catalog_card_price">{{ product.price }} P</p>
+                    <p class="catalog_card_title">{{ product.prod_name }}</p>
                 </div>
             </div>
         </div>
+        {% endfor %}
     </div>
 </div>
 

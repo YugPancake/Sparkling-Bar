@@ -1,8 +1,10 @@
 from flask import Flask, render_template, redirect, url_for, flash, request
+from sqlalchemy import func
 from datetime import datetime
 from data import db_session
 from data.users import User
-from data.roles import Role 
+from data.roles import Role
+from data.products import Product
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from data.fill_products import fill_products_from_csv
 from login import LoginForm
@@ -21,8 +23,13 @@ def load_user(user_id):
     return db_sess.query(User).filter(User.id == user_id).first()
 
 @app.route('/', methods=['GET', 'POST'])
-def home():   
-    return render_template('index.html', title="Главная страница")
+def home():
+    db_sess = db_session.create_session()
+    
+    products = db_sess.query(Product).order_by(func.random()).limit(8).all()  
+    products_list = [product.to_dict() for product in products]
+    
+    return render_template('index.html', title="Главная страница", products=products_list, current_user=current_user)
 
 @app.route('/catalog')
 def catalog():
@@ -85,6 +92,5 @@ def register():
 
 if __name__ == '__main__':
     db_session.global_init("db/bar.db")
-
     app.run()    
  
