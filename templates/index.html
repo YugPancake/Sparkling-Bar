@@ -108,6 +108,20 @@
 </div>
 
 
+<div class="catalog_banner">
+    <div class="catalog_banner-image">
+        <img src="{{ url_for('static', filename='image/catalog_banner.png') }}" alt="Картинка банера каталога" />
+    </div>
+
+    <a href="{{ url_for('catalog') }}" class="catalog_banner_button">
+        <div class="catalog_banner_button_info">
+             <p>Перейти в каталог</p>
+             <img src="{{ url_for('static', filename='image/arrow-right-small-white.svg') }}" alt="Стрелка вправо" />
+        </div>
+    </a>
+</div>
+
+
 <script>
     let currentIndex = 0;
     const images = document.querySelectorAll('.banner-images img');
