@@ -108,21 +108,19 @@
         bannerImages.style.transform = `translateX(${offset}%)`;
     }
 
-    let currentExpanded = null; // Переменная для отслеживания текущего открытого элемента
+    let currentExpanded = null;
 
     function toggleText(event) {
-        const textContainer = event.currentTarget; // Получаем элемент, на который кликнули
+        const textContainer = event.currentTarget;
         const whiteText = textContainer.querySelector('.white');
         const redText = textContainer.querySelector('.red');
         const blueText = textContainer.querySelector('.blue');
 
-        // Если текущий элемент уже открыт, закрываем его
         if (currentExpanded === textContainer) {
             redText.style.opacity = '0';
             blueText.style.opacity = '0';
-            currentExpanded = null; // Сбрасываем текущий открытый элемент
+            currentExpanded = null;
         } else {
-            // Закрываем предыдущий элемент, если он открыт
             if (currentExpanded) {
                 const previousRedText = currentExpanded.querySelector('.red');
                 const previousBlueText = currentExpanded.querySelector('.blue');
