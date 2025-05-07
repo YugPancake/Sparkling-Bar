@@ -1,8 +1,12 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for, flash, request
 from datetime import datetime
 from data import db_session
 from data.users import User
+from data.roles import Role 
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+from data.fill_products import fill_products_from_csv
+from login import LoginForm
+from register import RegisterForm
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret_key'
@@ -13,6 +17,7 @@ login_manager.login_view = 'login'
 @login_manager.user_loader
 def load_user(user_id):
     db_sess = db_session.create_session()
+    
     return db_sess.query(User).filter(User.id == user_id).first()
 
 @app.route('/', methods=['GET', 'POST'])
@@ -35,15 +40,48 @@ def profile():
 def cart():
     return render_template('cart.html')
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
-
-@app.route('/register')
+    form = LoginForm()
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        user = db_sess.query(User).filter(User.email == form.email.data).first()
+        if user and user.check_password(form.password.data):
+            login_user(user, remember=form.remember_me.data)
+            return redirect("/")
+        return render_template('login.html',
+                               message="Неправильный логин или пароль",
+                               form=form)
+       
+    return render_template('login.html', form=form)
+@app.route('/register', methods=['GET', 'POST'])
 def register():
-    return render_template('register.html')
-    
+    form = RegisterForm()
+    if form.validate_on_submit():
+        if form.password.data != form.password_again.data:
+            return render_template('register.html',
+                                   form=form,
+                                   message="Пароли не совпадают")
+        db_sess = db_session.create_session()
+        if db_sess.query(User).filter(User.email == form.email.data).first():
+            return render_template('register.html',
+                                   form=form,
+                                   message="Такой пользователь уже есть")
+        user = User(
+            user_surname=form.surname.data,
+            user_name=form.name.data,
+            phone=form.phone.data,
+            email=form.email.data,
+            role_id=2,
+            created_at=datetime.now(),
+        )
+        user.set_password(form.password.data)
+        db_sess.add(user)
+        db_sess.commit()
+        return redirect('/login')
+    return render_template('register.html', form=form)
 if __name__ == '__main__':
     db_session.global_init("db/bar.db")
+
     app.run()    
  
