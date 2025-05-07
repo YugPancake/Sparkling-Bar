@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, flash, request
+from flask import Flask, render_template, redirect, url_for, flash, request, jsonify
 from sqlalchemy import func
 from datetime import datetime
 from data import db_session
@@ -90,9 +90,21 @@ def register():
     return render_template('register.html', form=form)
 
 
+@app.route('/get_products')
+def get_products():
+    category = request.args.get('category')
+    
+    db_sess = db_session.create_session()
+
+    if category:
+        products = db_sess.query(Product).filter(Product.prod_category == category).order_by(func.random()).limit(8).all()
+    else:
+        products = db_sess.query(Product).order_by(func.random()).limit(8).all()
+
+    products_list = [product.to_dict() for product in products]
+    return jsonify({'products': products_list})
+
 if __name__ == '__main__':
     db_session.global_init("db/bar.db")
-    
-   # fill_products_from_csv('C:\\Users\\1\\Desktop\\программирование\\Веб-разработка\\Курсовая 2 и проект\\продукты1.csv')
     app.run()    
  
