@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="product_container">
+    <div class="product_page_image">
+    </div>
+    <div class="product_page_info">
+        <div class="product_page_title">
+            Название
+        </div>
+        <div class="product_page_composition">
+            Состав
+        </div>
+        <div class="product_page_buttons">
+            <div class="product_page_button_order">
+                Заказать сейчас
+            </div>
+            <div class="product_page_button_card">
+                В корзину
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="reviews_container">
+    <div class="reviews_title">
+        Отзывы
+    </div>
+    <div class="reviews_card">
+        <div class="reviews_username">
+            Имя фамилия
+        </div>
+        <div class="reviews_content">
+            текст текст
+        </div>
+    </div>
+    <div class="reviews_see_all">
+        Смотреть все отзывы
+        <div class="reviews_see_all_arrow">
+            <img src="{{ url_for('static', filename='image/small-arrow-right.svg') }}" alt="Стрелка вправо" />
+        </div>
+    </div>
+</div>
+
+
+<div class="try_also_container">
+    <div class="try_also_title">
+        Попробуйте так же
+    </div>
+    <div class="try_also_cards">
+        <button class="prev" onclick="changeImage(-1)">
+            <img src="{{ url_for('static', filename='image/arrow-left.svg') }}" alt="Назад" />
+        </button>
+        <div class="try_also_carousel"
+            {% for product in products %}
+            <div class="catalog_card">
+                <div class="catalog_card_content">
+
+                    <div class="catalog_card_image">
+                        <img src="{{ product.img_prod }}" alt="{{ product.prod_name }}" />
+                    </div>
+
+                    <div class="catalog_card_info">
+                        <p class="catalog_card_price">{{ product.price }} P</p>
+                        <p class="catalog_card_title">{{ product.prod_name }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <button class="next" onclick="changeImage(1)">
+            <img src="{{ url_for('static', filename='image/arrow-right.svg') }}" alt="Вперед" />
+        </button>
+    </div>
+</div>
+
+
+<script>
+    let currentIndex = 0;
+
+    function changeImage(direction) {
+        const carousel = document.querySelector('.try_also_carousel');
+        const cards = document.querySelectorAll('.catalog_card');
+        const cardWidth = cards[0].offsetWidth + 20;
+
+        if (direction === -1 && currentIndex > 0) {
+            currentIndex--;
+        } else if (direction === 1 && currentIndex < cards.length - 1) {
+            currentIndex++;
+        }
+
+        carousel.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+    }
+</script>
+
+{% endblock %}
