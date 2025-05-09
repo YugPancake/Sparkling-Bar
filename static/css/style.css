@@ -228,16 +228,8 @@ button {
     cursor: pointer;
 }
 
-.mini_catalog_text_container:nth-child(2) {
-        margin-right: -90px;
-    }
-
-.mini_catalog_text_container:nth-child(3) {
-        margin-right: -90px;
-    }
-
-.mini_catalog_text_container:nth-child(4) {
-        margin-right: -90px;
+.mini_catalog_text_container:nth-child(2), .mini_catalog_text_container:nth-child(3),  .mini_catalog_text_container:nth-child(4){
+        margin-right: -40px;
     }
 
 .mini_catalog_choice {
@@ -247,8 +239,8 @@ button {
     left: 0;
     transition: opacity 0.2s ease;
     opacity: 0;
-    gap: 100px;
-    margin: 14px -250px 0 -290px;
+    gap: 130px;
+    margin: 14px 0 0 -200px;
 }
 
 .white {
