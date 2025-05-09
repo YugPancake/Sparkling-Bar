@@ -2,45 +2,45 @@
 
 {% block content %}
 
-<h2 class="page_title с">Добавление позиции в меню</h2>
+<p class="page_title с">Добавление позиции в меню</p>
 <div class="content_form">
-<div class="cont_login">
-    <form action=""  method="POST">
-        {{ form.hidden_tag() }}
-        
-            {{ form.prod_name(size=32, placeholder="Название", class="input_field")}}<br>
-            {% for error in form.prod_name.errors %}
+    <div class="cont_login">
+        <form action=""  method="POST">
+            {{ form.hidden_tag() }}
+            
+                {{ form.prod_name(size=32, placeholder="Название", class="input_field")}}<br>
+                {% for error in form.prod_name.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            
+            
+                {{ form.prod_volume(size=32, placeholder="Обьем", class="input_field") }}<br>
+                {% for error in form.prod_volume.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+            
+            
+                {{ form.prod_category(size=32, placeholder="Категория", class="input_field") }}<br>
+                {% for error in form.prod_category.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+            
+            
+                {{ form.price(size=32, placeholder="Цена", class="input_field", type="email") }}<br>
+                {% for error in form.price.errors %}
                 <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        
-        
-            {{ form.prod_volume(size=32, placeholder="Обьем", class="input_field") }}<br>
-            {% for error in form.prod_volume.errors %}
-                <span style="color: red;">{{ error }}</span>
-            {% endfor %}
-        
-        
-            {{ form.prod_category(size=32, placeholder="Категория", class="input_field") }}<br>
-            {% for error in form.prod_category.errors %}
-                <span style="color: red;">{{ error }}</span>
-            {% endfor %}
-        
-        
-            {{ form.price(size=32, placeholder="Цена", class="input_field", type="email") }}<br>
-            {% for error in form.price.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
+                {% endfor %}
     
         
-            {{ form.description(size=32, placeholder="Состав", class="input_field description", type="password")}}
-        
-        
+                {{ form.description(size=32, placeholder="Состав", class="input_field description", type="password")}}
+            
+            
             {{ form.img_prod(size=32, placeholder="Ссылка на изображение", class="input_field", type="password")}}
-        
-        {{ form.submit(class="submit_button") }}</p>
+            
+            {{ form.submit(class="submit_button") }}</p>
        
-        <div>{{message}}</div>
-    </form>
-</div>
+            <div>{{message}}</div>
+        </form>
+    </div>
 </div>
 {% endblock %}
