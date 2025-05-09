@@ -32,9 +32,13 @@ def home():
     
     return render_template('index.html', title="Главная страница", products=products_list, current_user=current_user)
 
-@app.route('/catalog')
+@app.route('/catalog', methods=['GET', 'POST'])
 def catalog():
-    return render_template('catalog.html')
+    db_sess = db_session.create_session()
+    
+    products = db_sess.query(Product).order_by(func.random()).all()  
+    products_list = [product.to_dict() for product in products]
+    return render_template('catalog.html', title="Каталог", products=products_list, current_user=current_user)
 
 @app.route('/table_map')
 def table_map():

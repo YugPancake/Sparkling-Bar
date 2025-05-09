@@ -2,7 +2,196 @@
 
 {% block content %}
 
-<h2 class="page_title">Каталог</h2>
+<div class="filter">
+    <div class="dropdown">
+        <button class="dropdown-button">
+            <span class="selected-value">Категория</span>
+            <span class="arrow">
+                <img src="{{ url_for('static', filename='image/arrow-down.svg') }}" alt="стрелка вниз" />
+            </span>
+        </button>
+        <div class="dropdown-content">
+            <div class="dropdown-item" data-value="value1">
+                Все
+                <span class="checkmark">
+                    <img src="{{ url_for('static', filename='image/checkmark.svg') }}" alt="галочка" />
+                </span>
+            </div>
+            <div class="dropdown-item" data-value="value2">
+                Закуски
+                <span class="checkmark">
+                    <img src="{{ url_for('static', filename='image/checkmark.svg') }}" alt="галочка" />
+                </span>
+            </div>
+            <div class="dropdown-item" data-value="value3">
+                Коктейли
+                <span class="checkmark">
+                    <img src="{{ url_for('static', filename='image/checkmark.svg') }}" alt="галочка" />
+                </span>
+            </div>
+            <div class="dropdown-item" data-value="value4">
+                Настойки
+                <span class="checkmark">
+                    <img src="{{ url_for('static', filename='image/checkmark.svg') }}" alt="галочка" />
+                </span>
+            </div>
+            <div class="dropdown-item" data-value="value5">
+                Безалкогольное
+                <span class="checkmark">
+                    <img src="{{ url_for('static', filename='image/checkmark.svg') }}" alt="галочка" />
+                </span>
+            </div>
+        </div>
+    </div>
 
+    <div class="dropdown">
+        <button class="dropdown-button">
+            <span class="selected-value">Цена</span>
+            <span class="arrow">
+                <img src="{{ url_for('static', filename='image/arrow-down.svg') }}" alt="стрелка вниз" />
+            </span>
+        </button>
+        <div class="dropdown-content">
+            <div class="dropdown-item" data-value="value1">
+                До 500 Р
+                <span class="checkmark">
+                    <img src="{{ url_for('static', filename='image/checkmark.svg') }}" alt="галочка" />
+                </span>
+            </div>
+            <div class="dropdown-item" data-value="value2">
+                500 - 1000 Р
+                <span class="checkmark">
+                    <img src="{{ url_for('static', filename='image/checkmark.svg') }}" alt="галочка" />
+                </span>
+            </div>
+            <div class="dropdown-item" data-value="value3">
+                1000 - 1500 Р
+                <span class="checkmark">
+                    <img src="{{ url_for('static', filename='image/checkmark.svg') }}" alt="галочка" />
+                </span>
+            </div>
+            <div class="dropdown-item" data-value="value4">
+                1500 Р и дороже
+                <span class="checkmark">
+                    <img src="{{ url_for('static', filename='image/checkmark.svg') }}" alt="галочка" />
+                </span>
+            </div>
+            <div class="dropdown-item" data-value="value5">
+                Неважно
+                <span class="checkmark">
+                    <img src="{{ url_for('static', filename='image/checkmark.svg') }}" alt="галочка" />
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <button class="dropdown-button">
+            <span class="selected-value">Популярное</span>
+            <span class="arrow">
+                <img src="{{ url_for('static', filename='image/arrow-down.svg') }}" alt="стрелка вниз" />
+            </span>
+        </button>
+        <div class="dropdown-content">
+            <div class="dropdown-item" data-value="value1">
+                Популярное
+                <span class="checkmark">
+                    <img src="{{ url_for('static', filename='image/checkmark.svg') }}" alt="галочка" />
+                </span>
+            </div>
+            <div class="dropdown-item" data-value="value2">
+                Дешевле
+                <span class="checkmark">
+                    <img src="{{ url_for('static', filename='image/checkmark.svg') }}" alt="галочка" />
+                </span>
+            </div>
+            <div class="dropdown-item" data-value="value3">
+                Дороже
+                <span class="checkmark">
+                    <img src="{{ url_for('static', filename='image/checkmark.svg') }}" alt="галочка" />
+                </span>
+            </div>
+            <div class="dropdown-item" data-value="value4">
+                Новинки
+                <span class="checkmark">
+                    <img src="{{ url_for('static', filename='image/checkmark.svg') }}" alt="галочка" />
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="catalog">
+    {% for product in products %}
+        <div class="catalog_card">
+            <div class="catalog_card_content">
+
+                <div class="catalog_card_image">
+                    <img src="{{ product.img_prod }}" alt="{{ product.prod_name }}" />
+                </div>
+
+                <div class="catalog_card_info">
+                    <p class="catalog_card_price">{{ product.price }} P</p>
+                    <p class="catalog_card_title">{{ product.prod_name }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const dropdownButtons = document.querySelectorAll('.dropdown-button');
+
+        dropdownButtons.forEach(button => {
+            const dropdownContent = button.nextElementSibling;
+            const dropdownArrow = button.querySelector('.arrow img');
+            const dropdownItems = dropdownContent.querySelectorAll('.dropdown-item');
+
+            button.addEventListener('click', function () {
+                const isOpen = dropdownContent.style.display === 'block';
+
+                // Закрываем все открытые выпадающие списки
+                dropdownButtons.forEach(btn => {
+                    const content = btn.nextElementSibling;
+                    const arrow = btn.querySelector('.arrow img');
+                    if (content !== dropdownContent) { // Не закрываем текущий
+                        content.style.display = 'none';
+                        arrow.src = "{{ url_for('static', filename='image/arrow-down.svg') }}";
+                    }
+                });
+
+                // Открываем или закрываем текущий выпадающий список
+                dropdownContent.style.display = isOpen ? 'none' : 'block';
+                dropdownArrow.src = isOpen 
+                    ? "{{ url_for('static', filename='image/arrow-down.svg') }}" 
+                    : "{{ url_for('static', filename='image/arrow-up.svg') }}";
+            });
+
+            dropdownItems.forEach(item => {
+                item.addEventListener('click', function () {
+                    dropdownItems.forEach(i => i.classList.remove('selected'));
+                    this.classList.add('selected');
+                    button.querySelector('.selected-value').textContent = this.textContent.trim();
+
+                    dropdownContent.style.display = 'none';
+                    dropdownArrow.src = "{{ url_for('static', filename='image/arrow-down.svg') }}";
+                });
+            });
+        });
+
+        window.addEventListener('click', function (event) {
+            if (!event.target.matches('.dropdown-button') && !event.target.closest('.dropdown-button')) {
+                dropdownButtons.forEach(button => {
+                    const dropdownContent = button.nextElementSibling;
+                    const dropdownArrow = button.querySelector('.arrow img');
+
+                    dropdownContent.style.display = 'none';
+                    dropdownArrow.src = "{{ url_for('static', filename='image/arrow-down.svg') }}";
+                });
+            }
+        });
+    });
+</script>
 
 {% endblock %}
