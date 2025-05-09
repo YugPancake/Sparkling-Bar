@@ -1,40 +1,60 @@
 .page_title {
     text-align: center;
     color: #F08BFF;
+    margin: 0;
+    margin-bottom: 10px;
 }
 
-
+.p{
+    margin: 0;
+    padding: 0;
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+.content_form{
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+}
 .cont_login {
-    width: 450px;
-    margin: auto;
-    padding: 30px 50px;
+    width: 349px;
+    margin: 4px;
+    padding: 49px 50px 0 50px;
     background-color: #222;
     border-radius: 20px;
     border: 1px solid #FFFFFF;
 }
 
+input{
+    margin: 0;
+    padding: 0;
+}
+
 .input_field {
-    width: 100%;
-    height:60px ;
-    margin-bottom: 20px;
-    border: none;
-    border-radius: 15px;
-    font-family: 'Russo One', sans-serif;
+    font-family: Russo_One;
     font-size: 24px;
     font-weight: 400;
     line-height: 1;
     letter-spacing: 0;
     color: rgba(25, 25, 25, 0.5);
-   
-
+    width: 89%;
+    height:60px ;
+    margin-bottom: 20px;
+    border: none;
+    padding: 0 19px;
+    border-radius: 15px;
+    
 }
-
+.description {
+    padding-top: 15px;
+    height:135px;   
+}
 .submit_button {
     width: 100%;
     height: 60px;
     padding: auto;
     background-color: #F08BFF;
-    font-family: 'Russo One', sans-serif;
+    font-family: Russo_One;
     font-size: 24px;
     font-weight: 400;
     letter-spacing: 0;
@@ -43,6 +63,7 @@
     border: none;
     border-radius: 15px;
     cursor: pointer;
+    margin-bottom: 20px;
 }
 
 .submit_button:hover {
@@ -51,55 +72,55 @@
     color: #F08BFF;
 }
 .t_regist{
+    width: 110%;
+    position: relative;
+    right: 18px;
     font-weight: 400; 
     font-size: 12px; 
     line-height: 1; 
     letter-spacing: 0; 
     text-align: center;
     color: rgba(255, 255, 255, 0.5);
+    padding-bottom: 22px;
 }
-
 .remember_me_text{
-    font-weight: 400; 
-    font-size: 16px; 
-    line-height: 100%; 
-    letter-spacing: 0; 
-    text-align: center;
-    color: #FFFFFF;
+    font-family: Russo_One;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1;
 }
 .remember-me-container {
     display: flex;
-    align-items: center; 
-    margin: 20px 0; 
+    align-items: center;
+    padding-bottom: 49px; 
 }
-
 .remember_me {
     display: none; 
 }
 
 .remember_me + .remember_me_text {
-    position: relative;
-    padding-left: 30px;
+    display: flex;
+    align-items: center;
     cursor: pointer; 
 }
 
 .remember_me_text::before {
-    content: '✓'; 
-    position: absolute;
-    left: 0;
-    top: 0;
+    content: ''; 
+    position: relative;
     width: 22px; 
     height: 22px; 
     background-color: #F08BFF; 
-    color: white;
     border-radius: 4px; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 16px;
-    visibility: hidden;
+    margin-right: 10px;
+    visibility: visible;
+    cursor: pointer; 
 }
 
 .remember_me:checked + .remember_me_text::before {
-    visibility: visible;
+    content: '✓'; 
+    color: white; 
+    background-color: #F08BFF; 
+    font-size: 25px; 
+    visibility: visible; 
 }

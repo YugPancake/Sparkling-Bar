@@ -3,23 +3,25 @@
 {% block content %}
 
 <h2 class="page_title">Вход</h2>
+<div class="content_form">
+
 
 <div class="cont_login">
     <form action="" method="POST">
         {{ form.hidden_tag() }}
-        <p>
+        
             {{ form.email(size=32, placeholder="Email", class="input_field", type="email") }}<br>
             {% for error in form.email.errors %}
                 <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
-        </p>
-        <p>
+        
+        
             {{ form.password(size=32, placeholder="Пароль", class="input_field", type="password") }}<br>
             {% for error in form.password.errors %}
                 <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
-        </p>
-        <p>{{ form.submit(class="submit_button") }}</p>
+        
+            {{ form.submit(class="submit_button") }}
         <div class="remember-me-container">
             {{ form.remember_me(class="remember_me") }}
             <span class="remember_me_text">{{ form.remember_me.label }}</span>
@@ -27,5 +29,5 @@
         <div>{{message}}</div>
     </form>
 </div>
-
+</div>
 {% endblock %}

@@ -3,51 +3,53 @@
 {% block content %}
 
 <h2 class="page_title с">Регистрация</h2>
+<div class="content_form">
+
 <div class="cont_login">
     <form action=""  method="POST">
         {{ form.hidden_tag() }}
-        <p>
+        
             {{ form.name(size=32, placeholder="Имя", class="input_field")}}<br>
             {% for error in form.name.errors %}
                 <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
-        </p>
-        <p>
+        
+        
             {{ form.surname(size=32, placeholder="Фамилия", class="input_field") }}<br>
             {% for error in form.surname.errors %}
                 <span style="color: red;">{{ error }}</span>
             {% endfor %}
-        </p>
-        <p>
+        
+        
             {{ form.phone(size=32, placeholder="Телефон", class="input_field") }}<br>
             {% for error in form.phone.errors %}
                 <span style="color: red;">{{ error }}</span>
             {% endfor %}
-        </p>
-        <p>
+        
             {{ form.email(size=32, placeholder="Email", class="input_field", type="email") }}<br>
             {% for error in form.email.errors %}
                 <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
-        </p>
-        <p>
+        
+        
             {{ form.password(size=32, placeholder="Пароль", class="input_field", type="password")}}<br>
             {% for error in form.password.errors %}
                 <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
-        </p>
-        <p>
+        
+        
             {{ form.password_again(size=32, placeholder="Подтвердите пароль", class="input_field", type="password") }}<br>
             {% for error in form.password_again.errors %}
                 <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
-        </p>
-        <p>{{ form.submit(class="submit_button") }}</p>
+        
+        {{ form.submit(class="submit_button") }}
         <div class="t_regist">
             после завершения регистрации вам необходимо показать паспорт администратору бара для подтверждения профиля
         </div>
         <div>{{message}}</div>
     </form>
+</div>
 </div>
 
 {% endblock %}
