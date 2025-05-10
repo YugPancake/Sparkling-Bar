@@ -84,20 +84,23 @@ input{
     color: rgba(255, 255, 255, 0.5);
     padding-bottom: 22px;
 }
-.remember_me_text{
+
+.remember_me_text {
     font-family: Russo_One;
     font-size: 20px;
     font-weight: 400;
     letter-spacing: 0;
     line-height: 1;
 }
+
 .remember-me-container {
     display: flex;
     align-items: center;
-    padding-bottom: 49px; 
+    padding-bottom: 50px; 
 }
+
 .remember_me {
-    display: none; 
+    display: none;
 }
 
 .remember_me + .remember_me_text {
@@ -111,17 +114,18 @@ input{
     position: relative;
     width: 22px; 
     height: 22px; 
-    background-color: #F08BFF; 
-    border-radius: 4px; 
+    background-color: #F08BFF;
+    border-radius: 5px; 
     margin-right: 10px;
-    visibility: visible;
-    cursor: pointer; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
 }
 
 .remember_me:checked + .remember_me_text::before {
-    content: '✓'; 
-    color: white; 
+    content: ''; 
     background-color: #F08BFF; 
-    font-size: 25px; 
-    visibility: visible; 
+    background-image: url('/static/image/checkmark_login.svg'); 
+    background-repeat: no-repeat; 
+    background-position: center; 
 }

@@ -10,24 +10,25 @@
         <form action="" method="POST">
             {{ form.hidden_tag() }}
 
-                {{ form.email(size=32, placeholder="Email", class="input_field", type="email") }}<br>
-                {% for error in form.email.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
+            {{ form.email(size=32, placeholder="Email", class="input_field", type="email") }}<br>
+            {% for error in form.email.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
 
+            {{ form.password(size=32, placeholder="Пароль", class="input_field", type="password") }}<br>
+            {% for error in form.password.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
 
-                {{ form.password(size=32, placeholder="Пароль", class="input_field", type="password") }}<br>
-                {% for error in form.password.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
+            {{ form.submit(class="submit_button") }}
 
-                {{ form.submit(class="submit_button") }}
             <div class="remember-me-container">
-                    {{ form.remember_me(class="remember_me") }}
-                <span class="remember_me_text">{{ form.remember_me.label }}</span>
+                <input type="checkbox" class="remember_me" id="remember_me" name="remember_me">
+                <label class="remember_me_text" for="remember_me">{{ form.remember_me.label }}</label>
             </div>
-            <div>{{message}}</div>
+            <div>{{ message }}</div>
         </form>
     </div>
 </div>
+
 {% endblock %}
