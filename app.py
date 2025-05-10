@@ -40,6 +40,15 @@ def catalog():
     products_list = [product.to_dict() for product in products]
     return render_template('catalog.html', title="Каталог", products=products_list, current_user=current_user)
 
+@app.route('/product/<int:id>', methods=['GET', 'POST'])
+def product(id):
+    db_sess = db_session.create_session()
+    
+    product = db_sess.query(Product).get(id)
+    product_name = product.prod_name;
+
+    return render_template('product.html', title="product_name", product=product, current_user=current_user)
+
 @app.route('/table_map')
 def table_map():
     return render_template('table_map.html')

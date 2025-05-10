@@ -91,17 +91,19 @@
     <div class="mini_catalog_container">
         {% for product in products %}
         <div class="catalog_card">
-            <div class="catalog_card_content">
+            <a href="{{ url_for('product', id=product.prod_id) }}">
+                <div class="catalog_card_content">
 
-                <div class="catalog_card_image">
-                    <img src="{{ product.img_prod }}" alt="{{ product.prod_name }}" />
-                </div>
+                    <div class="catalog_card_image">
+                        <img src="{{ product.img_prod }}" alt="{{ product.prod_name }}" />
+                    </div>
 
-                <div class="catalog_card_info">
-                    <p class="catalog_card_price">{{ product.price }} P</p>
-                    <p class="catalog_card_title">{{ product.prod_name }}</p>
+                    <div class="catalog_card_info">
+                        <p class="catalog_card_price">{{ product.price }} P</p>
+                        <p class="catalog_card_title">{{ product.prod_name }}</p>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
         {% endfor %}
     </div>
@@ -192,7 +194,8 @@
                     catalogContainer.appendChild(noProductsMessage);
                 } else {
                     data.products.forEach(product => {
-                        const card = document.createElement('div');
+                        const card = document.createElement('a');
+                        card.href = `/product/${product.prod_id}`; 
                         card.className = 'catalog_card';
 
                         card.innerHTML = `
