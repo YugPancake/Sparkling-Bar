@@ -1,0 +1,28 @@
+.booking-container {
+    font-size: 32px;
+}
+
+.date-input {
+    color: white;
+    font-family: Russo_One;
+    border: none;
+    background: none;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 32px; 
+    padding: 0;
+    outline: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none; 
+}
+
+.date-input:focus {
+    background-color: transparent; /* Убираем голубой фон */
+    outline: none; /* Убираем обводку */
+}
+
+.date-input::-webkit-inner-spin-button, 
+.date-input::-webkit-calendar-picker-indicator {
+    display: none;
+}

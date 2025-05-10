@@ -2,7 +2,18 @@
 
 {% block content %}
 
-<h2 class="page_title">Карта столов</h2>
+<div class="booking-container">
+    <span>Бронирование столов на </span>
+    <input type="date" id="booking-date" class="date-input">
+</div>
+
+
+<script>
+    document.querySelector('.date-input').addEventListener('click', function(event) {
+        event.stopPropagation();
+        this.showPicker();
+    });
+</script>
 
 
 {% endblock %}
