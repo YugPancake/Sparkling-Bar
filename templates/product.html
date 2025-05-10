@@ -29,23 +29,29 @@
 </div>
 
 <div class="reviews_container">
+
     <div class="reviews_title">
         Отзывы
     </div>
-    <div class="reviews_card">
-        <div class="reviews_username">
-            Имя фамилия
-        </div>
-        <div class="reviews_content">
-            текст текст
+
+    <div class="reviews_cards_container">
+        <div class="reviews_card">
+            <div class="reviews_username">
+                Имя фамилия
+            </div>
+                <div class="reviews_content">
+                текст текст текст текс текст текст текст текст текс текст текст текст текст текс текст текст текст текст текс текст
+            </div>
         </div>
     </div>
+
     <div class="reviews_see_all">
         Смотреть все отзывы
         <div class="reviews_see_all_arrow">
             <img src="{{ url_for('static', filename='image/small-arrow-right.svg') }}" alt="Стрелка вправо" />
         </div>
     </div>
+
 </div>
 
 
@@ -54,10 +60,6 @@
         Попробуйте так же
     </div>
     <div class="try_also_cards">
-        <button class="try_also_prev" onclick="changeImage(-1)">
-            <img src="{{ url_for('static', filename='image/arrow-left.svg') }}" alt="Назад" />
-        </button>
-        <div class="try_also_carousel">
             {% for product in products %}
             <div class="catalog_card">
                 <a href="{{ url_for('product', id=product.prod_id) }}">
@@ -75,30 +77,29 @@
                 </a>
             </div>
             {% endfor %}
-        </div>
-        <button class="try_also_next" onclick="changeImage(1)">
-            <img src="{{ url_for('static', filename='image/arrow-right.svg') }}" alt="Вперед" />
-        </button>
     </div>
 </div>
 
-
 <script>
-    let currentIndex = 0;
+    const carousel = document.querySelector('.try_also_cards');
+    let isScrolling;
 
-    function changeImage(direction) {
-        const carousel = document.querySelector('.try_also_carousel');
-        const cards = document.querySelectorAll('.catalog_card');
-        const cardWidth = cards[0].offsetWidth + 20;
+    carousel.addEventListener('wheel', (event) => {
+        event.preventDefault();
 
-        if (direction === -1 && currentIndex > 0) {
-            currentIndex--;
-        } else if (direction === 1 && currentIndex < cards.length - 1) {
-            currentIndex++;
-        }
+        const delta = event.deltaY || -event.deltaX;
 
-        carousel.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
-    }
+        // Прокручиваем в зависимости от направления колеса
+        const scrollAmount = delta * 1.5; // Увеличьте множитель для большей скорости
+
+        // Используем requestAnimationFrame для плавности
+        cancelAnimationFrame(isScrolling);
+        isScrolling = requestAnimationFrame(() => {
+            carousel.scrollBy({
+                left: scrollAmount,
+                behavior: 'smooth'
+            });
+        });
+    });
 </script>
-
 {% endblock %}

@@ -189,10 +189,10 @@ button {
     font-size: 24px;
     color: #191919;
     overflow: hidden;
-    text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
 }
 
 .specials_card_price{
