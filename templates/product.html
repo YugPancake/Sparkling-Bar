@@ -52,8 +52,7 @@
         <button class="prev" onclick="changeImage(-1)">
             <img src="{{ url_for('static', filename='image/arrow-left.svg') }}" alt="Назад" />
         </button>
-        <div class="try_also_carousel"
-            {% for product in products %}
+        <div class="try_also_carousel">
             <div class="catalog_card">
                 <div class="catalog_card_content">
 
@@ -67,7 +66,6 @@
                     </div>
                 </div>
             </div>
-            {% endfor %}
         </div>
         <button class="next" onclick="changeImage(1)">
             <img src="{{ url_for('static', filename='image/arrow-right.svg') }}" alt="Вперед" />
