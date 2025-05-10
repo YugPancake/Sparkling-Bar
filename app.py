@@ -10,6 +10,7 @@ from data.fill_products import fill_products_from_csv
 from login import LoginForm
 from register import RegisterForm
 from add_product import ProductForm
+import re
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret_key'
@@ -44,10 +45,17 @@ def catalog():
 def product(id):
     db_sess = db_session.create_session()
     
+    products_for_try_also = db_sess.query(Product).order_by(func.random()).limit(8).all()  
+    products_try_also_list = [product.to_dict() for product in products_for_try_also]
+    
     product = db_sess.query(Product).get(id)
-    product_name = product.prod_name;
+    product_name = product.prod_name
+    
+    pattern = r',\s*(?![^()]*\))'
+    items = re.split(pattern, product.description)
+    description_list = [item.strip().capitalize() for item in items]
 
-    return render_template('product.html', title="product_name", product=product, current_user=current_user)
+    return render_template('product.html', title=product_name, product=product, products=products_try_also_list, description_list=description_list,   current_user=current_user)
 
 @app.route('/table_map')
 def table_map():
