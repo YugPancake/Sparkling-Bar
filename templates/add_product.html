@@ -26,16 +26,16 @@
                 {% endfor %}
             
             
-                {{ form.price(size=32, placeholder="Цена", class="input_field", type="email") }}<br>
+                {{ form.price(size=32, placeholder="Цена", class="input_field") }}<br>
                 {% for error in form.price.errors %}
                 <span style="color: red;">[{{ error }}]</span>
                 {% endfor %}
     
         
-                {{ form.description(size=32, placeholder="Состав", class="input_field description", type="password")}}
+                {{ form.description(size=32, placeholder="Состав", class="input_field description")}}
             
             
-            {{ form.img_prod(size=32, placeholder="Ссылка на изображение", class="input_field", type="password")}}
+            {{ form.img_prod(size=32, placeholder="Ссылка на изображение", class="input_field")}}
             
             {{ form.submit(class="submit_button") }}</p>
        
