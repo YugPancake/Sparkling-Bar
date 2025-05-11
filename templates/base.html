@@ -27,9 +27,14 @@
                 </div>
 
 				<div class="pages_nav">
-                    <a class="nav_buttons" href="{{ url_for('table_map') }}">Столы</a>
-                    <a class="nav_buttons" href="{{ url_for('profile') }}">Профиль</a>
-                    <a class="nav_buttons" href="{{ url_for('cart') }}">Корзина</a>
+                    {% if current_user.is_authenticated %}
+                        <a class="nav_buttons" href="{{ url_for('table_map') }}">Столы</a>
+                        <a class="nav_buttons" href="{{ url_for('profile') }}">Профиль</a>
+                        <a class="nav_buttons" href="{{ url_for('cart') }}">Корзина</a>
+                    {% else %}
+                        <a class="nav_buttons" href="{{ url_for('login') }}">Войти</a>
+                        <a class="nav_buttons_reg" href="{{ url_for('register') }}">Зарегистрироваться</a>
+                    {% endif %}
 				</div>
                 
 			</nav>

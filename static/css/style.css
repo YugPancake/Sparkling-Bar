@@ -67,6 +67,10 @@ nav {
     gap: 20px;
 }
 
+.nav_buttons_reg{
+    color: #F08BFF;
+}
+
 main{
     padding: 32px 0 60px 0;
     flex: 1;
