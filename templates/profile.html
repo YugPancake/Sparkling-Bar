@@ -2,7 +2,198 @@
 
 {% block content %}
 
-<h2 class="page_title">Профиль</h2>
+    <div class="profile">
+        <div class="up-pfofile">
+            <div class="account-card">
+                <p class="account-name"> Имя <br> Фамилия</p>
+                <p class="account-p">+ 7 (000) 000-00-00</p>
+                <p class="account-email">2email.mail@mail.em</p>
+                <button class="confirm-button">Выйти</button>
+            </div>
+
+            <div class="left-up-profile">
+                <p class="page_title white_text">Заказы</p>
+
+                <div class="orders-profile" id="orders-profile">
+                    <div class="order-card">
+                        <div class="order-left">
+                            <p class="order-status">Оформлен</p>
+                            <p class="order-details">Стол №0</p>
+                        </div>
+                        <div class="order-ri">
+                            <p class="order-number">№000</p>
+                            <button class="details-button">Подробности</button>
+                        </div>
+                    </div>
+                    <div class="order-card">
+                        <div class="order-left">
+                            <p class="order-status">Готовится</p>
+                            <p class="order-details">Стол №0</p>
+                        </div>
+                        <div class="order-ri">
+                            <p class="order-number">№000</p>
+                            <button class="details-button">Подробности</button>
+                        </div>
+                    </div>
+                    <div class="order-card">
+                        <div class="order-left">
+                            <p class="order-status">Готовится</p>
+                            <p class="order-details">Стол №0</p>
+                        </div>
+                        <div class="order-ri">
+                            <p class="order-number">№000</p>
+                            <button class="details-button">Подробности</button>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="orders_see_all_arrow" onclick="shiftOrders()">
+                    <img src="{{ url_for('static', filename='image/arrow-right-w.svg') }}" alt="Стрелка вправо" />
+                </div>
+             </div>
+        </div>
+
+        <p class="page_title white_text">История заказов</p>
+
+        <div class="history">
+            <div class="history-card" id="historyCards">
+                <div class="specials_card anim">
+                    <div class="specials_card_content">
+                        <div class="specials_card_image">
+                            <img src="{{ url_for('static', filename='image/card_image.png') }}" alt="Карточка товара" />
+                        </div>
+                        <div class="specials_card_info">
+                            <p class="specials_card_title">Текст текст текст текст текст текст текст текст</p>
+                            <p class="specials_card_price">0000 P</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="specials_card anim">
+                    <div class="specials_card_content">
+                        <div class="specials_card_image">
+                            <img src="{{ url_for('static', filename='image/card_image.png') }}" alt="Карточка товара" />
+                        </div>
+                        <div class="specials_card_info">
+                            <p class="specials_card_title">Текст текст текст текст текст текст текст текст</p>
+                            <p class="specials_card_price">0000 P</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="specials_card anim">
+                    <div class="specials_card_content">
+                        <div class="specials_card_image">
+                            <img src="{{ url_for('static', filename='image/card_image.png') }}" alt="Карточка товара" />
+                        </div>
+                        <div class="specials_card_info">
+                            <p class="specials_card_title">Текст текст текст текст текст текст текст текст</p>
+                            <p class="specials_card_price">0000 P</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="specials_card anim">
+                    <div class="specials_card_content">
+                        <div class="specials_card_image">
+                            <img src="{{ url_for('static', filename='image/card_image.png') }}" alt="Карточка товара" />
+                        </div>
+                        <div class="specials_card_info">
+                            <p class="specials_card_title">Текст текст текст текст текст текст текст текст</p>
+                            <p class="specials_card_price">0000 P</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="specials_card anim">
+                    <div class="specials_card_content">
+                        <div class="specials_card_image">
+                            <img src="{{ url_for('static', filename='image/card_image.png') }}" alt="Карточка товара" />
+                        </div>
+                        <div class="specials_card_info">
+                            <p class="specials_card_title">Текст текст текст текст текст текст текст текст</p>
+                            <p class="specials_card_price">0000 P</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="history_see_all" onclick="viewHistory()">
+                Смотреть всю историю
+                <div class="history_see_all_arrow">
+                    <img src="{{ url_for('static', filename='image/small-arrow-right.svg') }}" alt="Стрелка вправо" />
+                </div>
+            </div>
+        </div>
+<script>
+    let currentIndex = 0;
+
+    function shiftOrders() {
+        const orders = document.getElementById('orders-profile');
+        const orderCards = Array.from(orders.children);
+        const totalCards = orderCards.length;
+
+      
+        currentIndex = (currentIndex + 1) % totalCards; 
+
+       
+        orders.style.transform = `translateX(-${currentIndex * (orderCards[0].offsetWidth + 53)}px)`; 
+
+        
+        orderCards.forEach((card, index) => {
+            if (index === currentIndex) {
+                card.classList.remove('hidden'); 
+            } else if (index === (currentIndex + 1) % totalCards) {
+                card.classList.remove('hidden'); 
+            } else {
+                card.classList.add('hidden'); 
+            }
+        });
+    }
+
+
+    let allCardsVisible = false;
+
+    function viewHistory() {
+        const historyCards = document.getElementById('historyCards');
+        const specialsCards = Array.from(historyCards.children);
+        
+        if (!allCardsVisible) {
+            specialsCards.forEach(card => {
+                card.classList.remove('hid'); 
+            });
+            allCardsVisible = true; 
+        } else {
+           
+            specialsCards.forEach((card, index) => {
+                if (index >= 3) {
+                    card.classList.add('hid'); 
+                }
+            });
+            allCardsVisible = false; 
+        }
+    }
+
+
+    // Инициализация: скрываем все карточки, кроме первых 3
+    function initHistoryCards() {
+        const orders = document.getElementById('orders-profile');
+        const orderCards = Array.from(orders.children);
+        const totalCards = orderCards.length;
+
+        orderCards.forEach((card, index) => {
+            if (index > 1) {
+                card.classList.add('hidden'); 
+            }
+        });
+
+        const historyCards = document.getElementById('historyCards');
+        const specialsCards = Array.from(historyCards.children);
+        
+        specialsCards.forEach((card, index) => {
+            if (index >= 3) {
+                card.classList.add('hid'); 
+            }
+        });
+    }
+
+    window.onload = initHistoryCards;
+</script>
 
 
 {% endblock %}

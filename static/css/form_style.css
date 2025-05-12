@@ -1,10 +1,11 @@
 .page_title {
-    text-align: center;
     color: #F08BFF;
-    margin: 0 0 24px 0; 
     font-size: 32px;
 }
-
+.c{
+    text-align: center;
+    margin: 0 0 24px 0; 
+}
 .p{
     margin: 0;
     padding: 0;
