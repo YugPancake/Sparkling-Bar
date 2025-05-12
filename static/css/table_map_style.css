@@ -1,8 +1,8 @@
-.booking-container {
+.date_container {
     font-size: 32px;
 }
 
-.date-input {
+.date_input {
     color: white;
     font-family: Russo_One;
     border: none;
@@ -17,12 +17,74 @@
     appearance: none; 
 }
 
-.date-input:focus {
-    background-color: transparent; /* Убираем голубой фон */
-    outline: none; /* Убираем обводку */
+.date_input:focus {
+    background-color: transparent;
+    outline: none;
 }
 
-.date-input::-webkit-inner-spin-button, 
-.date-input::-webkit-calendar-picker-indicator {
+.date_input::-webkit-inner-spin-button, 
+.date_input::-webkit-calendar-picker-indicator {
     display: none;
+}
+
+.booking_container{
+    display: flex;
+    align-content: space-between;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding: 50px;
+    border-radius: 20px;
+    border: 1px solid #FFFFFF;
+}
+
+.booking_col{
+    display: flex;
+    flex-direction: column;
+}
+
+.booking_table_number{
+    color: #191919;
+    font-size: 32px;
+    background-color: white;
+    width: 100%;
+    padding: 16px 10px;
+    border-radius: 15px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.booking_time_slots{
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.booking_time_slot{
+    color: #191919;
+    font-size: 16px;
+    background-color: white;
+    width: 100%;
+    padding: 10px 10px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.booking_button_container{
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.booking_button{
+    background-color: #F08BFF;
+    border-radius: 20px;
+    font-size: 24px;
+    padding: 15px 30px;
+    cursor: pointer;
 }

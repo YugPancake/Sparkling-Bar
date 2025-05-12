@@ -2,14 +2,195 @@
 
 {% block content %}
 
-<div class="booking-container">
+<div class="date_container">
     <span>Бронирование столов на </span>
-    <input type="date" id="booking-date" class="date-input">
+    <input type="date" id="booking_date" class="date_input">
 </div>
 
+<div class="booking_container">
+    <div class="booking_col">
+        <div class="booking_table_number">
+            1
+        </div>
+        <div class="booking_time_slots">
+            <div class="booking_time_slot">
+                21:00 - 22:00
+            </div>
+            <div class="booking_time_slot">
+                22:00 - 23:00
+            </div>
+            <div class="booking_time_slot">
+                23:00 - 00:00
+            </div>
+            <div class="booking_time_slot">
+                00:00 - 01:00
+            </div>
+            <div class="booking_time_slot">
+                01:00 - 02:00
+            </div>
+            <div class="booking_time_slot">
+                02:00 - 03:00
+            </div>
+            <div class="booking_time_slot">
+                03:00 - 04:00
+            </div>
+        </div>
+    </div>
+
+    <div class="booking_col">
+        <div class="booking_table_number">
+            2
+        </div>
+        <div class="booking_time_slots">
+            <div class="booking_time_slot">
+                21:00 - 22:00
+            </div>
+            <div class="booking_time_slot">
+                22:00 - 23:00
+            </div>
+            <div class="booking_time_slot">
+                23:00 - 00:00
+            </div>
+            <div class="booking_time_slot">
+                00:00 - 01:00
+            </div>
+            <div class="booking_time_slot">
+                01:00 - 02:00
+            </div>
+            <div class="booking_time_slot">
+                02:00 - 03:00
+            </div>
+            <div class="booking_time_slot">
+                03:00 - 04:00
+            </div>
+        </div>
+    </div>
+
+    <div class="booking_col">
+        <div class="booking_table_number">
+            3
+        </div>
+        <div class="booking_time_slots">
+            <div class="booking_time_slot">
+                21:00 - 22:00
+            </div>
+            <div class="booking_time_slot">
+                22:00 - 23:00
+            </div>
+            <div class="booking_time_slot">
+                23:00 - 00:00
+            </div>
+            <div class="booking_time_slot">
+                00:00 - 01:00
+            </div>
+            <div class="booking_time_slot">
+                01:00 - 02:00
+            </div>
+            <div class="booking_time_slot">
+                02:00 - 03:00
+            </div>
+            <div class="booking_time_slot">
+                03:00 - 04:00
+            </div>
+        </div>
+    </div>
+
+    <div class="booking_col">
+        <div class="booking_table_number">
+            4
+        </div>
+        <div class="booking_time_slots">
+            <div class="booking_time_slot">
+                21:00 - 22:00
+            </div>
+            <div class="booking_time_slot">
+                22:00 - 23:00
+            </div>
+            <div class="booking_time_slot">
+                23:00 - 00:00
+            </div>
+            <div class="booking_time_slot">
+                00:00 - 01:00
+            </div>
+            <div class="booking_time_slot">
+                01:00 - 02:00
+            </div>
+            <div class="booking_time_slot">
+                02:00 - 03:00
+            </div>
+            <div class="booking_time_slot">
+                03:00 - 04:00
+            </div>
+        </div>
+    </div>
+
+    <div class="booking_col">
+        <div class="booking_table_number">
+            5
+        </div>
+        <div class="booking_time_slots">
+            <div class="booking_time_slot">
+                21:00 - 22:00
+            </div>
+            <div class="booking_time_slot">
+                22:00 - 23:00
+            </div>
+            <div class="booking_time_slot">
+                23:00 - 00:00
+            </div>
+            <div class="booking_time_slot">
+                00:00 - 01:00
+            </div>
+            <div class="booking_time_slot">
+                01:00 - 02:00
+            </div>
+            <div class="booking_time_slot">
+                02:00 - 03:00
+            </div>
+            <div class="booking_time_slot">
+                03:00 - 04:00
+            </div>
+        </div>
+    </div>
+
+    <div class="booking_col">
+        <div class="booking_table_number">
+            6
+        </div>
+        <div class="booking_time_slots">
+            <div class="booking_time_slot">
+                21:00 - 22:00
+            </div>
+            <div class="booking_time_slot">
+                22:00 - 23:00
+            </div>
+            <div class="booking_time_slot">
+                23:00 - 00:00
+            </div>
+            <div class="booking_time_slot">
+                00:00 - 01:00
+            </div>
+            <div class="booking_time_slot">
+                01:00 - 02:00
+            </div>
+            <div class="booking_time_slot">
+                02:00 - 03:00
+            </div>
+            <div class="booking_time_slot">
+                03:00 - 04:00
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="booking_button_container">
+    <div class="booking_button">
+        Забронировать
+    </div>
+</div>
 
 <script>
-    document.querySelector('.date-input').addEventListener('click', function(event) {
+    document.querySelector('.date_input').addEventListener('click', function(event) {
         event.stopPropagation();
         this.showPicker();
     });
