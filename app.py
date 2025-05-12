@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, flash, request, jsonify
 from sqlalchemy import func
+from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from data import db_session
 from data.users import User
@@ -22,7 +23,7 @@ login_manager.login_view = 'login'
 def load_user(user_id):
     db_sess = db_session.create_session()
     
-    return db_sess.query(User).filter(User.id == user_id).first()
+    return db_sess.query(User).filter(User.user_id == user_id).first()
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -77,10 +78,9 @@ def login():
         user = db_sess.query(User).filter(User.email == form.email.data).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
-            return redirect("/")
-        return render_template('login.html',
-                               message="Неправильный логин или пароль",
-                               form=form)
+            return redirect(url_for('home'))
+        else:
+            flash('Неправильный email или пароль', 'danger')
        
     return render_template('login.html', form=form)
 
@@ -96,7 +96,7 @@ def register():
         if db_sess.query(User).filter(User.email == form.email.data).first():
             return render_template('register.html',
                                    form=form,
-                                   message="Такой пользователь уже есть")
+                                   message="Пользователь с таким email уже существует")
         user = User(
             user_surname=form.surname.data,
             user_name=form.name.data,
@@ -108,7 +108,9 @@ def register():
         user.set_password(form.password.data)
         db_sess.add(user)
         db_sess.commit()
-        return redirect('/login')
+        return redirect(url_for('login'))
+    
+
     return render_template('register.html', form=form)
 
 @app.route('/add_product', methods=['GET', 'POST'])
