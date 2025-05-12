@@ -60,15 +60,15 @@ def product(id):
 
 @app.route('/table_map')
 def table_map():
-    return render_template('table_map.html')
+    return render_template('table_map.html', title="Карта столов")
 
 @app.route('/profile')
 def profile():
-    return render_template('profile.html')
+    return render_template('profile.html', title="Ваш профиль")
 
 @app.route('/cart')
 def cart():
-    return render_template('cart.html')
+    return render_template('cart.html', title="Корзина")
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -82,7 +82,7 @@ def login():
         else:
             flash('Неправильный email или пароль', 'danger')
        
-    return render_template('login.html', form=form)
+    return render_template('login.html', form=form, title="Вход")
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -96,7 +96,7 @@ def register():
         if db_sess.query(User).filter(User.email == form.email.data).first():
             return render_template('register.html',
                                    form=form,
-                                   message="Пользователь с таким email уже существует")
+                                   message="Пользователь с таким email уже существует", title="Регистрация")
         user = User(
             user_surname=form.surname.data,
             user_name=form.name.data,
@@ -111,7 +111,7 @@ def register():
         return redirect(url_for('login'))
     
 
-    return render_template('register.html', form=form)
+    return render_template('register.html', form=form, title="Регистрация")
 
 @app.route('/add_product', methods=['GET', 'POST'])
 def add_product():
@@ -133,7 +133,7 @@ def add_product():
         db_sess.add(new_product)
         db_sess.commit()
         flash('Продукт успешно добавлен!', 'success')
-        return redirect(url_for('add_product'))
+        return redirect(url_for('add_product'), title="Добавление в меню")
 
     return render_template('add_product.html', form=form)
 
