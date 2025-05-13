@@ -22,7 +22,7 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     role = orm.relationship('Role')
 
     user_reviews = orm.relationship('UserReview', back_populates="user")
-    all_reserv = orm.relationship('Reserv', back_populates="user")
+    reservations = orm.relationship('Reserv', back_populates="user")
     orders = orm.relationship('Order', back_populates="user")
 
     def set_password(self, password):
