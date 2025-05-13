@@ -1,0 +1,196 @@
+.white_text{
+    color: #FFF;
+    padding: 0 ;
+    margin: 0;
+}
+
+.admin-container, .profile{
+    display: block;
+    width: 100%;
+    
+}
+
+.title_and_button{
+    display: flex;
+    justify-content: space-between;
+    height: 40px;
+}
+.add-product-admin {
+    display: flex;
+    width: 253px;
+    height: 40px;
+    font-family: Russo_One;
+    background-color: #FFF;
+    font-size: 20px;
+    color:#F08BFF;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+}
+
+.orders, .accounts {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: left;
+    
+}
+.orders{
+    gap: 19.58px 22.26px;
+    margin: 20px 0  40px 0;
+}
+.accounts{
+    gap: 40px 44px;
+    margin: 20px 0  0 0;
+}
+.order-card{
+    padding: 22.26px 20px 22.26px 21px;
+    display: flex;
+    justify-content: space-between;
+    width: 360.83px;
+    background-color: #FFF;
+    border: none;
+    border-radius: 20px;
+    flex-shrink: 0;
+    opacity: 1; 
+    transition: opacity 0.3s ease;   
+}
+.hidden {
+    opacity: 0.5; /* Затемнение скрытых карточек */
+}
+ .account-card {
+    padding:  22.16px 22.16px 18px 22.16px;
+    width: 234.94px;
+    display: flex;                 
+    flex-direction: column;       
+    align-items: center;          
+    justify-content: center;   
+    background-color: #FFF;
+    border: none;
+    border-radius: 20px;
+    flex-shrink: 0;
+    text-align: center;
+    height: 149.68px;     
+  
+ }
+.order-left{
+    text-align: left;
+}
+.order-ri{
+     text-align: right;
+}
+
+.order-status, .order-details, .order-number{
+    margin:  0;
+}
+.order-status{
+    font-size: 32px; 
+    vertical-align: middle;
+    color: #191919;
+    margin-bottom: 8px;
+}
+.account-name,
+.account-email {
+    margin: 0 0 11.1px 0;               
+}
+.account-name {
+    font-weight: bold;
+    color: #191919;
+}
+.account-p{
+    margin: 0;
+}
+.order-details{
+    font-size: 24px; 
+    vertical-align: middle;
+    color: #191919;
+}
+.order-number{
+    margin-bottom: 8px ;
+    font-size: 36px; 
+    vertical-align: middle;
+    color: #F08BFF;
+}
+
+.account-email,.account-p {
+    color: rgba(25, 25, 25, 0.5);
+    font-size: 16px;
+}
+
+.details-button {
+    position: relative;
+    top: 0;
+    transform: translateY(0%);
+    background-color: transparent;
+    font-family: Russo_One;
+    font-size: 16px;
+    color: rgba(25, 25, 25, 0.5);
+    border: none;
+    cursor: pointer;
+}
+.confirm-button {
+    position: relative;
+    top: 0;
+    transform: translateY(0%);
+    background-color: transparent;
+    font-family: Russo_One;
+    font-size: 20px;
+    color: #F08BFF;
+    border: none;
+    cursor: pointer;
+}
+.up-pfofile{
+    width: 105%;
+    display: flex;
+    gap: 0 53px;
+    padding-bottom: 40px;
+}
+.left-up-profile{
+    display: flex;                 
+    flex-direction: column;                 
+    justify-content: space-between;
+    max-width: 100%;
+    overflow: hidden;   
+}
+.orders-profile{
+    display: flex;
+
+    transition: transform 0.5s ease;
+    align-items: center;
+    justify-content: left;
+    gap: 0 53px;
+}
+.history-card{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 22px 0 18px 0;
+    align-items: center;
+    justify-content: left;
+    gap: 32px 32px;
+}
+.anim{
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+.hid {
+    display: none; 
+}
+.history_see_all{
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.history_see_all_arrow{
+    padding-top: 2px;
+}
+.orders_see_all_arrow{
+    position: absolute;
+    top:240px;
+    right: 95px;
+    color:#FFF;
+    cursor: pointer;    
+}

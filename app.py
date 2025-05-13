@@ -66,6 +66,10 @@ def table_map():
 def profile():
     return render_template('profile.html', title="Ваш профиль")
 
+@app.route('/admin')
+def admin():
+    return render_template('admin.html')
+
 @app.route('/cart')
 def cart():
     return render_template('cart.html', title="Корзина")
