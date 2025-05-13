@@ -10,4 +10,4 @@ class Table(SqlAlchemyBase):
     table_number = sqlalchemy.Column(sqlalchemy.String(10), nullable=False)
     table_price = sqlalchemy.Column(sqlalchemy.Numeric(10, 2), nullable=False)
 
-    all_reserv = orm.relationship('Reserv', back_populates='table')  # Связь с Reserv
+    all_reserv = orm.relationship('Reserv', back_populates='table')

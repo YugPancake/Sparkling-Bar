@@ -17,7 +17,7 @@
 }
 .add-product-admin {
     display: flex;
-    width: 253px;
+    width: 250px;
     height: 40px;
     font-family: Russo_One;
     background-color: #FFF;
@@ -38,7 +38,7 @@
     
 }
 .orders{
-    gap: 19.58px 22.26px;
+    gap: 20px;
     margin: 20px 0  40px 0;
 }
 .accounts{
@@ -46,10 +46,10 @@
     margin: 20px 0  0 0;
 }
 .order-card{
-    padding: 22.26px 20px 22.26px 21px;
+    padding: 20px;
     display: flex;
     justify-content: space-between;
-    width: 360.83px;
+    width: 360px;
     background-color: #FFF;
     border: none;
     border-radius: 20px;
@@ -61,8 +61,8 @@
     opacity: 0.5; /* Затемнение скрытых карточек */
 }
  .account-card {
-    padding:  22.16px 22.16px 18px 22.16px;
-    width: 234.94px;
+    padding:  20px;
+    width: 230px;
     display: flex;                 
     flex-direction: column;       
     align-items: center;          
@@ -72,7 +72,7 @@
     border-radius: 20px;
     flex-shrink: 0;
     text-align: center;
-    height: 149.68px;     
+    height: 150px;     
   
  }
 .order-left{
@@ -91,16 +91,15 @@
     color: #191919;
     margin-bottom: 8px;
 }
-.account-name,
-.account-email {
-    margin: 0 0 11.1px 0;               
-}
+
 .account-name {
-    font-weight: bold;
     color: #191919;
+    line-height: 1;
+    font-size: 28px;
+    margin: 0 0 10px 0;  
 }
-.account-p{
-    margin: 0;
+.account-p, .account-email{
+    margin: 0 0 3px 0;
 }
 .order-details{
     font-size: 24px; 
@@ -130,7 +129,9 @@
     border: none;
     cursor: pointer;
 }
+
 .confirm-button {
+    margin: 7px 0 0 0;
     position: relative;
     top: 0;
     transform: translateY(0%);
@@ -141,12 +142,14 @@
     border: none;
     cursor: pointer;
 }
-.up-pfofile{
+
+.up-profile{
     width: 105%;
     display: flex;
-    gap: 0 53px;
+    gap: 0 50px;
     padding-bottom: 40px;
 }
+
 .left-up-profile{
     display: flex;                 
     flex-direction: column;                 
@@ -160,23 +163,27 @@
     transition: transform 0.5s ease;
     align-items: center;
     justify-content: left;
-    gap: 0 53px;
+    gap: 0 50px;
 }
+
 .history-card{
     display: flex;
     flex-wrap: wrap;
-    margin: 22px 0 18px 0;
+    margin: 20px 0;
     align-items: center;
     justify-content: left;
-    gap: 32px 32px;
+    gap: 30px 30px;
 }
+
 .anim{
     opacity: 1;
     transition: opacity 0.3s ease;
 }
+
 .hid {
     display: none; 
 }
+
 .history_see_all{
     display: flex;
     justify-content: flex-end;

@@ -12,9 +12,9 @@ class Reserv(SqlAlchemyBase):
     reserv_date = sqlalchemy.Column(sqlalchemy.Date, nullable=False)
     price = sqlalchemy.Column(sqlalchemy.Numeric(10, 2), nullable=False)
 
-    user = orm.relationship('User ', back_populates='reservations')  # Предполагается, что в модели User есть поле reservations
-    table = orm.relationship('Table', back_populates='all_reserv')  # Связь с таблицей Table
-    slot = orm.relationship('TimeSlot', back_populates='all_reserv')  # Связь с таблицей TimeSlot
+    user = orm.relationship('User', back_populates='reservations')
+    table = orm.relationship('Table', back_populates='all_reserv')
+    slot = orm.relationship('TimeSlot', back_populates='all_reserv')
     
     def to_dict(self, only=None):
         data = {
