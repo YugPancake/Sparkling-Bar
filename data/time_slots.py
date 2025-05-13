@@ -8,5 +8,3 @@ class TimeSlot(SqlAlchemyBase):
     slot_id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     start = sqlalchemy.Column(sqlalchemy.Time, nullable=False)
     end = sqlalchemy.Column(sqlalchemy.Time, nullable=False)
-
-    all_reserv = orm.relationship('Reserv', back_populates='slot')

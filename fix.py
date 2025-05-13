@@ -19,14 +19,12 @@ def delete_users_without_password():
     db_sess = db_session.create_session()
     users_without_password = db_sess.query(User).filter((User .password == None) | (User .password == '')).all()
     
-    # Удаляем пользователей без пароля
     for user in users_without_password:
         db_sess.delete(user)
     
-    # Сохраняем изменения в базе данных
     db_sess.commit()
     
-    return len(users_without_password)  # Возвращаем количество удаленных пользователей
+    return len(users_without_password)
 
 if __name__ == "__main__":
     db_session.global_init("db/bar.db")

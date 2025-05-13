@@ -13,8 +13,8 @@ class Reserv(SqlAlchemyBase):
     price = sqlalchemy.Column(sqlalchemy.Numeric(10, 2), nullable=False)
 
     user = orm.relationship('User', back_populates='reservations')
-    table = orm.relationship('Table', back_populates='all_reserv')
-    slot = orm.relationship('TimeSlot', back_populates='all_reserv')
+    table = orm.relationship('Table')
+    slot = orm.relationship('TimeSlot')
     
     def to_dict(self, only=None):
         data = {
