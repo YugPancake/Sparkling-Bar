@@ -15,7 +15,10 @@
             </div>
             <div class="booking_time_slots">
                 {% for time_slot in time_slots %}
-                    <div class="booking_time_slot" onclick="toggleActive(this)">
+                    <div class="booking_time_slot" 
+                         onclick="toggleActive(this)" 
+                         data-table-id="{{ table.table_id }}" 
+                         data-time-slot-id="{{ time_slot.slot_id }}">
                         {{ time_slot.start.strftime('%H:%M') }} - {{ time_slot.end.strftime('%H:%M') }}
                     </div>
                 {% endfor %}
@@ -31,15 +34,39 @@
 </div>
 
 <script>
+    // Устанавливаем сегодняшнюю дату в input
+    document.addEventListener('DOMContentLoaded', function() {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); // Январь - 0!
+        var yyyy = today.getFullYear();
+        today = yyyy + '-' + mm + '-' + dd;
+        document.getElementById('booking_date').value = today;
+    });
+
+    // Обработчик изменения даты
+    document.getElementById('booking_date').addEventListener('change', function() {
+        // Сбрасываем выбранные временные слоты
+        var selectedSlots = document.querySelectorAll('.booking_time_slot.active');
+        selectedSlots.forEach(function(slot) {
+            slot.classList.remove('active');
+        });
+    });
+
     document.querySelector('.date_input').addEventListener('click', function(event) {
         event.stopPropagation();
         this.showPicker();
     });
 
     function toggleActive(element) {
+        var tableId = element.getAttribute('data-table-id');
+        var timeSlotId = element.getAttribute('data-time-slot-id');
+
+        console.log('Table ID:', tableId);
+        console.log('Time Slot ID:', timeSlotId);
+        console.log('Selected Date:', document.getElementById('booking_date').value);
         element.classList.toggle('active');
     }
 </script>
-
 
 {% endblock %}
