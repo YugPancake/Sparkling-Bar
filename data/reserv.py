@@ -21,6 +21,7 @@ class Reserv(SqlAlchemyBase):
             "reserv_id": self.reserv_id,
             "user_id": self.user_id,
             "table_id": self.table_id,
+            "slot_id": self.slot_id,
             "reserv_date": self.reserv_date,
             "price": self.price
         }

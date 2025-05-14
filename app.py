@@ -1,8 +1,8 @@
-from flask import Flask, render_template, redirect, url_for, flash, request, jsonify
+from flask import Blueprint, Flask, render_template, redirect, url_for, flash, request, jsonify
 from sqlalchemy import func
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-from data import db_session
+from data import db_session, reserv_api
 from data.users import User
 from data.roles import Role
 from data.products import Product
@@ -15,6 +15,7 @@ from login import LoginForm
 from register import RegisterForm
 from add_product import ProductForm
 import re
+from requests import get, post
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret_key'
@@ -71,7 +72,7 @@ def table_map():
     time_slots = db_sess.query(TimeSlot).all()
     time_slots_list = [time.to_dict() for time in time_slots]
     
-    return render_template('table_map.html', title="Карта столов", tables = tables_list, time_slots=time_slots_list,current_user=current_user)
+    return render_template('table_map.html', title="Карта столов", tables=tables_list, time_slots=time_slots_list, current_user=current_user)
 
 @app.route('/profile')
 def profile():
@@ -168,5 +169,8 @@ def get_products():
 
 if __name__ == '__main__':
     db_session.global_init("db/bar.db")
+    app.register_blueprint(reserv_api.blueprint)
     app.run()    
+    response_reserv = post('http://127.0.0.1:5000/api/reserv')
+    print(response_reserv.json())
  

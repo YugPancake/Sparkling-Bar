@@ -81,10 +81,10 @@
     color: white;
 }
 
-.booking_button_container{
+.booking_button_price_container{
     margin-top: 20px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
 }
 
 
@@ -94,4 +94,15 @@
     font-size: 24px;
     padding: 15px 30px;
     cursor: pointer;
+}
+
+.total_price_container{
+    font-size: 24px;
+    display: flex;
+    gap: 10px;
+}
+
+.total_price{
+    color: #F08BFF;
+    
 }

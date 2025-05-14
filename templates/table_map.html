@@ -18,7 +18,8 @@
                     <div class="booking_time_slot" 
                          onclick="toggleActive(this)" 
                          data-table-id="{{ table.table_id }}" 
-                         data-time-slot-id="{{ time_slot.slot_id }}">
+                         data-time-slot-id="{{ time_slot.slot_id }}"
+                         data-table-price="{{ table.table_price }}">
                         {{ time_slot.start.strftime('%H:%M') }} - {{ time_slot.end.strftime('%H:%M') }}
                     </div>
                 {% endfor %}
@@ -27,30 +28,53 @@
     {% endfor %}
 </div>
 
-<div class="booking_button_container">
-    <div class="booking_button">
+
+<div class="booking_button_price_container">
+    <div class="total_price_container">
+        <span>Общая стоимость: </span>
+        <div class="total_price">
+            <span  id="total_price">0</span> P
+        </div>
+    </div>
+
+    <div class="booking_button" onclick="submitBooking()">
         Забронировать
     </div>
+    
 </div>
 
+
+
 <script>
-    // Устанавливаем сегодняшнюю дату в input
+    let selectedDate = '';
+    let selectedSlots = [];
+    const userId = {{ current_user.user_id }}; 
+    let totalPrice = 0;
+
     document.addEventListener('DOMContentLoaded', function() {
         var today = new Date();
         var dd = String(today.getDate()).padStart(2, '0');
-        var mm = String(today.getMonth() + 1).padStart(2, '0'); // Январь - 0!
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
         var yyyy = today.getFullYear();
         today = yyyy + '-' + mm + '-' + dd;
         document.getElementById('booking_date').value = today;
+        selectedDate = today;
+
+        fetchOccupiedTables();
     });
 
-    // Обработчик изменения даты
     document.getElementById('booking_date').addEventListener('change', function() {
-        // Сбрасываем выбранные временные слоты
-        var selectedSlots = document.querySelectorAll('.booking_time_slot.active');
-        selectedSlots.forEach(function(slot) {
+        selectedSlots = [];
+        totalPrice = 0;
+        document.getElementById('total_price').innerText = totalPrice;
+
+        var selectedSlotsElements = document.querySelectorAll('.booking_time_slot.active');
+        selectedSlotsElements.forEach(function(slot) {
             slot.classList.remove('active');
         });
+
+        selectedDate = this.value;
+        fetchOccupiedTables();
     });
 
     document.querySelector('.date_input').addEventListener('click', function(event) {
@@ -61,12 +85,107 @@
     function toggleActive(element) {
         var tableId = element.getAttribute('data-table-id');
         var timeSlotId = element.getAttribute('data-time-slot-id');
+        var tablePrice = parseFloat(element.getAttribute('data-table-price'));
 
-        console.log('Table ID:', tableId);
-        console.log('Time Slot ID:', timeSlotId);
-        console.log('Selected Date:', document.getElementById('booking_date').value);
         element.classList.toggle('active');
-    }
-</script>
 
+        if (element.classList.contains('active')) {
+            selectedSlots.push({ tableId: tableId, timeSlotId: timeSlotId, price: tablePrice });
+            totalPrice += tablePrice;
+        } else {
+            selectedSlots = selectedSlots.filter(slot => slot.timeSlotId !== timeSlotId || slot.tableId !== tableId);
+            totalPrice -= tablePrice;
+        }
+
+        document.getElementById('total_price').innerText = totalPrice;
+        console.log('Selected Date:', selectedDate);
+        console.log('Selected Slots:', selectedSlots);
+        console.log('Total Price:', totalPrice);
+        console.log('User ID:', userId);
+    }
+
+    function submitBooking() {
+        if (selectedSlots.length === 0) {
+            alert('Пожалуйста, выберите хотя бы один слот времени для бронирования.');
+            return;
+        }
+
+        const slotsToSubmit = selectedSlots.map(slot => ({
+            tableId: slot.tableId,
+            timeSlotId: slot.timeSlotId,
+            price: slot.price
+        }));
+
+        fetch('/api/reserv', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                date: selectedDate,
+                slots: slotsToSubmit,
+                user_id: userId,
+                price: totalPrice
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Бронирование успешно!');
+                fetchOccupiedTables();
+            } else {
+                alert('Ошибка при бронировании: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
+            alert('Произошла ошибка при отправке данных.');
+        });
+    }
+
+    async function fetchOccupiedTables() {
+        try {
+            const response = await fetch('/api/reserv');
+            const data = await response.json();
+            highlightOccupiedTables(data.occupied_tables);
+        } catch (error) {
+            console.error('Ошибка при получении данных:', error);
+        }
+    }
+
+    function highlightOccupiedTables(occupiedTables) {
+        const currentDate = new Date().toISOString().split('T')[0];
+        const selectedDateFormatted = new Date(selectedDate).toISOString().split('T')[0]; 
+    
+        document.querySelectorAll('.booking_time_slot').forEach(slot => {
+            slot.style.backgroundColor = ''; 
+            slot.style.color = '';
+            slot.style.pointerEvents = '';
+        });
+    
+        
+        if (selectedDateFormatted < currentDate) {
+            document.querySelectorAll('.booking_time_slot').forEach(slot => {
+                slot.style.backgroundColor = '#8C8C8C';
+                slot.style.color = '#191919'; 
+                slot.style.pointerEvents = 'none';
+            });
+        } else {
+            if (occupiedTables[selectedDateFormatted]) {
+                occupiedTables[selectedDateFormatted].forEach(reservation => {
+                    const tableId = reservation.table_id;
+                    const slotId = reservation.slot_id;
+                    const bookingSlot = document.querySelector(`.booking_time_slot[data-table-id="${tableId}"][data-time-slot-id="${slotId}"]`);
+                    if (bookingSlot) {
+                        bookingSlot.style.backgroundColor = '#8C8C8C';
+                        bookingSlot.style.color = '#191919'; 
+                        bookingSlot.style.pointerEvents = 'none';
+                    }
+                });
+            }
+        }
+    }
+
+    window.onload = fetchOccupiedTables;
+</script>
 {% endblock %}
