@@ -89,10 +89,8 @@
 
         const delta = event.deltaY || -event.deltaX;
 
-        // Прокручиваем в зависимости от направления колеса
-        const scrollAmount = delta * 1.5; // Увеличьте множитель для большей скорости
+        const scrollAmount = delta * 4;
 
-        // Используем requestAnimationFrame для плавности
         cancelAnimationFrame(isScrolling);
         isScrolling = requestAnimationFrame(() => {
             carousel.scrollBy({
