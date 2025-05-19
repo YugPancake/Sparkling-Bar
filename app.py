@@ -2,13 +2,13 @@ from flask import Blueprint, Flask, render_template, redirect, url_for, flash, r
 from sqlalchemy import func
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-from data import db_session, reserv_api
+from data import db_session, reserv_api, products_api
 from data.users import User
 from data.roles import Role
 from data.products import Product
-from data.tables import Table;
-from data.time_slots import TimeSlot;
-from data.reserv import Reserv;
+from data.tables import Table
+from data.time_slots import TimeSlot
+from data.reserv import Reserv
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from data.fill_products import fill_products_from_csv
 from login import LoginForm
@@ -153,24 +153,10 @@ def add_product():
 
     return render_template('add_product.html', form=form)
 
-@app.route('/get_products')
-def get_products():
-    category = request.args.get('category')
-    
-    db_sess = db_session.create_session()
-
-    if category:
-        products = db_sess.query(Product).filter(Product.prod_category == category).order_by(func.random()).limit(8).all()
-    else:
-        products = db_sess.query(Product).order_by(func.random()).limit(8).all()
-
-    products_list = [product.to_dict() for product in products]
-    return jsonify({'products': products_list})
 
 if __name__ == '__main__':
     db_session.global_init("db/bar.db")
     app.register_blueprint(reserv_api.blueprint)
-    app.run()    
-    response_reserv = post('http://127.0.0.1:5000/api/reserv')
-    print(response_reserv.json())
+    app.register_blueprint(products_api.blueprint)
+    app.run()
  

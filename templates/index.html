@@ -176,42 +176,42 @@
 
 
     function updateProductCards(category) {
-        fetch(`/get_products?category=${encodeURIComponent(category)}`)
+        fetch(`/api/products?category=${encodeURIComponent(category)}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
                 return response.json();
             })
-
             .then(data => {
                 const catalogContainer = document.querySelector('.mini_catalog_container');
                 catalogContainer.innerHTML = '';
-
-                 if (data.products.length === 0) {
+    
+                if (!data.products || data.products.length === 0) {
                     const noProductsMessage = document.createElement('p');
                     noProductsMessage.textContent = 'Нет доступных продуктов в этой категории.';
                     catalogContainer.appendChild(noProductsMessage);
-                } else {
-                    data.products.forEach(product => {
-                        const card = document.createElement('a');
-                        card.href = `/product/${product.prod_id}`; 
-                        card.className = 'catalog_card';
-
-                        card.innerHTML = `
-                            <div class="catalog_card_content">
-                                <div class="catalog_card_image">
-                                    <img src="${product.img_prod}" alt="${product.prod_name}" />
-                                </div>
-                                <div class="catalog_card_info">
-                                    <p class="catalog_card_price">${product.price} P</p>
-                                    <p class="catalog_card_title">${product.prod_name}</p>
-                                </div>
-                            </div>
-                        `;
-                        catalogContainer.appendChild(card);
-                    });
+                    return;
                 }
+    
+                data.products.forEach(product => {
+                    const card = document.createElement('a');
+                    card.href = `/product/${product.prod_id}`;
+                    card.className = 'catalog_card';
+    
+                    card.innerHTML = `
+                        <div class="catalog_card_content">
+                            <div class="catalog_card_image">
+                                <img src="${product.img_prod}" alt="${product.prod_name}" />
+                            </div>
+                            <div class="catalog_card_info">
+                                <p class="catalog_card_price">${product.price} P</p>
+                                <p class="catalog_card_title">${product.prod_name}</p>
+                            </div>
+                        </div>
+                    `;
+                    catalogContainer.appendChild(card);
+                });
             })
             .catch(error => console.error('Error fetching products:', error));
     }
