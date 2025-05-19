@@ -124,17 +124,19 @@
 <div class="catalog">
     {% for product in products %}
         <div class="catalog_card">
-            <div class="catalog_card_content">
+            <a href="{{ url_for('product', id=product.prod_id) }}">
+                <div class="catalog_card_content">
 
-                <div class="catalog_card_image">
-                    <img src="{{ product.img_prod }}" alt="{{ product.prod_name }}" />
-                </div>
+                    <div class="catalog_card_image">
+                        <img src="{{ product.img_prod }}" alt="{{ product.prod_name }}" />
+                    </div>
 
-                <div class="catalog_card_info">
-                    <p class="catalog_card_price">{{ product.price }} P</p>
-                    <p class="catalog_card_title">{{ product.prod_name }}</p>
+                    <div class="catalog_card_info">
+                        <p class="catalog_card_price">{{ product.price }} P</p>
+                        <p class="catalog_card_title">{{ product.prod_name }}</p>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
     {% endfor %}
 </div>
@@ -236,37 +238,35 @@
             fetch(`/api/catalog?${params.toString()}`)
                 .then(response => response.json())
                 .then(data => {
-                    productsContainer.innerHTML = ''; // Очищаем контейнер продуктов
+                    productsContainer.innerHTML = '';
                     const noProductsMessage = document.querySelector('.no-products-message');
+                    const card = document.createElement('a');
+                    
         
                     if (data.success) {
                         if (data.products.length === 0) {
-                            noProductsMessage.style.display = 'block'; // Показываем сообщение
+                            noProductsMessage.style.display = 'block';
                         } else {
-                            noProductsMessage.style.display = 'none'; // Скрываем сообщение
+                            noProductsMessage.style.display = 'none';
                             data.products.forEach(product => {
                                 const productCard = `
                                     <div class="catalog_card">
-                                        <div class="catalog_card_content">
-                                            <div class="catalog_card_image">
-                                                <img src="${product.img_prod}" alt="${product.prod_name}" />
+                                        <a href="/product/${product.prod_id}">
+                                            <div class="catalog_card_content">
+                                                <div class="catalog_card_image">
+                                                    <img src="${product.img_prod}" alt="${product.prod_name}" />
+                                                </div>
+                                                <div class="catalog_card_info">
+                                                    <p class="catalog_card_price">${product.price} P</p>
+                                                    <p class="catalog_card_title">${product.prod_name}</p>
+                                                </div>
                                             </div>
-                                            <div class="catalog_card_info">
-                                                <p class="catalog_card_price">${product.price} P</p>
-                                                <p class="catalog_card_title">${product.prod_name}</p>
-                                            </div>
-                                        </div>
+                                        </a>
                                     </div>
                                 `;
                                 productsContainer.innerHTML += productCard;
                             });
                         }
-        
-                        const newUrl = `/catalog?${params.toString()}`;
-                        window.history.pushState({ path: newUrl }, '', newUrl);
-                        console.log(`Updated URL: ${newUrl}`);
-                    } else {
-                        console.error('Error fetching products:', data);
                     }
                 })
                 .catch(error => {
