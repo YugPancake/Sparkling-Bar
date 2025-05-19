@@ -11,31 +11,31 @@
             </span>
         </button>
         <div class="dropdown-content">
-            <div class="dropdown-item" data-value="value1">
+            <div class="dropdown-item" data-value="all">
                 Все
                 <span class="checkmark">
                     <img src="{{ url_for('static', filename='image/checkmark.svg') }}" alt="галочка" />
                 </span>
             </div>
-            <div class="dropdown-item" data-value="value2">
+            <div class="dropdown-item" data-value="snacks">
                 Закуски
                 <span class="checkmark">
                     <img src="{{ url_for('static', filename='image/checkmark.svg') }}" alt="галочка" />
                 </span>
             </div>
-            <div class="dropdown-item" data-value="value3">
+            <div class="dropdown-item" data-value="cocktails">
                 Коктейли
                 <span class="checkmark">
                     <img src="{{ url_for('static', filename='image/checkmark.svg') }}" alt="галочка" />
                 </span>
             </div>
-            <div class="dropdown-item" data-value="value4">
+            <div class="dropdown-item" data-value="bitters">
                 Настойки
                 <span class="checkmark">
                     <img src="{{ url_for('static', filename='image/checkmark.svg') }}" alt="галочка" />
                 </span>
             </div>
-            <div class="dropdown-item" data-value="value5">
+            <div class="dropdown-item" data-value="non_alcoholic">
                 Безалкогольное
                 <span class="checkmark">
                     <img src="{{ url_for('static', filename='image/checkmark.svg') }}" alt="галочка" />
@@ -52,31 +52,31 @@
             </span>
         </button>
         <div class="dropdown-content">
-            <div class="dropdown-item" data-value="value1">
+            <div class="dropdown-item" data-value="0-500">
                 До 500 Р
                 <span class="checkmark">
                     <img src="{{ url_for('static', filename='image/checkmark.svg') }}" alt="галочка" />
                 </span>
             </div>
-            <div class="dropdown-item" data-value="value2">
+            <div class="dropdown-item" data-value="500-1000">
                 500 - 1000 Р
                 <span class="checkmark">
                     <img src="{{ url_for('static', filename='image/checkmark.svg') }}" alt="галочка" />
                 </span>
             </div>
-            <div class="dropdown-item" data-value="value3">
+            <div class="dropdown-item" data-value="1000-1500">
                 1000 - 1500 Р
                 <span class="checkmark">
                     <img src="{{ url_for('static', filename='image/checkmark.svg') }}" alt="галочка" />
                 </span>
             </div>
-            <div class="dropdown-item" data-value="value4">
+            <div class="dropdown-item" data-value="1500+">
                 1500 Р и дороже
                 <span class="checkmark">
                     <img src="{{ url_for('static', filename='image/checkmark.svg') }}" alt="галочка" />
                 </span>
             </div>
-            <div class="dropdown-item" data-value="value5">
+            <div class="dropdown-item" data-value="any">
                 Неважно
                 <span class="checkmark">
                     <img src="{{ url_for('static', filename='image/checkmark.svg') }}" alt="галочка" />
@@ -93,25 +93,25 @@
             </span>
         </button>
         <div class="dropdown-content">
-            <div class="dropdown-item" data-value="value1">
+            <div class="dropdown-item" data-value="popular">
                 Популярное
                 <span class="checkmark">
                     <img src="{{ url_for('static', filename='image/checkmark.svg') }}" alt="галочка" />
                 </span>
             </div>
-            <div class="dropdown-item" data-value="value2">
+            <div class="dropdown-item" data-value="cheaper">
                 Дешевле
                 <span class="checkmark">
                     <img src="{{ url_for('static', filename='image/checkmark.svg') }}" alt="галочка" />
                 </span>
             </div>
-            <div class="dropdown-item" data-value="value3">
+            <div class="dropdown-item" data-value="expensive">
                 Дороже
                 <span class="checkmark">
                     <img src="{{ url_for('static', filename='image/checkmark.svg') }}" alt="галочка" />
                 </span>
             </div>
-            <div class="dropdown-item" data-value="value4">
+            <div class="dropdown-item" data-value="new">
                 Новинки
                 <span class="checkmark">
                     <img src="{{ url_for('static', filename='image/checkmark.svg') }}" alt="галочка" />
@@ -136,12 +136,15 @@
                 </div>
             </div>
         </div>
-        {% endfor %}
+    {% endfor %}
 </div>
+
+<div class="no-products-message">Ничего не найдено</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const dropdownButtons = document.querySelectorAll('.dropdown-button');
+        const productsContainer = document.querySelector('.catalog');
 
         dropdownButtons.forEach(button => {
             const dropdownContent = button.nextElementSibling;
@@ -151,21 +154,21 @@
             button.addEventListener('click', function () {
                 const isOpen = dropdownContent.style.display === 'block';
 
-                // Закрываем все открытые выпадающие списки
                 dropdownButtons.forEach(btn => {
                     const content = btn.nextElementSibling;
                     const arrow = btn.querySelector('.arrow img');
-                    if (content !== dropdownContent) { // Не закрываем текущий
+                    if (content !== dropdownContent) {
                         content.style.display = 'none';
                         arrow.src = "{{ url_for('static', filename='image/arrow-down.svg') }}";
                     }
                 });
 
-                // Открываем или закрываем текущий выпадающий список
                 dropdownContent.style.display = isOpen ? 'none' : 'block';
                 dropdownArrow.src = isOpen 
                     ? "{{ url_for('static', filename='image/arrow-down.svg') }}" 
                     : "{{ url_for('static', filename='image/arrow-up.svg') }}";
+
+                console.log(`Dropdown ${isOpen ? 'closed' : 'opened'}`);
             });
 
             dropdownItems.forEach(item => {
@@ -176,10 +179,101 @@
 
                     dropdownContent.style.display = 'none';
                     dropdownArrow.src = "{{ url_for('static', filename='image/arrow-down.svg') }}";
+
+                    console.log(`Selected item: ${this.textContent.trim()}`);
+                    updateProducts();
                 });
             });
         });
 
+        function updateProducts() {
+            const firstDropdown = document.querySelectorAll('.dropdown')[0];
+            const selectedCategories = firstDropdown 
+                ? Array.from(firstDropdown.querySelectorAll('.dropdown-item.selected')).map(item => item.dataset.value)
+                : [];
+            
+            const secondDropdown = document.querySelectorAll('.dropdown')[1];
+            const selectedPrice = secondDropdown?.querySelector('.dropdown-item.selected')?.dataset.value;
+            
+            const thirdDropdown = document.querySelectorAll('.dropdown')[2];
+            const selectedOrder = thirdDropdown?.querySelector('.dropdown-item.selected')?.dataset.value;
+        
+            console.log(`Selected categories: ${selectedCategories.join(', ')}`);
+            console.log(`Selected price: ${selectedPrice}`);
+            console.log(`Selected order: ${selectedOrder}`);
+        
+            const params = new URLSearchParams();
+        
+            if (selectedCategories.length > 0) {
+                selectedCategories.forEach(cat => params.append('category', cat));
+            }
+        
+            if (selectedPrice) {
+                switch (selectedPrice) {
+                    case '0-500':
+                        params.append('min_price', 0);
+                        params.append('max_price', 500);
+                        break;
+                    case '500-1000':
+                        params.append('min_price', 500);
+                        params.append('max_price', 1000);
+                        break;
+                    case '1000-1500':
+                        params.append('min_price', 1000);
+                        params.append('max_price', 1500);
+                        break;
+                    case '1500+':
+                        params.append('min_price', 1500);
+                        break;
+                }
+            }
+            if (selectedOrder) {
+                params.append('order_by', selectedOrder);
+            }
+        
+            console.log(`Fetching products with params: ${params.toString()}`);
+        
+            fetch(`/api/catalog?${params.toString()}`)
+                .then(response => response.json())
+                .then(data => {
+                    productsContainer.innerHTML = ''; // Очищаем контейнер продуктов
+                    const noProductsMessage = document.querySelector('.no-products-message');
+        
+                    if (data.success) {
+                        if (data.products.length === 0) {
+                            noProductsMessage.style.display = 'block'; // Показываем сообщение
+                        } else {
+                            noProductsMessage.style.display = 'none'; // Скрываем сообщение
+                            data.products.forEach(product => {
+                                const productCard = `
+                                    <div class="catalog_card">
+                                        <div class="catalog_card_content">
+                                            <div class="catalog_card_image">
+                                                <img src="${product.img_prod}" alt="${product.prod_name}" />
+                                            </div>
+                                            <div class="catalog_card_info">
+                                                <p class="catalog_card_price">${product.price} P</p>
+                                                <p class="catalog_card_title">${product.prod_name}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                                productsContainer.innerHTML += productCard;
+                            });
+                        }
+        
+                        const newUrl = `/catalog?${params.toString()}`;
+                        window.history.pushState({ path: newUrl }, '', newUrl);
+                        console.log(`Updated URL: ${newUrl}`);
+                    } else {
+                        console.error('Error fetching products:', data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                });
+        }
+        
         window.addEventListener('click', function (event) {
             if (!event.target.matches('.dropdown-button') && !event.target.closest('.dropdown-button')) {
                 dropdownButtons.forEach(button => {
@@ -193,5 +287,6 @@
         });
     });
 </script>
+
 
 {% endblock %}

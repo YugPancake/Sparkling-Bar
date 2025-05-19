@@ -10,7 +10,6 @@
 }
 
 .dropdown-button {
-    
     font-family: Russo_One;
     font-size: 24px;
     background-color: white;
@@ -70,4 +69,11 @@
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.no-products-message{
+    padding: 40px 0 100px 0;
+    display: none;
+    font-size: 28px;
+    text-align: center;
 }
