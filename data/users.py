@@ -18,7 +18,8 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     password = sqlalchemy.Column(sqlalchemy.String(255), nullable=True)
     role_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('roles.role_id'), nullable=True)
     created_at = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
-
+    is_verified = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
+   
     role = orm.relationship('Role')
 
     user_reviews = orm.relationship('UserReview', back_populates="user")

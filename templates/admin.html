@@ -34,7 +34,10 @@
                 <p class="account-name">{{user.user_name}} <br> {{user.user_surname}}</p>
                 <p class="account-p">{{user.phone}}</p>
                 <p class="account-email">{{user.email}}</p>
-                <button class="confirm-button">Подтвердить</button>
+                <form method="post" action="{{ url_for('confirm_user')}}">
+                    <input type="hidden" name="user_id" value="{{ user.user_id}}">
+                    <button type="submit" class="confirm-button">Подтвердить</button>
+                </form>
             </div>
 
             {% else %}

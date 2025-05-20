@@ -127,13 +127,13 @@ def profile():
                 Reserv.user_id == current_user.user_id,
                 Reserv.reserv_date == order.o_date.date()
             ).first()
-            table_number = f"№{reserv.table_id} " if reserv else "Бар"
+            table_number = f"Стол №{reserv.table_id}" if reserv else "Бар"
             table_orders.append({
                 'order': order,
                 'table': table_number
             })
 
-    return render_template('profile.html', user=user, orders=orders,table_orders=table_orders, orders_data=orders_data)
+    return render_template('profile.html', user=user, orders=orders, table_orders=table_orders, orders_data=orders_data)
 
 
 @app.route('/admin')
@@ -142,14 +142,14 @@ def admin():
     if current_user.role_id == 1:
         db_sess = db_session.create_session()
         orders_in_progress = db_sess.query(Order).filter(Order.o_status != "выполнен").all()
-        pending_users = db_sess.query(User).filter(User.role_id == 2).all()
+        pending_users = db_sess.query(User).filter(User.is_verified == False).all()
         table_orders =[]
         for order in orders_in_progress:
             reserv = db_sess.query(Reserv).filter(
                 Reserv.user_id == current_user.user_id,
                 Reserv.reserv_date == order.o_date.date()
             ).first()
-            table_number = f"№{reserv.table_id} " if reserv else "Бар"
+            table_number = f"Стол №{reserv.table_id}" if reserv else "Бар"
             table_orders.append({
                 'order': order,
                 'table': table_number
@@ -158,6 +158,24 @@ def admin():
         return render_template('admin.html', title="Админ", table_orders = table_orders, orders_in_progress=orders_in_progress, pending_users=pending_users)
     else:
         return redirect(url_for('home'))
+    
+@app.route('/confirm_user', methods=['GET', 'POST'])
+@login_required
+def confirm_user():
+    if current_user.role_id != 1:
+        return redirect(url_for('home'))
+
+    user_id = request.form.get('user_id')
+    db_sess = db_session.create_session()
+    user = db_sess.query(User).filter(User.user_id == int(user_id)).first()
+    if not user:
+        flash("Пользователь не найден")
+        return redirect(url_for('admin'))
+
+    user.is_verified = True
+    db_sess.commit()
+    flash(f"Пользователь {user.user_name} подтверждён")
+    return redirect(url_for('admin'))
     
 @app.route('/cart')
 @login_required
