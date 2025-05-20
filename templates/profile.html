@@ -5,47 +5,31 @@
     <div class="profile">
         <div class="up-profile">
             <div class="account-card">
-                <p class="account-name"> Имя <br> Фамилия</p>
-                <p class="account-p">+ 7 (000) 000-00-00</p>
-                <p class="account-email">email.mail@mail.em</p>
-                <button class="confirm-button">Выйти</button>
+                <p class="account-name"> {{user.user_name}} <br>{{user.user_surname}}</p>
+                <p class="account-p">{{user.phone}}</p>
+                <p class="account-email">{{user.email}}</p>
+                <a class="confirm-button" href="/logout">Выйти</a>
             </div>
 
             <div class="left-up-profile">
                 <p class="page_title white_text">Заказы</p>
 
                 <div class="orders-profile" id="orders-profile">
-                    <div class="order-card">
-                        <div class="order-left">
-                            <p class="order-status">Оформлен</p>
-                            <p class="order-details">Стол №0</p>
+                    {% for order in table_orders %}
+                        
+                        <div class="order-card">
+                            <div class="order-left">
+                                <p class="order-status"> {{order.order.o_status}}</p>
+                                <p class="order-details">{{order.table}}</p>
+                            </div>
+                            <div class="order-ri">
+                                <p class="order-number">{{"%03d"|format(order.order.o_id)}}</p>
+                                <button class="details-button">Подробности</button>
+                            </div>
                         </div>
-                        <div class="order-ri">
-                            <p class="order-number">№000</p>
-                            <button class="details-button">Подробности</button>
-                        </div>
-                    </div>
-                    <div class="order-card">
-                        <div class="order-left">
-                            <p class="order-status">Готовится</p>
-                            <p class="order-details">Стол №0</p>
-                        </div>
-                        <div class="order-ri">
-                            <p class="order-number">№000</p>
-                            <button class="details-button">Подробности</button>
-                        </div>
-                    </div>
-                    <div class="order-card">
-                        <div class="order-left">
-                            <p class="order-status">Готовится</p>
-                            <p class="order-details">Стол №0</p>
-                        </div>
-                        <div class="order-ri">
-                            <p class="order-number">№000</p>
-                            <button class="details-button">Подробности</button>
-                        </div>
-                    </div>
-                    
+                        
+                    {% endfor %}
+
                 </div>
                 <div class="orders_see_all_arrow" onclick="shiftOrders()">
                     <img src="{{ url_for('static', filename='image/arrow-right-w.svg') }}" alt="Стрелка вправо" />
@@ -57,61 +41,21 @@
 
         <div class="history">
             <div class="history-card" id="historyCards">
+                {% for order in orders_data %}
                 <div class="specials_card anim">
                     <div class="specials_card_content">
                         <div class="specials_card_image">
-                            <img src="{{ url_for('static', filename='image/card_image.png') }}" alt="Карточка товара" />
+                            <img src="{{order.random_product.img_prod}}" alt="{{order.prod_name}}" />
                         </div>
                         <div class="specials_card_info">
-                            <p class="specials_card_title">Текст текст текст текст текст текст текст текст</p>
-                            <p class="specials_card_price">0000 P</p>
+                            <p class="specials_card_title his_title">{{order.product_info}}</p>
+                            <p class="specials_card_price his_price">{{order.o_sum}}</p>
                         </div>
                     </div>
                 </div>
-                <div class="specials_card anim">
-                    <div class="specials_card_content">
-                        <div class="specials_card_image">
-                            <img src="{{ url_for('static', filename='image/card_image.png') }}" alt="Карточка товара" />
-                        </div>
-                        <div class="specials_card_info">
-                            <p class="specials_card_title">Текст текст текст текст текст текст текст текст</p>
-                            <p class="specials_card_price">0000 P</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="specials_card anim">
-                    <div class="specials_card_content">
-                        <div class="specials_card_image">
-                            <img src="{{ url_for('static', filename='image/card_image.png') }}" alt="Карточка товара" />
-                        </div>
-                        <div class="specials_card_info">
-                            <p class="specials_card_title">Текст текст текст текст текст текст текст текст</p>
-                            <p class="specials_card_price">0000 P</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="specials_card anim">
-                    <div class="specials_card_content">
-                        <div class="specials_card_image">
-                            <img src="{{ url_for('static', filename='image/card_image.png') }}" alt="Карточка товара" />
-                        </div>
-                        <div class="specials_card_info">
-                            <p class="specials_card_title">Текст текст текст текст текст текст текст текст</p>
-                            <p class="specials_card_price">0000 P</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="specials_card anim">
-                    <div class="specials_card_content">
-                        <div class="specials_card_image">
-                            <img src="{{ url_for('static', filename='image/card_image.png') }}" alt="Карточка товара" />
-                        </div>
-                        <div class="specials_card_info">
-                            <p class="specials_card_title">Текст текст текст текст текст текст текст текст</p>
-                            <p class="specials_card_price">0000 P</p>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
+
+                
             </div>
             <div class="history_see_all" onclick="viewHistory()">
                 Смотреть всю историю

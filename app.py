@@ -5,6 +5,8 @@ from datetime import datetime
 from data import db_session, reserv_api, products_api
 from data.users import User
 from data.roles import Role
+from data.orders import Order
+from data.order_items import OrderItem
 from data.products import Product
 from data.tables import Table
 from data.time_slots import TimeSlot
@@ -17,6 +19,8 @@ from add_product import ProductForm
 import re
 from requests import get, post
 from fuzzywuzzy import process
+import random
+from random import choice
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret_key'
@@ -95,14 +99,68 @@ def table_map():
     return render_template('table_map.html', title="Карта столов", tables=tables_list, time_slots=time_slots_list, current_user=current_user)
 
 @app.route('/profile')
+@login_required
 def profile():
-    return render_template('profile.html', title="Ваш профиль")
+    db_sess = db_session.create_session()
+    
+    user = db_sess.query(User).filter(User.user_id == current_user.user_id).first()
+    orders = db_sess.query(Order).filter(Order.user_id == current_user.user_id).all()
+    
+    table_orders =[]
+    orders_data = []
+    for order in orders:
+        if order.o_status == "выполнен":
+            products = [item.item_prod for item in order.order_items]  
+            if not products:
+                continue  
+            random_product = choice(products) 
+            o_sum = f"{order.o_sum}р."
+            product_info = "; ".join(f"{prod.prod_name}" for prod in products) 
+            orders_data.append({
+                'order': order,
+                'product_info': product_info,
+                'random_product': random_product,
+                'o_sum': o_sum
+            })
+        else:
+            reserv = db_sess.query(Reserv).filter(
+                Reserv.user_id == current_user.user_id,
+                Reserv.reserv_date == order.o_date.date()
+            ).first()
+            table_number = f"№{reserv.table_id} " if reserv else "Бар"
+            table_orders.append({
+                'order': order,
+                'table': table_number
+            })
+
+    return render_template('profile.html', user=user, orders=orders,table_orders=table_orders, orders_data=orders_data)
+
 
 @app.route('/admin')
+@login_required
 def admin():
-    return render_template('admin.html', title="Админ")
+    if current_user.role_id == 1:
+        db_sess = db_session.create_session()
+        orders_in_progress = db_sess.query(Order).filter(Order.o_status != "выполнен").all()
+        pending_users = db_sess.query(User).filter(User.role_id == 2).all()
+        table_orders =[]
+        for order in orders_in_progress:
+            reserv = db_sess.query(Reserv).filter(
+                Reserv.user_id == current_user.user_id,
+                Reserv.reserv_date == order.o_date.date()
+            ).first()
+            table_number = f"№{reserv.table_id} " if reserv else "Бар"
+            table_orders.append({
+                'order': order,
+                'table': table_number
+            })
 
+        return render_template('admin.html', title="Админ", table_orders = table_orders, orders_in_progress=orders_in_progress, pending_users=pending_users)
+    else:
+        return redirect(url_for('home'))
+    
 @app.route('/cart')
+@login_required
 def cart():
     return render_template('cart.html', title="Корзина")
 
@@ -114,11 +172,20 @@ def login():
         user = db_sess.query(User).filter(User.email == form.email.data).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
-            return redirect(url_for('home'))
+            if user.role_id == 1:  
+                return redirect(url_for('admin'))
+            else:  
+                return redirect(url_for('home'))
         else:
             flash('Неправильный email или пароль', 'danger')
        
     return render_template('login.html', form=form, title="Вход")
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -150,6 +217,7 @@ def register():
     return render_template('register.html', form=form, title="Регистрация")
 
 @app.route('/add_product', methods=['GET', 'POST'])
+@login_required
 def add_product():
     form = ProductForm()
     db_sess = db_session.create_session()

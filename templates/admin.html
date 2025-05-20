@@ -9,128 +9,37 @@
         </div>
        
         <div class="orders">
+            {% for order in table_orders %}
             <div class="order-card">
                 <div class="order-left">
-                    <p class="order-status">Оформлен</p>
-                    <p class="order-details">Стол №0</p>
+                    <p class="order-status"> {{order.order.o_status}}</p>
+                    <p class="order-details">{{order.table}}</p>
                 </div>
                 <div class="order-ri">
-                    <p class="order-number">№000</p>
+                    <p class="order-number">{{"%03d"|format(order.order.o_id)}}</p>
                     <button class="details-button">Подробности</button>
                 </div>
             </div>
-
-            <div class="order-card">
-                <div class="order-left">
-                    <p class="order-status">Оформлен</p>
-                    <p class="order-details">Стол №0</p>
-                </div>
-                <div class="order-ri">
-                    <p class="order-number">№000</p>
-                    <button class="details-button">Подробности</button>
-                </div>
-            </div>
-
-            <div class="order-card">
-                <div class="order-left">
-                    <p class="order-status">Оформлен</p>
-                     <p class="order-details">Стол №0</p>
-                </div>
-                <div class="order-ri">
-                    <p class="order-number">№000</p>
-                    <button class="details-button">Подробности</button>
-                </div>
-            </div>
-
-            <div class="order-card">
-                <div class="order-left">
-                    <p class="order-status">Оформлен</p>
-                     <p class="order-details">Стол №0</p>
-                </div>
-                <div class="order-ri">
-                    <p class="order-number">№000</p>
-                    <button class="details-button">Подробности</button>
-                </div>
-            </div>
-
-            <div class="order-card">
-                <div class="order-left">
-                    <p class="order-status">Оформлен</p>
-                     <p class="order-details">Стол №0</p>
-                </div>
-                <div class="order-ri">
-                    <p class="order-number">№000</p>
-                    <button class="details-button">Подробности</button>
-                </div>
-            </div>
-             
-             <div class="order-card">
-                <div class="order-left">
-                    <p class="order-status">Оформлен</p>
-                    <p class="order-details">Стол №0</p>
-                </div>
-                <div class="order-ri">
-                    <p class="order-number">№000</p>
-                    <button class="details-button">Подробности</button>
-                </div>
-            </div>
+            {% else %}
+                <p>Заказов нет</p>
+            {% endfor %}
            
         </div>
 
         <p class="page_title white_text">Аккаунты, ожидающие подтверждения</p>
 
         <div class="accounts">
+            {% for user in pending_users %}
             <div class="account-card">
-                <p class="account-name"> Имя <br> Фамилия</p>
-                <p class="account-p">+ 7 (000) 000-00-00</p>
-                <p class="account-email">2email.mail@mail.em</p>
-                <button class="confirm-button">Подтвердить</button>
-            </div>
-            <div class="account-card">
-                <p class="account-name"> Имя <br> Фамилия</p>
-                <p class="account-p">+ 7 (000) 000-00-00</p>
-                <p class="account-email">2email.mail@mail.em</p>
-                <button class="confirm-button">Подтвердить</button>
-            </div>
-             <div class="account-card">
-                <p class="account-name"> Имя <br> Фамилия</p>
-                <p class="account-p">+ 7 (000) 000-00-00</p>
-                <p class="account-email">2email.mail@mail.em</p>
-                <button class="confirm-button">Подтвердить</button>
-            </div>
-             <div class="account-card">
-                <p class="account-name"> Имя <br> Фамилия</p>
-                <p class="account-p">+ 7 (000) 000-00-00</p>
-                <p class="account-email">2email.mail@mail.em</p>
+                <p class="account-name">{{user.user_name}} <br> {{user.user_surname}}</p>
+                <p class="account-p">{{user.phone}}</p>
+                <p class="account-email">{{user.email}}</p>
                 <button class="confirm-button">Подтвердить</button>
             </div>
 
-
-
-           <div class="account-card">
-                <p class="account-name"> Имя <br> Фамилия</p>
-                <p class="account-p">+ 7 (000) 000-00-00</p>
-                <p class="account-email">2email.mail@mail.em</p>
-                <button class="confirm-button">Подтвердить</button>
-            </div>
-            <div class="account-card">
-                <p class="account-name"> Имя <br> Фамилия</p>
-                <p class="account-p">+ 7 (000) 000-00-00</p>
-                <p class="account-email">2email.mail@mail.em</p>
-                <button class="confirm-button">Подтвердить</button>
-            </div>
-             <div class="account-card">
-                <p class="account-name"> Имя <br> Фамилия</p>
-                <p class="account-p">+ 7 (000) 000-00-00</p>
-                <p class="account-email">2email.mail@mail.em</p>
-                <button class="confirm-button">Подтвердить</button>
-            </div>
-             <div class="account-card">
-                <p class="account-name"> Имя <br> Фамилия</p>
-                <p class="account-p">+ 7 (000) 000-00-00</p>
-                <p class="account-email">2email.mail@mail.em</p>
-                <button class="confirm-button">Подтвердить</button>
-            </div>
+            {% else %}
+                <p>Нет аккаунтов, ожидающих подтверждения</p>
+            {% endfor %}
 
         </div>
     </div>

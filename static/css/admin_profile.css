@@ -177,8 +177,15 @@
 }
 
 .anim{
+    width: 390px;
     opacity: 1;
     transition: opacity 0.3s ease;
+}
+.his_title{
+    font-size: 20px;
+}
+.his_price{
+    font-size: 36px;
 }
 
 .hid {
