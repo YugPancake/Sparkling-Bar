@@ -16,6 +16,7 @@ from register import RegisterForm
 from add_product import ProductForm
 import re
 from requests import get, post
+from fuzzywuzzy import process
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret_key'
@@ -38,13 +39,32 @@ def home():
     
     return render_template('index.html', title="Главная страница", products=products_list, current_user=current_user)
 
-@app.route('/catalog', methods=['GET', 'POST'])
+@app.route('/catalog', methods=['GET'])
 def catalog():
     db_sess = db_session.create_session()
-    
-    products = db_sess.query(Product).order_by(func.random()).all()  
-    products_list = [product.to_dict() for product in products]
-    return render_template('catalog.html', title="Каталог", products=products_list, current_user=current_user)
+    query = request.args.get('q', '').strip()
+    cleaned_query = re.sub(r'\s+', ' ', query).strip()
+
+    if cleaned_query:
+        products = db_sess.query(Product).all()
+        product_names = [product.prod_name for product in products]
+        
+        matched_names_with_scores = process.extract(cleaned_query, product_names, limit=10)
+
+        matched_products = []
+        for name, score in matched_names_with_scores:
+            if score > 70:
+                matched_product = next((product for product in products if product.prod_name == name), None)
+                if matched_product:
+                    matched_products.append((matched_product, score))
+
+        matched_products.sort(key=lambda x: x[1], reverse=True)
+        matched_products = [product for product, score in matched_products]
+    else:
+        matched_products = db_sess.query(Product).all()
+
+    products_list = [product.to_dict() for product in matched_products]
+    return render_template('catalog.html', title="Каталог", products=products_list)
 
 @app.route('/product/<int:id>', methods=['GET', 'POST'])
 def product(id):

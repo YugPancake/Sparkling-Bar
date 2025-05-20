@@ -5,7 +5,7 @@
 }
 
 .dropdown {
-    margin: 34px 300px 20px 0;
+    margin: 0;
     position: relative;
 }
 
@@ -42,8 +42,9 @@
     z-index: 1;
     width: 210px;
     padding: 20px 20px 0 20px;
-    margin-top: 35px;
+    margin-top: 10px;
     color: #191919;
+    box-shadow: 0 4px 8px rgba(25, 25, 25, 0.4);
 }
 
 .dropdown-item {

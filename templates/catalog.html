@@ -141,7 +141,9 @@
     {% endfor %}
 </div>
 
-<div class="no-products-message">Ничего не найдено</div>
+<div class="no-products-message" style="display: {% if products|length == 0 %}block{% else %}none{% endif %};">
+    Ничего не найдено
+</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
