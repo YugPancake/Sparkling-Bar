@@ -12,7 +12,16 @@
             {% for order in table_orders %}
             <div class="order-card">
                 <div class="order-left">
-                    <p class="order-status"> {{order.order.o_status}}</p>
+                    <p class="order-status">
+                        <form  class="order-status-f" method="post" action="{{ url_for('change_order_status') }}" >
+                            <input type="hidden" name="order_id" value="{{ order.order.o_id }}">
+                            <select name="new_status" onchange="this.form.submit()">
+                                <option value="выполнен" {% if order.order.o_status == 'выполнен' %}selected{% endif %}>Выполнен</option>
+                                <option value="готовится" {% if order.order.o_status == 'готовится' %}selected{% endif %}>Готовится</option>
+                                <option value="обрабатывается" {% if order.order.o_status == 'обрабатывается' %}selected{% endif %}>Обрабатывается</option>
+                            </select>
+                        </form>
+                    </p>
                     <p class="order-details">{{order.table}}</p>
                 </div>
                 <div class="order-ri">

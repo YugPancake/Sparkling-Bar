@@ -86,13 +86,45 @@
 .order-status, .order-details, .order-number{
     margin:  0;
 }
-.order-status{
+
+.order-status {
     font-size: 32px; 
     vertical-align: middle;
     color: #191919;
     margin-bottom: 8px;
+    display: inline-block; 
 }
 
+.order-status-f {
+    display: inline; 
+}
+
+.order-status-f select {
+    margin: 0;
+    font-family: Russo_One;
+    font-size: 32px; 
+    color: #191919; 
+    background-color: transparent; 
+    border: none; 
+    appearance: none; 
+    cursor: pointer;
+    align-items: left; 
+}
+
+
+.order-status-f select:focus {
+    outline: none; 
+}
+
+
+.order-status-f::after {
+    font-family: Russo_One;
+    font-size: 32px; 
+    color: #191919; 
+    margin-left: 5px; 
+    vertical-align: middle; 
+    pointer-events: none; 
+}
 .account-name {
     color: #191919;
     line-height: 1;
@@ -103,6 +135,7 @@
     margin: 0 0 3px 0;
 }
 .order-details{
+    margin-left: 4px;
     font-size: 24px; 
     vertical-align: middle;
     color: #191919;
