@@ -83,21 +83,29 @@
 <script>
     const carousel = document.querySelector('.try_also_cards');
     let isScrolling;
+    
 
+    const scrollCarousel = (delta) => {
+        const scrollAmount = delta * 4; 
+        carousel.scrollBy({
+            left: scrollAmount,
+            behavior: 'smooth'
+        });
+    };
+    
     carousel.addEventListener('wheel', (event) => {
         event.preventDefault();
-
+        
         const delta = event.deltaY || -event.deltaX;
-
-        const scrollAmount = delta * 4;
-
+    
+    
+        if ((carousel.scrollLeft === 0 && delta < 0) || 
+            (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth && delta > 0)) {
+            return; 
+        }
+    
         cancelAnimationFrame(isScrolling);
-        isScrolling = requestAnimationFrame(() => {
-            carousel.scrollBy({
-                left: scrollAmount,
-                behavior: 'smooth'
-            });
-        });
+        isScrolling = requestAnimationFrame(() => scrollCarousel(delta));
     });
 </script>
 {% endblock %}
