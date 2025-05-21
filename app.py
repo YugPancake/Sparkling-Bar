@@ -17,6 +17,7 @@ from data.fill_products import fill_products_from_csv
 from login import LoginForm
 from register import RegisterForm
 from add_product import ProductForm
+from review import ReviewForm
 import re
 from requests import get, post
 from fuzzywuzzy import process
@@ -87,8 +88,22 @@ def product(id):
 
     reviews = db_sess.query(UserReview).filter_by(product_id=id).all()
     reviews_list = [review.to_dict() for review in reviews]
+    
+    form = ReviewForm()
+    if form.validate_on_submit():
+        new_review = UserReview(
+            user_id=current_user.user_id,
+            product_id=id,
+            comment=form.comment,
+            price=form.price.data,
+            created_comment=datetime.now(),
+        )
+        db_sess.add(new_review)
+        db_sess.commit()
+        flash('Отзыв успешно добавлен!', 'success')
+    
 
-    return render_template('product.html', title=product_name, product=product, products=products_try_also_list, description_list=description_list, reviews=reviews_list, current_user=current_user)
+    return render_template('product.html', title=product_name, product=product, products=products_try_also_list, description_list=description_list, reviews=reviews_list, current_user=current_user, form=form)
 
 @app.route('/table_map')
 def table_map():

@@ -30,8 +30,15 @@
 
 <div class="reviews_container">
 
-    <div class="reviews_title">
-        Отзывы
+    <div class="reviews_title_container">
+        <div class="reviews_title">
+            Отзывы
+        </div>
+
+        <div class="make_new_review" id="openModal">
+            Написать отзыв
+        </div>
+
     </div>
 
     <div class="reviews_cards_container">
@@ -86,6 +93,17 @@
     </div>
 </div>
 
+<div id="reviewModal" class="modal">
+    <div class="modal-content">
+        <div class ="reviewModal_title" >Написать отзыв</div>
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            {{ form.comment(size=32, placeholder="Ваш отзыв", class="reviewModal_field") }}
+            {{ form.submit(class="reviewModal_button") }}
+        </form>
+    </div>
+</div>
+
 <script>
     const carousel = document.querySelector('.try_also_cards');
     let isScrolling;
@@ -113,5 +131,20 @@
         cancelAnimationFrame(isScrolling);
         isScrolling = requestAnimationFrame(() => scrollCarousel(delta));
     });
+
+    const modal = document.getElementById('reviewModal');
+    const openModalButton = document.getElementById('openModal');
+
+
+    openModalButton.onclick = function() {
+        modal.style.display = 'block';
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = 'none'; 
+        }
+    }
+    
 </script>
 {% endblock %}
