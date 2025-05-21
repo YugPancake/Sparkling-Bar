@@ -113,3 +113,9 @@ ul{
     scroll-behavior: smooth;
     gap: 50px;
 }
+
+.no-reviews-message{
+    margin-top: 20px;
+    font-size: 20px;
+}
+    

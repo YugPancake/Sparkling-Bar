@@ -11,6 +11,7 @@ from data.products import Product
 from data.tables import Table
 from data.time_slots import TimeSlot
 from data.reserv import Reserv
+from data.reviews import UserReview
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from data.fill_products import fill_products_from_csv
 from login import LoginForm
@@ -84,7 +85,10 @@ def product(id):
     items = re.split(pattern, product.description)
     description_list = [item.strip().capitalize() for item in items]
 
-    return render_template('product.html', title=product_name, product=product, products=products_try_also_list, description_list=description_list,   current_user=current_user)
+    reviews = db_sess.query(UserReview).filter_by(product_id=id).all()
+    reviews_list = [review.to_dict() for review in reviews]
+
+    return render_template('product.html', title=product_name, product=product, products=products_try_also_list, description_list=description_list, reviews=reviews_list, current_user=current_user)
 
 @app.route('/table_map')
 def table_map():

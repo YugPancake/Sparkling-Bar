@@ -35,14 +35,20 @@
     </div>
 
     <div class="reviews_cards_container">
-        <div class="reviews_card">
-            <div class="reviews_username">
-                Имя фамилия
-            </div>
+        {% for review in reviews %}
+            <div class="reviews_card">
+                <div class="reviews_username">
+                    {{ review.user.user_name }} {{ review.user.user_surname }}
+                </div>
                 <div class="reviews_content">
-                текст текст текст текс текст текст текст текст текс текст текст текст текст текс текст текст текст текст текс текст
+                    {{ review.comment }}
+                </div>
             </div>
-        </div>
+        {% endfor %}
+    </div>
+
+    <div class="no-reviews-message" style="display: {% if reviews|length == 0 %}block{% else %}none{% endif %};">
+        Пока что здесь нет отзывов
     </div>
 
     <div class="reviews_see_all">
