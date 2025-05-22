@@ -22,7 +22,11 @@ class UserReview(SqlAlchemyBase):
             "user_id": self.user_id,
             "product_id": self.product_id,
             "comment": self.comment,
-            "created_comment": self.created_comment
+            "created_comment": self.created_comment,
+            "user": {
+                "user_name": self.user.user_name,
+                "user_surname": self.user.user_surname
+            }
         }
         if only:
             return {key: data[key] for key in only if key in data}

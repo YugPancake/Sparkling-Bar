@@ -85,24 +85,23 @@ def product(id):
     pattern = r',\s*(?![^()]*\))'
     items = re.split(pattern, product.description)
     description_list = [item.strip().capitalize() for item in items]
-
-    reviews = db_sess.query(UserReview).filter_by(product_id=id).all()
-    reviews_list = [review.to_dict() for review in reviews]
     
     form = ReviewForm()
     if form.validate_on_submit():
         new_review = UserReview(
             user_id=current_user.user_id,
             product_id=id,
-            comment=form.comment,
-            price=form.price.data,
-            created_comment=datetime.now(),
+            comment=form.comment.data,
+            created_comment=datetime.now()
         )
         db_sess.add(new_review)
         db_sess.commit()
         flash('Отзыв успешно добавлен!', 'success')
+        return redirect(url_for('product', id=id))
     
-
+    reviews = db_sess.query(UserReview).filter_by(product_id=id).order_by(UserReview.created_comment.desc()).all()
+    reviews_list = [review.to_dict() for review in reviews]
+    
     return render_template('product.html', title=product_name, product=product, products=products_try_also_list, description_list=description_list, reviews=reviews_list, current_user=current_user, form=form)
 
 @app.route('/table_map')

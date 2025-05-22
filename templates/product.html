@@ -35,14 +35,18 @@
             Отзывы
         </div>
 
-        <div class="make_new_review" id="openModal">
+        {% if current_user.is_authenticated %}
+        <div class="make_new_review" id="openModal" style="cursor:pointer;">
             Написать отзыв
         </div>
+        {% endif %}
 
     </div>
 
+    {% set max_visible_reviews = 3 %}
+
     <div class="reviews_cards_container">
-        {% for review in reviews %}
+        {% for review in reviews[:max_visible_reviews] %}
             <div class="reviews_card">
                 <div class="reviews_username">
                     {{ review.user.user_name }} {{ review.user.user_surname }}
@@ -54,19 +58,35 @@
         {% endfor %}
     </div>
 
+    {% if reviews|length > max_visible_reviews %}
+    <div class="reviews_cards_container hidden_reviews" style="display: none;">
+        {% for review in reviews[max_visible_reviews:] %}
+            <div class="reviews_card">
+                <div class="reviews_username">
+                    {{ review.user.user_name }} {{ review.user.user_surname }}
+                </div>
+                <div class="reviews_content">
+                    {{ review.comment }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
     <div class="no-reviews-message" style="display: {% if reviews|length == 0 %}block{% else %}none{% endif %};">
         Пока что здесь нет отзывов
     </div>
 
-    <div class="reviews_see_all">
-        Смотреть все отзывы
+    {% if reviews|length > max_visible_reviews %}
+    <div class="reviews_see_all" style="cursor: pointer;">
+        <span class="reviews_see_all_text">Смотреть все отзывы</span>
         <div class="reviews_see_all_arrow">
             <img src="{{ url_for('static', filename='image/small-arrow-right.svg') }}" alt="Стрелка вправо" />
         </div>
     </div>
+    {% endif %}
 
 </div>
-
 
 <div class="try_also_container">
     <div class="try_also_title">
@@ -107,7 +127,6 @@
 <script>
     const carousel = document.querySelector('.try_also_cards');
     let isScrolling;
-    
 
     const scrollCarousel = (delta) => {
         const scrollAmount = delta * 4; 
@@ -121,20 +140,18 @@
         event.preventDefault();
         
         const delta = event.deltaY || -event.deltaX;
-    
-    
+
         if ((carousel.scrollLeft === 0 && delta < 0) || 
             (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth && delta > 0)) {
             return; 
         }
-    
+
         cancelAnimationFrame(isScrolling);
         isScrolling = requestAnimationFrame(() => scrollCarousel(delta));
     });
 
     const modal = document.getElementById('reviewModal');
     const openModalButton = document.getElementById('openModal');
-
 
     openModalButton.onclick = function() {
         modal.style.display = 'block';
@@ -145,6 +162,24 @@
             modal.style.display = 'none'; 
         }
     }
+
+    const seeAllBtn = document.querySelector('.reviews_see_all');
+    const seeAllText = document.querySelector('.reviews_see_all_text');
     
+    if (seeAllBtn && seeAllText) {
+        seeAllBtn.addEventListener('click', function() {
+            const hiddenReviews = document.querySelector('.hidden_reviews');
+            if (hiddenReviews) {
+                if (hiddenReviews.style.display === 'flex' || hiddenReviews.style.display === 'block') {
+                    hiddenReviews.style.display = 'none';
+                    seeAllText.textContent = 'Смотреть все отзывы';
+                } else {
+                    hiddenReviews.style.display = 'flex';
+                    seeAllText.textContent = 'Скрыть отзывы';
+                }
+            }
+        });
+    }
 </script>
+
 {% endblock %}

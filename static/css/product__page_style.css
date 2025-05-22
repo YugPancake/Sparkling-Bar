@@ -73,25 +73,35 @@ ul{
 
 .reviews_cards_container{
     display: flex;
+    gap: 0 20px;
+}
+
+.hidden_reviews{
+    display: flex;
+    gap: 0 20px;
+    flex-wrap: wrap;
 }
 
 .reviews_card{
-    max-width: 400px;
-    margin-top: 20px;
+    width: 350px;
+    margin: 20px 0 0 0;
     border-radius: 20px;
     border: 1px solid #FFFFFF;
-    padding: 10px 20px 20px 20px;
+    padding: 10px 20px 10px 20px;
 }
 
 .reviews_username{
     color: #8C8C8C;
     font-size: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .reviews_content{
     display: -webkit-box;          
     -webkit-box-orient: vertical; 
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 1;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -100,6 +110,7 @@ ul{
     display: flex;
     justify-content: flex-end;
     gap: 10px;
+    margin: 20px 0 0 0;
 }
 
 .reviews_see_all_arrow{
