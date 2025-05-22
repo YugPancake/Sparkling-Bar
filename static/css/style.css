@@ -207,6 +207,8 @@ footer{
 }
 
 .specials_card_info{
+    overflow: hidden;
+    text-overflow: ellipsis;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -218,16 +220,18 @@ footer{
     font-size: 24px;
     color: #191919;
     overflow: hidden;
+    text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
-    text-overflow: ellipsis;
+    flex-shrink: 0;
 }
 
 .specials_card_price{
     margin: 0;
-    font-size: 40px;
+    font-size: 32px;
     color: #F08BFF;
+    white-space: nowrap; 
 }
 
 .mini_catalog{
