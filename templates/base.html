@@ -54,11 +54,11 @@
                 <a class="nav_buttons_footer" href="{{ url_for('table_map') }}">Карта столов</a>
 		</div>
         <div class="category_nav_footer">
-                <a class="nav_buttons_footer" href="{{ url_for('catalog') }}">Закуски</a>
-                <a class="nav_buttons_footer" href="{{ url_for('catalog') }}">Коктейли</a>
-                <a class="nav_buttons_footer" href="{{ url_for('catalog') }}">Настойки</a>
-                <a class="nav_buttons_footer" href="{{ url_for('catalog') }}">Безалкогольные коктейли</a>
-		</div>
+            <a class="nav_buttons_footer" href="{{ url_for('catalog', category='Закуски') }}">Закуски</a>
+            <a class="nav_buttons_footer" href="{{ url_for('catalog', category='Коктейли') }}">Коктейли</a>
+            <a class="nav_buttons_footer" href="{{ url_for('catalog', category='Настойки') }}">Настойки</a>
+            <a class="nav_buttons_footer" href="{{ url_for('catalog', category='Безалкогольное') }}">Безалкогольные коктейли</a>
+        </div>
         <p class="signature">by Little Sparks team</p>
         </footer>
 

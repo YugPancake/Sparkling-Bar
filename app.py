@@ -48,11 +48,20 @@ def home():
 @app.route('/catalog', methods=['GET'])
 def catalog():
     db_sess = db_session.create_session()
+    
+    category = request.args.get('category')
     query = request.args.get('q', '').strip()
     cleaned_query = re.sub(r'\s+', ' ', query).strip()
 
+    products_query = db_sess.query(Product)
+
+    if category:
+        print(category)
+        products_query = products_query.filter(Product.prod_category == category)
+
+    products = products_query.all()
+
     if cleaned_query:
-        products = db_sess.query(Product).all()
         product_names = [product.prod_name for product in products]
         
         matched_names_with_scores = process.extract(cleaned_query, product_names, limit=10)
@@ -67,10 +76,11 @@ def catalog():
         matched_products.sort(key=lambda x: x[1], reverse=True)
         matched_products = [product for product, score in matched_products]
     else:
-        matched_products = db_sess.query(Product).all()
+        matched_products = products
 
     products_list = [product.to_dict() for product in matched_products]
-    return render_template('catalog.html', title="Каталог", products=products_list)
+    return render_template('catalog.html', title="Каталог", products=products_list, category=category)
+
 
 @app.route('/product/<int:id>', methods=['GET', 'POST'])
 def product(id):
