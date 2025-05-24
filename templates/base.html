@@ -52,6 +52,9 @@
                 <a class="nav_buttons_footer" href="{{ url_for('home') }}">Главная</a>
                 <a class="nav_buttons_footer" href="{{ url_for('catalog') }}">Каталог</a>
                 <a class="nav_buttons_footer" href="{{ url_for('table_map') }}">Карта столов</a>
+                {% if current_user.is_authenticated and current_user.role_id == 1 %}
+                    <a class="nav_buttons_footer" href="{{ url_for('admin') }}">Админ панель заказов</a>
+                {% endif %}
 		</div>
         <div class="category_nav_footer">
             <a class="nav_buttons_footer" href="{{ url_for('catalog', category='Закуски') }}">Закуски</a>
