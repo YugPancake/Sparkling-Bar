@@ -18,15 +18,23 @@
                     {% for order in table_orders %}
                         
                         <div class="order-card">
-                            <div class="order-left">
-                                <p class="order-status"> {{order.order.o_status}}</p>
-                                <p class="order-details">{{order.table}}</p>
+                            <div class="order-up-detail">
+                                <div class="order-left">
+                                    <p class="order-status"> {{order.order.o_status}}</p>
+                                    <p class="order-details">{{order.table}}</p>
+                                </div>
+                                <div class="order-ri">
+                                    <p class="order-number">№{{"%03d"|format(order.order.o_id)}}</p>
+                                    <button class="details-button" onclick="toggleDetails('{{ order.order.o_id }}')" >Подробности</button>
+                                </div>
                             </div>
-                            <div class="order-ri">
-                                <p class="order-number">{{"%03d"|format(order.order.o_id)}}</p>
-                                <button class="details-button">Подробности</button>
+
+                            <div class="order-detail" id="details-{{ order.order.o_id }}" style="display: none;">
+                                <p class="specials_card_title his_titl">Продукты: {{ order.product_info }}</p>
+                                <p class="specials_card_title his_titl">Сумма заказа: {{ order.order.o_sum }}р.</p>
                             </div>
                         </div>
+
                         
                     {% endfor %}
 
@@ -65,6 +73,15 @@
             </div>
         </div>
 <script>
+    function toggleDetails(orderId) {
+        var detailsDiv = document.getElementById('details-' + orderId);
+        if (detailsDiv.style.display === 'none') {
+            detailsDiv.style.display = 'block'; // Показываем детали
+        } else {
+            detailsDiv.style.display = 'none'; // Скрываем детали
+        }
+    }
+
     let currentIndex = 0;
 
     function shiftOrders() {

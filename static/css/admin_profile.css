@@ -35,27 +35,31 @@
     flex-wrap: wrap;
     align-items: center;
     margin: 20px 0 40px 0;
-    justify-content: space-between;
-    gap: 20px 0;
+    gap: 20px 20px;
 }
 .accounts{
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
-    gap: 40px 0;
+    gap: 40px 44px;
     margin: 20px 0  0 0;
 }
 .order-card{
     padding: 20px;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     background-color: #FFF;
     border: none;
     border-radius: 20px;
     flex-shrink: 0;
     opacity: 1; 
     transition: opacity 0.3s ease;   
+}
+.order-up-detail{
+    display: flex;
+    justify-content: space-between;
+    border: none;
+    
 }
 .hidden {
     opacity: 0.5;
@@ -140,6 +144,20 @@
     vertical-align: middle;
     color: #191919;
 }
+
+
+.order-detail {
+    display: none;
+    background-color: #fff; 
+    padding: 3px; 
+}
+
+
+.order-detail p {
+   height: max-content; 
+}
+
+
 .order-number{
     margin-bottom: 8px ;
     font-size: 36px; 
@@ -193,7 +211,6 @@
 }
 .orders-profile{
     display: flex;
-
     transition: transform 0.5s ease;
     align-items: center;
     justify-content: left;

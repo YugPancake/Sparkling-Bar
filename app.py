@@ -155,10 +155,13 @@ def profile():
                 Reserv.user_id == current_user.user_id,
                 Reserv.reserv_date == order.o_date.date()
             ).first()
+            products = [item.item_prod for item in order.order_items]
+            product_info = "; ".join(f"{prod.prod_name}" for prod in products)  
             table_number = f"Стол №{reserv.table_id}" if reserv else "Бар"
             table_orders.append({
                 'order': order,
-                'table': table_number
+                'table': table_number,
+                'product_info': product_info
             })
 
     return render_template('profile.html', user=user, orders=orders, table_orders=table_orders, orders_data=orders_data)
@@ -177,10 +180,13 @@ def admin():
                 Reserv.user_id == current_user.user_id,
                 Reserv.reserv_date == order.o_date.date()
             ).first()
+            products = [item.item_prod for item in order.order_items]
+            product_info = "; ".join(f"{prod.prod_name}" for prod in products) 
             table_number = f"Стол №{reserv.table_id}" if reserv else "Бар"
             table_orders.append({
                 'order': order,
-                'table': table_number
+                'table': table_number,
+                'product_info': product_info
             })
 
         return render_template('admin.html', title="Админ", table_orders = table_orders, orders_in_progress=orders_in_progress, pending_users=pending_users)
