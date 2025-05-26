@@ -3,6 +3,24 @@
 {% block content %}
 
 <h2 class="page_title">Корзина</h2>
+<div class="container">
+    <div class="cart-items">
+            <div class="card">
+                <img src="https://via.placeholder.com/80" alt="Товар">
+                <div class="card-details">
+                    <div class="card-title">Название товара</div>
+                    <div>Количество: 1</div>
+                    <div>Цена за шт.: ₽500</div>
+                </div>
+                <button style="margin-left:auto;">Удалить</button>
+            </div>
+    </div>
 
+    <div class="order-summary">
+        <h2>Итоговая цена</h2>
+        <div class="price">₽1500</div>
+        <button onclick="location.href='order.html'">Перейти к оформлению заказа</button>
+   </div>
+</div>
 
 {% endblock %}
