@@ -14,27 +14,27 @@
             <div class="order-card">
                 <div class="order-up-detail">
                     <div class="order-left">
-                        <p class="order-status">
+                        <div class="order-status">
                             <form  class="order-status-f" method="post" action="{{ url_for('change_order_status') }}" >
                                 <input type="hidden" name="order_id" value="{{ order.order.o_id }}">
                                 <select name="new_status" onchange="this.form.submit()">
-                                    <option value="выполнен" {% if order.order.o_status == 'выполнен' %}selected{% endif %}>Выполнен</option>
+                                    <option value="выполнен" {% if order.order.o_status == 'выполнен' %}selected{% endif %}>Готов</option>
                                     <option value="готовится" {% if order.order.o_status == 'готовится' %}selected{% endif %}>Готовится</option>
-                                    <option value="обрабатывается" {% if order.order.o_status == 'обрабатывается' %}selected{% endif %}>Обрабатывается</option>
+                                    <option value="обрабатывается" {% if order.order.o_status == 'обрабатывается' %}selected{% endif %}>Оформлен</option>
                                 </select>
                             </form>
-                        </p>
-                        <p class="order-details">{{order.table}}</p>
+                        </div>
+                        <div class="order-details">{{order.table}}</div>
                     </div>
                     <div class="order-ri">
-                        <p class="order-number">№{{"%03d"|format(order.order.o_id)}}</p>
+                        <div class="order-number">№{{"%03d"|format(order.order.o_id)}}</div>
                         <button class="details-button" onclick="toggleDetails('{{ order.order.o_id }}')" >Подробности</button>
                      </div>
                 </div>
 
                 <div class="order-detail" id="details-{{ order.order.o_id }}" style="display: none;">
-                    <p class="specials_card_title his_titl">Продукты: {{ order.product_info }}</p>
-                    <p class="specials_card_title his_titl">Сумма заказа: {{ order.order.o_sum }}р.</p>
+                    <div class="specials_card_title his_titl">Продукты: {{ order.product_info }}</div>
+                    <div class="specials_card_title his_titl">Сумма заказа: {{ order.order.o_sum }} P</div>
                 </div>
             </div>
             
