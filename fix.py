@@ -14,8 +14,7 @@ from login import LoginForm
 from register import RegisterForm
 from add_product import ProductForm
 import re
-from datetime import time
-
+import datetime
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret_key'
@@ -23,12 +22,43 @@ app.config['SECRET_KEY'] = 'secret_key'
 
 def get_time_slots():
     db_sess = db_session.create_session()
+
+    # Данные для временных слотов
+    slots_data = [
+        ("21:00", "22:00"),
+        ("22:00", "23:00"),
+        ("23:00", "00:00"),
+        ("00:00", "01:00"),
+        ("01:00", "02:00"),
+        ("02:00", "03:00"),
+        ("03:00", "04:00"),
+    ]
+
+    for start_str, end_str in slots_data:
+        start_time = datetime.datetime.strptime(start_str, "%H:%M").time()
+        end_time = datetime.datetime.strptime(end_str, "%H:%M").time()
+
+
+        existing_slot = db_sess.query(TimeSlot).filter(
+            TimeSlot.start == start_time,
+            TimeSlot.end == end_time
+        ).first()
+
+        if existing_slot is None:
+            slot = TimeSlot(start=start_time, end=end_time)
+            db_sess.add(slot)
+
+    db_sess.commit()
+    print("Временные слоты успешно добавлены (если их не было).")
+    
     time_slots = db_sess.query(TimeSlot).all()
+    tables = db_sess.query(Table).all()
     db_sess.close()
     
-    # Выводим временные слоты
     for slot in time_slots:
         print(f"Start: {slot.start}, End: {slot.end}")
+    for table in tables:
+        print(table.table_number)
 
 def fill_tables():
     db_sess = db_session.create_session()
@@ -56,4 +86,4 @@ def fill_tables():
 
 if __name__ == "__main__":
     db_session.global_init("db/bar.db")
-    fill_tables()
+    get_time_slots()
