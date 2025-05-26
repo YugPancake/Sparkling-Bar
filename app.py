@@ -2,7 +2,7 @@ from flask import Blueprint, Flask, render_template, redirect, url_for, flash, r
 from sqlalchemy import func
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-from data import db_session, reserv_api, products_api
+from data import db_session, reserv_api, products_api, orders_api
 from data.users import User
 from data.roles import Role
 from data.orders import Order
@@ -211,25 +211,6 @@ def confirm_user():
     flash(f"Пользователь {user.user_name} подтверждён")
     return redirect(url_for('admin'))
 
-@app.route('/change_order_status', methods=['POST'])
-@login_required
-def change_order_status():
-    if current_user.role_id != 1:
-        return redirect(url_for('home'))
-
-    order_id = request.form.get('order_id')
-    new_status = request.form.get('new_status')
-
-    db_sess = db_session.create_session()
-    order = db_sess.query(Order).filter(Order.o_id == int(order_id)).first()
-    
-    if not order:
-        return redirect(url_for('admin'))
-
-    order.o_status = new_status
-    db_sess.commit()
-    return redirect(url_for('admin'))
-
 @app.route('/cart')
 @login_required
 def cart():
@@ -319,5 +300,6 @@ if __name__ == '__main__':
     db_session.global_init("db/bar.db")
     app.register_blueprint(reserv_api.blueprint)
     app.register_blueprint(products_api.blueprint)
+    app.register_blueprint(orders_api.blueprint)
     app.run()
  

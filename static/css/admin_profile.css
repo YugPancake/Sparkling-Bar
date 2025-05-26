@@ -97,40 +97,30 @@
     color: #191919;
     margin-bottom: 8px;
     display: inline-block; 
-}
-
-.order-status-f {
-    display: inline; 
-}
-
-.order-status-f select {
-    margin: 0;
-    font-family: Russo_One;
-    font-size: 32px; 
-    color: #191919; 
-    background-color: transparent; 
-    border: none; 
-    appearance: none; 
     cursor: pointer;
-    align-items: left; 
 }
 
-
-.order-status-f select:focus {
-    outline: none; 
+.dropdown-content-order {
+    display: none;
+    position: absolute;
+    background-color: white;
+    border: none;
+    border-radius: 15px;
+    z-index: 1;
+    width: 150px;
+    padding: 20px 20px 0 20px;
+    margin-top: 10px;
+    color: #191919;
+    box-shadow: 0 4px 8px rgba(25, 25, 25, 0.4);
 }
 
-
-.order-status-f::after {
-    font-family: Russo_One;
-    font-size: 32px; 
-    color: #191919; 
-    margin-left: 5px; 
-    vertical-align: middle; 
-    pointer-events: none; 
+.dropdown-item-order {
+    font-size: 24px;
+    padding-bottom: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
 }
-
-
 
 .account-name {
     color: #191919;

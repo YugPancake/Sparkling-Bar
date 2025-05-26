@@ -15,14 +15,16 @@
                 <div class="order-up-detail">
                     <div class="order-left">
                         <div class="order-status">
-                            <form  class="order-status-f" method="post" action="{{ url_for('change_order_status') }}" >
-                                <input type="hidden" name="order_id" value="{{ order.order.o_id }}">
-                                <select name="new_status" onchange="this.form.submit()">
-                                    <option value="выполнен" {% if order.order.o_status == 'выполнен' %}selected{% endif %}>Готов</option>
-                                    <option value="готовится" {% if order.order.o_status == 'готовится' %}selected{% endif %}>Готовится</option>
-                                    <option value="обрабатывается" {% if order.order.o_status == 'обрабатывается' %}selected{% endif %}>Оформлен</option>
-                                </select>
-                            </form>
+                            <div class="custom-select" data-order-id="{{ order.order.o_id }}">
+                                <div class="custom-select__selected" data-order-id="{{ order.order.o_id }}">
+                                    {% if order.order.o_status == 'выполнен' %}Готов{% elif order.order.o_status == 'готовится' %}Готовится{% else %}Оформлен{% endif %}
+                                </div>
+                                <div class="dropdown-content-order">
+                                    <div class="dropdown-item-order" data-value="выполнен">Готов</div>
+                                    <div class="dropdown-item-order" data-value="готовится">Готовится</div>
+                                    <div class="dropdown-item-order" data-value="обрабатывается">Оформлен</div>
+                                </div>
+                              </div>
                         </div>
                         <div class="order-details">{{order.table}}</div>
                     </div>
@@ -69,10 +71,71 @@
     function toggleDetails(orderId) {
         var detailsDiv = document.getElementById('details-' + orderId);
         if (detailsDiv.style.display === 'none') {
-            detailsDiv.style.display = 'block'; // Показываем детали
+            detailsDiv.style.display = 'block';
         } else {
-            detailsDiv.style.display = 'none'; // Скрываем детали
+            detailsDiv.style.display = 'none'; 
         }
     }
+
+    document.querySelectorAll('.custom-select__selected').forEach(selected => {
+        const options = selected.nextElementSibling;
+        const orderCard = selected.closest('.order-card'); 
+    
+
+        selected.addEventListener('click', () => {
+            options.style.display = options.style.display === 'block' ? 'none' : 'block';
+        });
+    
+        options.querySelectorAll('.dropdown-item').forEach(option => {
+            option.addEventListener('click', () => {
+                const newStatus = option.getAttribute('data-value');
+                const orderId = selected.getAttribute('data-order-id');
+    
+                console.log('New Status:', newStatus); // Отладка
+                console.log('Order ID:', orderId); // Отладка
+    
+                if (!orderId || !newStatus) {
+                    alert('Не удалось получить данные заказа или статуса.');
+                    return;
+                }
+    
+                fetch('/api/admin/change_order_status', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        order_id: orderId,
+                        new_status: newStatus
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error('Ошибка сети');
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        selected.textContent = option.textContent; // 
+                        options.style.display = 'none';
+                        
+                        if (newStatus === 'выполнен') {
+                            orderCard.style.display = 'none';
+                        }
+                    } else {
+                        alert(data.message || 'Не удалось изменить статус');
+                    }
+                })
+                .catch(() => alert('Ошибка при отправке запроса'));
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!selected.contains(e.target) && !options.contains(e.target)) {
+                options.style.display = 'none';
+            }
+        });
+    });
+    
+    
 </script>
 {% endblock %}
