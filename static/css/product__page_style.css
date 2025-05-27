@@ -36,6 +36,22 @@
     gap: 20px;
 }
 
+.admin_buttons{
+    display: flex;
+    font-size: 16px;
+    flex-direction: column;
+    text-align: right;
+    justify-content: space-evenly;
+}
+
+.admin_button_edit, .admin_button_delete{
+    cursor: pointer;
+}
+
+.admin_button_edit:hover, .admin_button_delete:hover{
+    color: #F08BFF;
+}
+
 .product_page_button_order, .product_page_button_card{
     background-color: #F08BFF;
     font-color: white;

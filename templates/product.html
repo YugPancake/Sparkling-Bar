@@ -18,6 +18,13 @@
         </div>
         <p class="product_page_price">{{ product.price }} P</p>
         <div class="product_page_buttons">
+            {% if current_user.is_authenticated and current_user.role_id == 1 %}
+            <div class="admin_buttons">
+                <div class="admin_button_edit">Изменить</div>
+                <div class="admin_button_delete">Удалить</div>
+            </div>
+            {% endif %}
+
             <div class="product_page_button_order">
                 Заказать сейчас
             </div>
