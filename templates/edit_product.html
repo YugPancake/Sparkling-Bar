@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<p class="page_title c">Редактирование позиции</p>
+<div class="content_form">
+    <div class="cont_login">
+        <form action=""  method="POST">
+            {{ form.hidden_tag() }}
+            
+                {{ form.prod_name(size=32, placeholder="Название", class="input_field")}}<br>
+                {% for error in form.prod_name.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            
+            
+                {{ form.prod_volume(size=32, placeholder="Обьем", class="input_field") }}<br>
+                {% for error in form.prod_volume.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+            
+            
+                {{ form.prod_category(size=32, placeholder="Категория", class="input_field") }}<br>
+                {% for error in form.prod_category.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+            
+            
+                {{ form.price(size=32, placeholder="Цена", class="input_field") }}<br>
+                {% for error in form.price.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+    
+        
+                {{ form.description(size=32, placeholder="Состав", class="input_field description")}}
+            
+            
+            {{ form.img_prod(size=32, placeholder="Ссылка на изображение", class="input_field")}}
+            
+            {{ form.save(class="submit_button") }}</p>
+       
+            <div>{{message}}</div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const inputFields = document.querySelectorAll('.input_field');
+
+    inputFields.forEach(function(inputField) {
+        inputField.addEventListener('input', function() {
+            this.style.color = '#191919';
+        });
+    });
+</script>
+
+{% endblock %}

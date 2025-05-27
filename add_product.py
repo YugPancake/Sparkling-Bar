@@ -10,3 +10,4 @@ class ProductForm(FlaskForm):
     description = TextAreaField('Состав')
     img_prod = StringField('Ссылка на изображение')
     submit = SubmitField('Добавить продукт')
+    save = SubmitField('Сохранить изменения')

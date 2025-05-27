@@ -38,7 +38,6 @@
 
 .admin_buttons{
     display: flex;
-    font-size: 16px;
     flex-direction: column;
     text-align: right;
     justify-content: space-evenly;
@@ -46,6 +45,12 @@
 
 .admin_button_edit, .admin_button_delete{
     cursor: pointer;
+    font-size: 16px;
+    font-family: Russo_One;
+    padding: 0;
+    background: transparent;
+    border: none;
+    color: white;
 }
 
 .admin_button_edit:hover, .admin_button_delete:hover{

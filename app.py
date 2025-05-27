@@ -114,6 +114,80 @@ def product(id):
     
     return render_template('product.html', title=product_name, product=product, products=products_try_also_list, description_list=description_list, reviews=reviews_list, current_user=current_user, form=form)
 
+@app.route('/add_product', methods=['GET', 'POST'])
+@login_required
+def add_product():
+    if current_user.role_id == 1:
+        form = ProductForm()
+        db_sess = db_session.create_session()
+        if db_sess.query(Product).filter(Product.prod_name == form.prod_name.data).first():
+                return render_template('add_product.html',
+                                    form=form,
+                                    message="Такой продукт уже есть в меню")
+        if form.validate_on_submit():
+            new_product = Product(
+                prod_name=form.prod_name.data,
+                prod_volume=form.prod_volume.data,
+                prod_category=form.prod_category.data,
+                price=form.price.data,
+                description=form.description.data,
+                img_prod=form.img_prod.data
+            )
+            db_sess.add(new_product)
+            db_sess.commit()
+            flash('Продукт успешно добавлен!', 'success')
+            return redirect(url_for('add_product'), title="Добавление в меню")
+
+        return render_template('add_product.html', form=form)
+    else:
+        return redirect(url_for('home'))
+
+@app.route('/edit_product/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_product(id):
+    if current_user.role_id == 1:
+        db_sess = db_session.create_session()
+        product = db_sess.query(Product).get(id)
+        if not product:
+            return "Продукт не найден", 404
+        
+        form = ProductForm()
+        form = ProductForm(obj=product)
+        if form.validate_on_submit():
+            product.prod_name=form.prod_name.data
+            product.prod_volume=form.prod_volume.data
+            product.prod_category=form.prod_category.data
+            product.price=form.price.data
+            product.description=form.description.data
+            product.img_prod=form.img_prod.data
+            db_sess.commit()
+            return redirect(f'/product/{id}')
+        
+        form.prod_name.data=product.prod_name
+        form.prod_volume.data=product.prod_volume
+        form.prod_category.data=product.prod_category
+        form.price.data=product.price
+        form.description.data=product.description
+        form.img_prod.data=product.img_prod
+        return render_template('edit_product.html', form=form, product=product, current_user=current_user)
+    else:
+        return redirect(url_for('home'))
+
+@app.route('/delete_product/<int:id>', methods=['POST'])
+@login_required
+def delete_product(id):
+    if current_user.role_id == 1:
+        db_sess = db_session.create_session()
+        product = db_sess.query(Product).get(id)
+        if not product:
+            return "Продукт не найден", 404
+        
+        db_sess.delete(product)
+        db_sess.commit()
+        return redirect('/catalog')
+    else:
+        return redirect(url_for('home'))
+
 @app.route('/table_map')
 def table_map():
     db_sess = db_session.create_session()
@@ -268,33 +342,6 @@ def register():
 
     return render_template('register.html', form=form, title="Регистрация")
 
-@app.route('/add_product', methods=['GET', 'POST'])
-@login_required
-def add_product():
-    if current_user.role_id == 1:
-        form = ProductForm()
-        db_sess = db_session.create_session()
-        if db_sess.query(Product).filter(Product.prod_name == form.prod_name.data).first():
-                return render_template('add_product.html',
-                                    form=form,
-                                    message="Такой продукт уже есть в меню")
-        if form.validate_on_submit():
-            new_product = Product(
-                prod_name=form.prod_name.data,
-                prod_volume=form.prod_volume.data,
-                prod_category=form.prod_category.data,
-                price=form.price.data,
-                description=form.description.data,
-                img_prod=form.img_prod.data
-            )
-            db_sess.add(new_product)
-            db_sess.commit()
-            flash('Продукт успешно добавлен!', 'success')
-            return redirect(url_for('add_product'), title="Добавление в меню")
-
-        return render_template('add_product.html', form=form)
-    else:
-        return redirect(url_for('home'))
 
 if __name__ == '__main__':
     db_session.global_init("db/bar.db")

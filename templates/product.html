@@ -20,8 +20,12 @@
         <div class="product_page_buttons">
             {% if current_user.is_authenticated and current_user.role_id == 1 %}
             <div class="admin_buttons">
-                <div class="admin_button_edit">Изменить</div>
-                <div class="admin_button_delete">Удалить</div>
+                <form action="{{ url_for('edit_product', id=product.prod_id) }}" method="POST">
+                    <button class="admin_button_edit"  type="submit">Изменить</button>
+                </form>
+                <form action="{{ url_for('delete_product', id=product.prod_id) }}" method="POST">
+                    <button class="admin_button_delete" type="submit" onclick="return confirm('Вы уверены, что хотите удалить этот продукт из меню?');">Удалить</button>
+                </form>
             </div>
             {% endif %}
 
