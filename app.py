@@ -289,9 +289,9 @@ def confirm_user():
 @login_required
 def cart():
     cart_items = [
-        {"prod_id": 1, "title": "товар1", "price": 100, "count": 1, "image": "https://i.postimg.cc/gchtf0tx/image.png"},
-        {"prod_id": 2, "title": "товар2", "price": 200, "count": 2, "image": "https://i.postimg.cc/gchtf0tx/image.png"},
-        {"prod_id": 3, "title": "товар3", "price": 300, "count": 3, "image": "https://i.postimg.cc/gchtf0tx/image.png"},
+        {"prod_id": 1, "title": "товар", "price": 100, "count": 1, "image": "https://i.postimg.cc/gchtf0tx/image.png"},
+        {"prod_id": 2, "title": "товар", "price": 200, "count": 2, "image": "https://i.postimg.cc/gchtf0tx/image.png"},
+        {"prod_id": 3, "title": "товар", "price": 300, "count": 3, "image": "https://i.postimg.cc/gchtf0tx/image.png"},
     ]
     return render_template('cart.html', title="Корзина", cart_items=cart_items)
 

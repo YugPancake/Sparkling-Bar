@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2 class="page_title">Корзина</h2>
+    <h1 class="page_title white_text">Корзина</h1>
     <div class="cart-container">
         <div class="cart-items">
             {% for item in cart_items %}
@@ -13,7 +13,7 @@
                         <button class="cart-item-card-delete-button">Удалить</button>
                     </div>
                     <div class="cart-item-card-details-bottom">
-                        <div>Цена за шт.: {{ item.price }} ₽</div>
+                        <div class="cart-item-price">{{ item.price }} Р</div>
                         <div class="cart-item-count-container">
                             <button class="cart-item-count-minus-button">-</button>
                             <div class="cart-item-count-count">{{ item.count }}</div>
@@ -28,7 +28,7 @@
         <div class="order-summary">
             <div class="order-summary-price-container">
                 <h3>Итоговая стоимость</h3>
-                <h2 class="price">1500 ₽</h2>
+                <h2 class="price">1500 Р</h2>
             </div>
             <button class="order-summary-button" onclick="location.href='order'">Перейти к оформлению заказа
             </button>
@@ -37,10 +37,18 @@
     <script>
         document.querySelectorAll('.card').forEach(function(element) {
             let item_id = element.getAttribute('data-prod-id');
+            let item_count = element.getAttribute('data-count');
+            console.log(item_count);
             console.log(item_id);
-            element.querySelector('.cart-item-card-delete-button').addEventListener('click', () => { alert("Удаление товара ID "+item_id) });
-            element.querySelector('.cart-item-count-minus-button').addEventListener('click', () => { alert("Минус ID "+item_id) });
-            element.querySelector('.cart-item-count-plus-button').addEventListener('click', () => { alert("Плюс ID "+item_id) });
+            let delete_button = element.querySelector('.cart-item-card-delete-button');
+            let minus_button = element.querySelector('.cart-item-count-minus-button');
+            let plus_button = element.querySelector('.cart-item-count-plus-button');
+            if (item_count == 1) {
+                minus_button.setAttribute('disabled', 'disabled');
+            }
+            delete_button.addEventListener('click', () => { alert("Удаление товара ID "+item_id) });
+            minus_button.addEventListener('click', () => { alert("Минус ID "+item_id) });
+            plus_button.addEventListener('click', () => { alert("Плюс ID "+item_id) });
         });
     </script>
 
