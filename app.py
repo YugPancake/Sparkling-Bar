@@ -295,6 +295,16 @@ def cart():
     ]
     return render_template('cart.html', title="Корзина", cart_items=cart_items)
 
+@app.route('/order')
+@login_required
+def order():
+    order_items = [
+        {"prod_id": 1, "title": "товар", "price": 100, "count": 1, "image": "https://i.postimg.cc/gchtf0tx/image.png"},
+        {"prod_id": 2, "title": "товар", "price": 200, "count": 2, "image": "https://i.postimg.cc/gchtf0tx/image.png"},
+        {"prod_id": 3, "title": "товар", "price": 300, "count": 3, "image": "https://i.postimg.cc/gchtf0tx/image.png"},
+    ]
+    return render_template('order.html', title="Корзина", order_items=order_items)
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
