@@ -12,5 +12,5 @@ class OrderItem(SqlAlchemyBase):
 
     item_order = orm.relationship('Order')
     item_prod = orm.relationship('Product')
-    item_user = orm.relationship('User ', back_populates='order_items')
+    item_user = orm.relationship('User', back_populates='order_items')
 

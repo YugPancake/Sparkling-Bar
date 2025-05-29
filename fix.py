@@ -84,6 +84,16 @@ def fill_tables():
     db_sess.close()
     
 
+def seed_data():
+    db_sess = db_session.create_session()
+    
+    # Заполнение временных слотов
+    get_time_slots()
+
+    # Заполнение таблиц
+    fill_tables()
+    
+    
 if __name__ == "__main__":
     db_session.global_init("db/bar.db")
-    get_time_slots()
+    seed_data()
