@@ -28,13 +28,30 @@
                 <h2 class="price">1500 Р</h2>
             
                 <h3>Выберите опции получения заказа:</h3>
-                <label><input type="checkbox"> Забрать на баре</label><br/>
-                <label><input type="checkbox"> Заказать на стол</label><br/>
-
-                <button class="button">Подтвердить заказ</button>
+                <label>
+                    <input type="checkbox" id="pickupBar"> Забрать на баре
+                </label><br/>
+                <label>
+                    <input type="checkbox" id="diningTable"> Заказать на стол
+                </label><br/>
+                <button class="button" id="confirmOrder">Подтвердить заказ</button>
             </div>
         </div>
     </div>
+    
     <script>
-        
+        const tableMessageDiv = document.getElementById('tableNumberMessage');
+        const confirmButton = document.getElementById('confirmOrder');
+
+        confirmButton.addEventListener('click', () => {
+            tableMessageDiv.textContent = 'Ваш стол № (1)';
+        });
+        const diningCheckbox = document.getElementById('diningTable');
+        diningCheckbox.addEventListener('change', () => {
+            if (diningCheckbox.checked) {
+                tableMessageDiv.textContent = 'Ваш стол № (1)';
+            } else {
+                tableMessageDiv.textContent = '';
+            }
+        });
     </script>
