@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="page_title white_text">Ваш заказ</div>
+    <div class="cart-container">
+        <div class="order-items">
+            {% for item in order_items %}
+                <div class="card" data-prod-id="{{ item.prod_id }}" data-count="{{ item.count }}">
+                <img src="{{ item.image }}" alt="Товар">
+                <div class="cart-item-card-details">
+                    <div class="cart-item-card-details-top">
+                        <div class="cart-item-card-title">{{ item.title }}</div>
+                    </div>
+                    <div class="cart-item-card-details-bottom">
+                        <div class="cart-item-price">{{ item.price }} Р</div>
+                        <div class="cart-item-count-container">
+                            <div class="cart-item-count-count">х {{ item.count }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>  
+
+        <div class="order-options">
+            <div class="order-summary-price-container">
+                <h3>Итоговая стоимость</h3>
+                <h2 class="price">1500 Р</h2>
+            
+                <h3>Выберите опции получения заказа:</h3>
+                <label><input type="checkbox"> Забрать на баре</label><br/>
+                <label><input type="checkbox"> Заказать на стол</label><br/>
+
+                <button class="button">Подтвердить заказ</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        
+    </script>
