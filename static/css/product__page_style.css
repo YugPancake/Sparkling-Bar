@@ -23,6 +23,10 @@
     color: #F08BFF;
 }
 
+.product_volume{
+    padding-top: 20px;
+}
+
 .product_page_price{
     margin: 0;
     font-size: 40px;
