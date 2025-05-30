@@ -62,7 +62,7 @@
 
     <div class="reviews_cards_container">
         {% for review in reviews[:max_visible_reviews] %}
-            <div class="reviews_card">
+            <div class="reviews_card" data-expanded="false">
                 <div class="reviews_username">
                     {{ review.user.user_name }} {{ review.user.user_surname }}
                 </div>
@@ -76,7 +76,7 @@
     {% if reviews|length > max_visible_reviews %}
     <div class="reviews_cards_container hidden_reviews" style="display: none;">
         {% for review in reviews[max_visible_reviews:] %}
-            <div class="reviews_card">
+            <div class="reviews_card" data-expanded="false">
                 <div class="reviews_username">
                     {{ review.user.user_name }} {{ review.user.user_surname }}
                 </div>
@@ -227,7 +227,25 @@
         this.classList.add('active'); // Добавляем класс для изменения стиля
         this.textContent = 'Добавлено'; // Меняем текст
     });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const reviewCards = document.querySelectorAll('.reviews_card');
     
+        reviewCards.forEach(card => {
+            card.addEventListener('click', () => {
+                // Проверяем, есть ли у карточки класс expanded
+                const isExpanded = card.classList.contains('expanded');
+                
+                // Убираем класс expanded у всех карточек
+                reviewCards.forEach(c => c.classList.remove('expanded'));
+    
+                // Если карточка не была раскрыта, то добавляем класс только ей
+                if (!isExpanded) {
+                    card.classList.add('expanded');
+                }
+            });
+        });
+    });
 </script>
 
 {% endblock %}

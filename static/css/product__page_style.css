@@ -113,15 +113,16 @@ ul{
     flex-wrap: wrap;
 }
 
-.reviews_card{
+.reviews_card {
     width: 350px;
-    margin: 20px 0 0 0;
+    margin: 20px 0;
     border-radius: 20px;
     border: 1px solid #FFFFFF;
-    padding: 10px 20px 10px 20px;
+    padding: 10px 20px;
+    cursor: pointer; /* чтобы показывать, что кликабельно */
 }
 
-.reviews_username{
+.reviews_username {
     color: #8C8C8C;
     font-size: 16px;
     white-space: nowrap;
@@ -129,12 +130,23 @@ ul{
     text-overflow: ellipsis;
 }
 
-.reviews_content{
+.reviews_content {
     display: -webkit-box;          
     -webkit-box-orient: vertical; 
     -webkit-line-clamp: 1;
     overflow: hidden;
     text-overflow: ellipsis;
+    transition: max-height 0.3s ease; /* плавное раскрытие */
+    max-height: 1.2em; /* примерно высота одной строки */
+}
+
+/* Когда карточка раскрыта — показываем весь текст */
+.reviews_card.expanded .reviews_content {
+    display: block; /* отменяем -webkit-box */
+    max-height: 1000px; /* достаточно большое значение */
+    overflow: visible;
+    white-space: normal; /* перенос строк */
+    -webkit-line-clamp: unset;
 }
 
 .reviews_see_all{
