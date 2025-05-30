@@ -276,3 +276,54 @@
     margin-bottom: 20px;
     font-size: 18px;
 }
+
+.order-modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.5);
+  }
+  
+  .order-modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 20px;
+    width: 40%;
+    max-width: 400px;
+    position: relative;
+  }
+
+  .order-modal-number{
+    font-size: 32px;
+    color: #F08BFF;
+    text-align: center;
+  }
+
+  .order-modal-card{
+    display: flex;
+    color: #191919;
+    margin-top: 30px;
+    gap: 25px;
+  }
+
+  .order-modal-img{
+    width: 120px;
+    height: auto;
+    border-radius: 10px;
+  }
+
+  .order-modal-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    font-size: 28px;
+  }
+
+  .order-modal-price{
+    color: rgba(25, 25, 25, 0.5);
+  }

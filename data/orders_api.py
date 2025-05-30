@@ -73,3 +73,34 @@ def create_order():
     db_sess.commit()
 
     return jsonify(success=True)
+
+@blueprint.route('/api/order/info', methods=['GET'])
+def order_info():
+    order_id = request.args.get('order_id', type=int)
+    if not order_id:
+        return jsonify({'error': 'order_id не передан'}), 400
+    
+    db_sess = db_session.create_session()
+
+    order = db_sess.query(Order).filter(Order.o_id == order_id).first()
+    if not order:
+        return jsonify({'error': 'Заказ не найден'}), 404
+
+    items = []
+    for item in order.order_items:
+        product = item.item_prod
+        print(f"Product: {product}, name: {getattr(product, 'prod_name', None)}, price: {getattr(product, 'price', None)}, img: {getattr(product, 'img_prod', None)}")
+        if product and product.prod_name and product.price is not None and product.img_prod:
+            items.append({
+                'product_name': product.prod_name,
+                'price': product.price,
+                'img_prod': product.img_prod,
+            })
+
+    return jsonify({
+        'order_id': order.o_id,
+        'order_sum': order.o_sum,
+        'status': order.o_status,
+        'date': order.o_date.isoformat(),
+        'items': items
+    })

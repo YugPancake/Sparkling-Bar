@@ -4,11 +4,11 @@
 
     <div class="profile">
 
-    {% if not user.is_verified %}
-        <div class="profile-notification">
-            Ваш аккаунт не подтвержден! Лично покажите свой паспорт администратору бара для верификации
-        </div>
-    {% endif %}
+        {% if not user.is_verified %}
+            <div class="profile-notification">
+                Ваш аккаунт не подтвержден! Лично покажите свой паспорт администратору бара для верификации
+            </div>
+        {% endif %}
 
         <div class="up-profile">
             <div class="account-card">
@@ -77,6 +77,24 @@
                 </div>
             </div>
         </div>
+    </div>
+    
+    <div id="orderModal" class="order-modal" style="display:none;">
+        <div class="order-modal-content">
+            <div id="modalOrderDetails">
+                <div class="order-modal-number" id="modalOrderId"></div>
+                <div id="orderItemsContainer">
+                    <div class="order-modal-card" style="display:none;">
+                        <img class="order-modal-img" alt="Фото товара">
+                        <div class="order-modal-info">
+                            <div class="order-modal-name"></div>
+                            <div class="order-modal-price"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 <script>
@@ -104,16 +122,6 @@
         cancelAnimationFrame(isScrolling);
         isScrolling = requestAnimationFrame(() => scrollCarousel(delta));
     });
-
-
-    function toggleDetails(orderId) {
-        var detailsDiv = document.getElementById('details-' + orderId);
-        if (detailsDiv.style.display === 'none') {
-            detailsDiv.style.display = 'block'; // Показываем детали
-        } else {
-            detailsDiv.style.display = 'none'; // Скрываем детали
-        }
-    }
 
 
     let allCardsVisible = false;
@@ -160,6 +168,78 @@
     }
 
     window.onload = initHistoryCards;
+
+
+    function toggleDetails(orderId) {
+        console.log(`Запрос к API с orderId: ${orderId}`);
+        fetch(`/api/order/info?order_id=${orderId}`)
+            .then(res => {
+                console.log(`Статус ответа: ${res.status}`);
+                if (!res.ok) {
+                    console.error(`Ошибка при получении данных: ${res.statusText}`); 
+                    throw new Error(`Ошибка: ${res.statusText}`);
+                }
+                return res.json();
+            })
+            .then(data => {
+                console.log('Данные ответа:', data); 
+                if (data.error) {
+                    alert(data.error);
+                    return;
+                }
+    
+                const modalNumber = document.getElementById('modalOrderId');
+                modalNumber.textContent = `Заказ №${String(data.order_id).padStart(3, '0')}`;
+    
+                const container = document.getElementById('orderItemsContainer');
+    
+                const cardTemplate = container.querySelector('.order-modal-card');
+    
+
+                container.innerHTML = '';
+                container.appendChild(cardTemplate);
+    
+                data.items.forEach(item => {
+                    if (item.img_prod && item.product_name && item.price) {
+                        const card = cardTemplate.cloneNode(true);
+                        card.style.display = 'flex'; 
+                    
+                        const img = card.querySelector('.order-modal-img');
+                        img.src = item.img_prod; 
+                        img.alt = item.product_name;
+                    
+                        const name = card.querySelector('.order-modal-name');
+                        name.textContent = item.product_name;
+                    
+                        const price = card.querySelector('.order-modal-price');
+                        price.textContent = `${item.price} Р`;
+                    
+                        container.appendChild(card); 
+                    } else {
+                        console.warn('Пропущен пустой товар:', item);
+                    }
+                });
+                
+    
+                document.getElementById('orderModal').style.display = 'block';
+            })
+            .catch(err => {
+                console.error('Ошибка:', err);
+                alert('Ошибка при загрузке данных заказа');
+            });
+    }
+    
+    
+    function closeModal() {
+        document.getElementById('orderModal').style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        const modal = document.getElementById('orderModal');
+        if (event.target === modal) {
+          closeModal();
+        }
+      };
 
 
 </script>
