@@ -16,7 +16,7 @@
                         <div class="cart-item-price">{{ item.price }} Р</div>
                         <div class="cart-item-count-container">
                             <button class="cart-item-count-minus-button">-</button>
-                            <div class="cart-item-count-count">{{ item.count }}</div>
+                            <div class="cart-item-count-count">{{ item.amount }}</div>
                             <button class="cart-item-count-plus-button">+</button>
                         </div>
                     </div>
@@ -28,7 +28,7 @@
         <div class="order-summary">
             <div class="order-summary-price-container">
                 <h3>Итоговая стоимость</h3>
-                <h2 class="price">1500 Р</h2>
+                <h2 class="price">{{total_price}} Р</h2>
             </div>
             <button class="order-summary-button" onclick="location.href='order'">Перейти к оформлению заказа
                 </button>

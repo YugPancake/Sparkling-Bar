@@ -191,6 +191,33 @@
             }
         });
     }
+    document.querySelector('.product_page_button_card').addEventListener('click', () => {
+        addToCart();
+    });
+    function addToCart() {
+        fetch('/api/cart', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        product_id: {{product.prod_id}},
+                        amount: 1
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error('Ошибка сети');
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        console.log(data);
+                    } else {
+                        alert(data.message || 'Ошибка');
+                    }
+                })
+                .catch(() => alert('Ошибка при отправке запроса'));
+    }
 </script>
 
 {% endblock %}

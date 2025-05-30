@@ -2,10 +2,11 @@ from flask import Blueprint, Flask, render_template, redirect, url_for, flash, r
 from sqlalchemy import func
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-from data import db_session, reserv_api, products_api, orders_api
+from data import db_session, reserv_api, products_api, orders_api, cart_items_api
 from data.users import User
 from data.roles import Role
 from data.orders import Order
+from data.cart_items import CartItem
 from data.order_items import OrderItem
 from data.products import Product
 from data.tables import Table
@@ -288,22 +289,42 @@ def confirm_user():
 @app.route('/cart')
 @login_required
 def cart():
-    cart_items = [
-        {"prod_id": 1, "title": "товар", "price": 100, "count": 1, "image": "https://i.postimg.cc/gchtf0tx/image.png"},
-        {"prod_id": 2, "title": "товар", "price": 200, "count": 2, "image": "https://i.postimg.cc/gchtf0tx/image.png"},
-        {"prod_id": 3, "title": "товар", "price": 300, "count": 3, "image": "https://i.postimg.cc/gchtf0tx/image.png"},
-    ]
-    return render_template('cart.html', title="Корзина", cart_items=cart_items)
+    cart_items = []
+    total_price = 0
+    db_sess = db_session.create_session()
+    ci_objects = db_sess.query(CartItem).filter(CartItem.user_id == current_user.user_id).all()
+    for i in ci_objects:
+        product = db_sess.query(Product).filter(Product.prod_id == i.product_id).first()
+        cart_items.append({
+            "prod_id": i.product_id,
+            "image": product.img_prod,
+            "price": product.price,
+            "amount": i.ci_amount,
+            "title": product.prod_name
+        })
+        total_price += i.ci_amount * product.price
+    print(cart_items)
+    return render_template('cart.html', title="Корзина", cart_items=cart_items, total_price=total_price)
 
 @app.route('/order')
 @login_required
 def order():
-    order_items = [
-        {"prod_id": 1, "title": "товар", "price": 100, "count": 1, "image": "https://i.postimg.cc/gchtf0tx/image.png"},
-        {"prod_id": 2, "title": "товар", "price": 200, "count": 2, "image": "https://i.postimg.cc/gchtf0tx/image.png"},
-        {"prod_id": 3, "title": "товар", "price": 300, "count": 3, "image": "https://i.postimg.cc/gchtf0tx/image.png"},
-    ]
-    return render_template('order.html', title="Корзина", order_items=order_items)
+    cart_items = []
+    total_price = 0
+    db_sess = db_session.create_session()
+    ci_objects = db_sess.query(CartItem).filter(CartItem.user_id == current_user.user_id).all()
+    for i in ci_objects:
+        product = db_sess.query(Product).filter(Product.prod_id == i.product_id).first()
+        cart_items.append({
+            "prod_id": i.product_id,
+            "image": product.img_prod,
+            "price": product.price,
+            "amount": i.ci_amount,
+            "title": product.prod_name
+        })
+        total_price += i.ci_amount * product.price
+    print(cart_items)
+    return render_template('order.html', title="Ваш заказ", order_items=cart_items, total_price=total_price)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -363,5 +384,6 @@ if __name__ == '__main__':
     app.register_blueprint(reserv_api.blueprint)
     app.register_blueprint(products_api.blueprint)
     app.register_blueprint(orders_api.blueprint)
+    app.register_blueprint(cart_items_api.blueprint)
     app.run()
  

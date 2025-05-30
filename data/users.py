@@ -26,6 +26,7 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     reservations = orm.relationship('Reserv', back_populates="user")
     orders = orm.relationship('Order', back_populates="user")
     order_items = orm.relationship('OrderItem', back_populates='item_user')
+    cart_items = orm.relationship('CartItem', back_populates='user')
 
     def set_password(self, password):
         self.password = generate_password_hash(password)

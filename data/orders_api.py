@@ -2,6 +2,10 @@ import flask
 from flask import request, jsonify
 from . import db_session
 from .orders import Order
+from .order_items import OrderItem
+from .cart_items import CartItem
+from .products import Product
+from flask_login import current_user
 from sqlalchemy import func
 
 blueprint = flask.Blueprint(
@@ -26,6 +30,46 @@ def change_order_status():
         return jsonify(success=False, message="Заказ не найден"), 404
 
     order.o_status = new_status
+    db_sess.commit()
+
+    return jsonify(success=True)
+
+
+@blueprint.route('/api/order', methods=['POST'])
+def create_order():
+
+    db_sess = db_session.create_session()
+    cart_items = db_sess.query(CartItem).filter(CartItem.user_id == current_user.user_id).all()
+
+    order = Order(
+        user_id = current_user.user_id,
+        o_sum = 0,
+        o_status = "обрабатывается"
+    )
+    db_sess.add(order)
+    db_sess.commit()
+    """
+    
+    item_id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
+    item_order_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('orders.o_id'), nullable=True)
+    item_prod_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('products.prod_id'), nullable=False)
+    item_user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('users.user_id'), nullable=False)
+    item_amount = sqlalchemy.Column(sqlalchemy.Integer, nullable=False, default=1)
+"""
+    total_price = 0
+    for i in cart_items:
+        product = db_sess.query(Product).where(Product.prod_id == i.product_id).first()
+        order_item = OrderItem(
+            item_order_id = order.o_id,
+            item_prod_id = i.product_id,
+            item_user_id = current_user.user_id,
+            item_amount = i.ci_amount
+        )
+        db_sess.add(order_item)
+        db_sess.delete(i)
+        total_price += product.price * i.ci_amount
+
+    order.o_sum = total_price
     db_sess.commit()
 
     return jsonify(success=True)

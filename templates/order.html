@@ -14,7 +14,7 @@
                     <div class="order-item-card-details-bottom">
                         <div class="order-item-price">{{ item.price }} Р</div>
                         <div class="order-item-count-container">
-                            <div class="order-item-count-count">х {{ item.count }}</div>
+                            <div class="order-item-count-count">х {{ item.amount }}</div>
                         </div>
                     </div>
                 </div>
@@ -25,7 +25,7 @@
         <div class="order-options">
             <div class="order-summary-price-container">
                 <h3>Итоговая стоимость</h3>
-                <h2 class="price">1500 Р</h2>
+                <h2 class="price">{{total_price}} Р</h2>
             </div>
             
             <label>
@@ -54,5 +54,31 @@
                 tableMessageDiv.textContent = '';
             }
         });
+        confirmOrder.addEventListener('click', () => {
+            createOrder();
+        });
+        
+    function createOrder() {
+        fetch('/api/order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error('Ошибка сети');
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        console.log(data);
+                    } else {
+                        alert(data.message || 'Ошибка');
+                    }
+                })
+                .catch(() => alert('Ошибка при отправке запроса'));
+    }
     </script>
 {% endblock %}
