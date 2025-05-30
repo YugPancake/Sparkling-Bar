@@ -36,101 +36,114 @@
             </button>
         </div>
     </div>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Функция для обновления итоговой стоимости
-            function updateTotalPrice() {
-                fetch('/api/cart/total')
-                    .then(response => response.json())
-                    .then(data => {
-                        document.querySelector('.order-summary .price').textContent = data.total_price + ' Р';
-                        // Обновляем состояние кнопки оформления заказа
-                        const orderButton = document.querySelector('.order-summary-button');
-                        if (data.total_items === 0) {
-                            orderButton.classList.add('disabled');
-                            orderButton.onclick = null;
-                        } else {
-                            orderButton.classList.remove('disabled');
-                            orderButton.onclick = function() { location.href = 'order'; };
-                        }
-                    });
-            }
-
-            // Обработчики для кнопок изменения количества
-            document.querySelectorAll('.card').forEach(function(element) {
-                const itemId = element.getAttribute('data-prod-id');
-                const countElement = element.querySelector('.cart-item-count-count');
-                const minusButton = element.querySelector('.cart-item-count-minus-button');
-                const plusButton = element.querySelector('.cart-item-count-plus-button');
-                const deleteButton = element.querySelector('.cart-item-card-delete-button');
-
-                // Обработчик для кнопки "+"
-                plusButton.addEventListener('click', function() {
-                    fetch('/api/cart/increase/' + itemId, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRFToken': '{{ csrf_token }}'
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            countElement.textContent = data.new_amount;
-                            minusButton.disabled = false;
-                            updateTotalPrice();
-                        }
-                    });
+    // Функция для обновления итоговой стоимости
+        function updateTotalPrice() {
+            fetch('/api/cart/total')
+                .then(response => response.json())
+                .then(data => {
+                    document.querySelector('.order-summary .price').textContent = data.total_price + ' Р';
+                    const orderButton = document.querySelector('.order-summary-button');
+                    if (data.total_items === 0) {
+                        orderButton.classList.add('disabled');
+                        orderButton.onclick = null;
+                    } else {
+                        orderButton.classList.remove('disabled');
+                        orderButton.onclick = function() { location.href = 'order'; };
+                    }
                 });
+        }
 
-                // Обработчик для кнопки "-"
-                minusButton.addEventListener('click', function() {
-                    fetch('/api/cart/decrease/' + itemId, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRFToken': '{{ csrf_token }}'
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            countElement.textContent = data.new_amount;
-                            if (data.new_amount <= 1) {
-                                minusButton.disabled = true;
-                            }
-                            if (data.new_amount === 0) {
-                                element.remove();
-                            }
-                            updateTotalPrice();
-                        }
-                    });
+    // Обработчики для всех карточек товаров
+    document.querySelectorAll('.card').forEach(function(element) {
+        const prodId = element.getAttribute('data-prod-id'); // Используем prod_id
+        const countElement = element.querySelector('.cart-item-count-count');
+        const minusButton = element.querySelector('.cart-item-count-minus-button');
+        const plusButton = element.querySelector('.cart-item-count-plus-button');
+        const deleteButton = element.querySelector('.cart-item-card-delete-button');
+
+        // Функция для получения ci_id по prod_id
+        function getCartItemId(callback) {
+            fetch('/api/cart/get_id/' + prodId)
+                .then(response => response.json())
+                .then(data => callback(data.ci_id));
+        }
+
+        // Кнопка "+"
+        plusButton.addEventListener('click', function() {
+            getCartItemId(function(ci_id) {
+                fetch('/api/cart/increase/' + ci_id, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        countElement.textContent = data.new_amount;
+                        minusButton.disabled = false;
+                        updateTotalPrice();
+                    }
                 });
-
-                // Обработчик для кнопки удаления
-                deleteButton.addEventListener('click', function() {
-                    fetch('/api/cart/remove/' + itemId, {
-                        method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRFToken': '{{ csrf_token }}'
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            element.remove();
-                            updateTotalPrice();
-                        }
-                    });
-                });
-
-                // Инициализация состояния кнопки "-"
-                if (parseInt(countElement.textContent) <= 1) {
-                    minusButton.disabled = true;
-                }
             });
         });
+
+        // Кнопка "-"
+        minusButton.addEventListener('click', function() {
+            getCartItemId(function(ci_id) {
+                fetch('/api/cart/decrease/' + ci_id, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        countElement.textContent = data.new_amount;
+                        if (data.new_amount <= 1) {
+                            minusButton.disabled = true;
+                        }
+                        if (data.new_amount === 0) {
+                            element.remove();
+                        }
+                        updateTotalPrice();
+                    }
+                });
+            });
+        });
+
+        // Кнопка удаления
+        deleteButton.addEventListener('click', function() {
+            getCartItemId(function(ci_id) {
+                fetch('/api/cart/remove/' + ci_id, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        element.remove();
+                        updateTotalPrice();
+                    }
+                });
+            });
+        });
+
+        // Инициализация состояния кнопки "-"
+        if (parseInt(countElement.textContent) <= 1) {
+            minusButton.disabled = true;
+        }
+    });
+});
     </script>
 
 {% endblock %}
