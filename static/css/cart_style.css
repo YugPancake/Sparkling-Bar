@@ -151,3 +151,16 @@
     font-size: 32px;
     color: #8C8C8C;
 }
+
+.order-summary-button.disabled {
+    background-color: #ffffff;
+    color: #8C8C8C;
+    cursor: not-allowed;    
+    pointer-events: none;
+}
+        
+.cart-item-count-minus-button:disabled,
+.cart-item-count-plus-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
