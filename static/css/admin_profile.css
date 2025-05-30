@@ -15,6 +15,7 @@
     justify-content: space-between;
     height: 40px;
 }
+
 .add-product-admin {
     display: flex;
     width: 250px;
@@ -22,7 +23,7 @@
     font-family: Russo_One;
     background-color: #FFF;
     font-size: 20px;
-    color:#F08BFF;
+    color: #F08BFF;
     border: none;
     border-radius: 10px;
     cursor: pointer;
@@ -62,9 +63,10 @@
     
 }
 .hidden {
-    opacity: 0.5;
+    opacity: 1;
 }
- .account-card {
+
+.account-card {
     padding:  20px;
     width: 230px;
     display: flex;                 
@@ -131,6 +133,7 @@
 .account-p, .account-email{
     margin: 0 0 3px 0;
 }
+
 .order-details{
     margin-left: 4px;
     font-size: 24px; 
@@ -202,12 +205,22 @@
     max-width: 100%;
     overflow: hidden;   
 }
+
 .orders-profile{
     display: flex;
     transition: transform 0.5s ease;
     align-items: center;
     justify-content: left;
     gap: 0 50px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.orders-profile::-webkit-scrollbar {
+    display: none;
 }
 
 .history-card{
@@ -224,6 +237,7 @@
     opacity: 1;
     transition: opacity 0.3s ease;
 }
+
 .his_title{
     font-size: 20px;
 }
