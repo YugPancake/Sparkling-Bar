@@ -81,12 +81,11 @@
         const options = selected.nextElementSibling;
         const orderCard = selected.closest('.order-card'); 
     
-
         selected.addEventListener('click', () => {
             options.style.display = options.style.display === 'block' ? 'none' : 'block';
         });
     
-        options.querySelectorAll('.dropdown-item').forEach(option => {
+        options.querySelectorAll('.dropdown-item-order').forEach(option => {
             option.addEventListener('click', () => {
                 const newStatus = option.getAttribute('data-value');
                 const orderId = selected.getAttribute('data-order-id');
@@ -115,7 +114,7 @@
                 })
                 .then(data => {
                     if (data.success) {
-                        selected.textContent = option.textContent; // 
+                        selected.textContent = option.textContent; 
                         options.style.display = 'none';
                         
                         if (newStatus === 'выполнен') {
@@ -125,17 +124,18 @@
                         alert(data.message || 'Не удалось изменить статус');
                     }
                 })
-                .catch(() => alert('Ошибка при отправке запроса'));
+                .catch((error) => {
+                    console.error('Ошибка:', error);
+                    alert('Ошибка при отправке запроса');
+                });
             });
         });
-
+    
         document.addEventListener('click', (e) => {
             if (!selected.contains(e.target) && !options.contains(e.target)) {
                 options.style.display = 'none';
             }
         });
     });
-    
-    
 </script>
 {% endblock %}
