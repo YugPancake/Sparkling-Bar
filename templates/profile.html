@@ -20,7 +20,7 @@
                         <div class="order-card">
                             <div class="order-up-detail">
                                 <div class="order-left">
-                                    <p class="order-status"> {{order.order.o_status}}</p>
+                                    <p class="order-status"> {% if order.order.o_status == 'выполнен' %}Готов{% elif order.order.o_status == 'готовится' %}Готовится{% else %}Оформлен{% endif %}</p>
                                     <p class="order-details">{{order.table}}</p>
                                 </div>
                                 <div class="order-ri">
