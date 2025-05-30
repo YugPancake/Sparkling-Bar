@@ -213,18 +213,19 @@ def profile():
     orders_data = []
     for order in orders:
         if order.o_status == "выполнен":
-            products = [item.item_prod for item in order.order_items]  
-            if not products:
-                continue  
-            random_product = choice(products) 
-            o_sum = f"{order.o_sum}р."
-            product_info = "; ".join(f"{prod.prod_name}" for prod in products) 
-            orders_data.append({
-                'order': order,
-                'product_info': product_info,
-                'random_product': random_product,
-                'o_sum': o_sum
-            })
+            for item in order.order_items:
+                product = item.item_prod
+                if product:
+                    o_sum = f"{order.o_sum}р."
+                    orders_data.append({
+                        'order': order,
+                        'product_info': {
+                            'prod_name': product.prod_name,
+                            'price': product.price,
+                            'img_prod': product.img_prod
+                        },
+                        'o_sum': o_sum
+                    })
         else:
             reserv = db_sess.query(Reserv).filter(
                 Reserv.user_id == current_user.user_id,
