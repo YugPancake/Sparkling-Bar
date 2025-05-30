@@ -28,12 +28,14 @@
                 <div class="price">{{total_price}} Р</div>
             </div>
             
-            <label>
-                <input type="checkbox" id="pickupBar"> Забрать на баре
-            </label><br/>
-            <label>
-                <input type="checkbox" id="diningTable"> Заказать на стол
-            </label><br/>
+            <div class="remember-me-container">
+                <input type="checkbox" class="remember_me" id="remember_me" name="remember_me">
+                <label class="remember_me_text" for="remember_me">Забрать на баре</label>
+            </div>
+            <div class="remember-me-container">
+                <input type="checkbox" class="remember_me" id="remember_me" name="remember_me">
+                <label class="remember_me_text" for="remember_me">Заказать на стол</label>
+            </div>
             
             <button class="button" id="confirmOrder">Оплатить</button>
         </div>

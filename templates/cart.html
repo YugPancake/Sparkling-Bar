@@ -37,20 +37,99 @@
         </div>
     </div>
     <script>
-        document.querySelectorAll('.card').forEach(function(element) {
-            let item_id = element.getAttribute('data-prod-id');
-            let item_count = element.getAttribute('data-count');
-            console.log(item_count);
-            console.log(item_id);
-            let delete_button = element.querySelector('.cart-item-card-delete-button');
-            let minus_button = element.querySelector('.cart-item-count-minus-button');
-            let plus_button = element.querySelector('.cart-item-count-plus-button');
-            if (item_count == 1) {
-                minus_button.setAttribute('disabled', 'disabled');
+        document.addEventListener('DOMContentLoaded', function() {
+            // Функция для обновления итоговой стоимости
+            function updateTotalPrice() {
+                fetch('/api/cart/total')
+                    .then(response => response.json())
+                    .then(data => {
+                        document.querySelector('.order-summary .price').textContent = data.total_price + ' Р';
+                        // Обновляем состояние кнопки оформления заказа
+                        const orderButton = document.querySelector('.order-summary-button');
+                        if (data.total_items === 0) {
+                            orderButton.classList.add('disabled');
+                            orderButton.onclick = null;
+                        } else {
+                            orderButton.classList.remove('disabled');
+                            orderButton.onclick = function() { location.href = 'order'; };
+                        }
+                    });
             }
-            delete_button.addEventListener('click', () => { alert("Удаление товара ID "+item_id) });
-            minus_button.addEventListener('click', () => { alert("Минус ID "+item_id) });
-            plus_button.addEventListener('click', () => { alert("Плюс ID "+item_id) });
+
+            // Обработчики для кнопок изменения количества
+            document.querySelectorAll('.card').forEach(function(element) {
+                const itemId = element.getAttribute('data-prod-id');
+                const countElement = element.querySelector('.cart-item-count-count');
+                const minusButton = element.querySelector('.cart-item-count-minus-button');
+                const plusButton = element.querySelector('.cart-item-count-plus-button');
+                const deleteButton = element.querySelector('.cart-item-card-delete-button');
+
+                // Обработчик для кнопки "+"
+                plusButton.addEventListener('click', function() {
+                    fetch('/api/cart/increase/' + itemId, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': '{{ csrf_token }}'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            countElement.textContent = data.new_amount;
+                            minusButton.disabled = false;
+                            updateTotalPrice();
+                        }
+                    });
+                });
+
+                // Обработчик для кнопки "-"
+                minusButton.addEventListener('click', function() {
+                    fetch('/api/cart/decrease/' + itemId, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': '{{ csrf_token }}'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            countElement.textContent = data.new_amount;
+                            if (data.new_amount <= 1) {
+                                minusButton.disabled = true;
+                            }
+                            if (data.new_amount === 0) {
+                                element.remove();
+                            }
+                            updateTotalPrice();
+                        }
+                    });
+                });
+
+                // Обработчик для кнопки удаления
+                deleteButton.addEventListener('click', function() {
+                    fetch('/api/cart/remove/' + itemId, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': '{{ csrf_token }}'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            element.remove();
+                            updateTotalPrice();
+                        }
+                    });
+                });
+
+                // Инициализация состояния кнопки "-"
+                if (parseInt(countElement.textContent) <= 1) {
+                    minusButton.disabled = true;
+                }
+            });
         });
     </script>
 
