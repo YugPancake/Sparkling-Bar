@@ -3,6 +3,13 @@
 {% block content %}
 
     <div class="profile">
+
+    {% if not user.is_verified %}
+        <div class="profile-notification">
+            Ваш аккаунт не подтвержден! Лично покажите свой паспорт администратору бара для верификации
+        </div>
+    {% endif %}
+
         <div class="up-profile">
             <div class="account-card">
                 <p class="account-name"> {{user.user_name}} <br>{{user.user_surname}}</p>

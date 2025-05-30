@@ -252,3 +252,13 @@
     color:#FFF;
     cursor: pointer;    
 }
+
+.profile-notification{
+    background-color: #F08BFF;
+    width: 100%;
+    border-radius: 15px;
+    text-align: center;
+    padding: 10px 0;
+    margin-bottom: 20px;
+    font-size: 18px;
+}
