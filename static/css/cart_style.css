@@ -102,6 +102,12 @@
     margin-top: 16px;
     cursor: pointer;
 }
+.order-summary-button.disabled {
+    background-color: #8C8C8C;
+    color: white;
+    cursor: not-allowed;
+    pointer-events: none;
+    }
 
 .cart-item-card-delete-button {
     background-color: white;
