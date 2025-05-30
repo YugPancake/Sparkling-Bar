@@ -2,6 +2,7 @@ import flask
 from flask import request, jsonify
 from . import db_session
 from .products import Product
+from .reviews import UserReview
 from sqlalchemy import func
 
 blueprint = flask.Blueprint(
@@ -23,6 +24,7 @@ def get_products():
 
     products_list = [product.to_dict() for product in products]
     return jsonify({'products': products_list})
+
 
 @blueprint.route('/api/catalog', methods=['GET'])
 def filter_catalog():
@@ -73,3 +75,27 @@ def filter_catalog():
     products_data = [product.to_dict() for product in products]
 
     return jsonify({'success': True, 'products': products_data})
+
+
+@blueprint.route('/api/review', methods=['DELETE'])
+def delete_review():
+    review_id = request.args.get('review_id', type=int)
+    
+    if review_id is None:
+        return jsonify({"error": "review_id is required"}), 400
+
+    # Создаем сессию базы данных
+    db_sess = db_session.create_session()
+    
+    # Находим отзыв по review_id
+    review = db_sess.query(UserReview).get(review_id)
+    
+    if review is None:
+        return jsonify({"error": "Отзыв не найден"}), 404
+
+    db_sess.delete(review)
+    db_sess.commit()
+
+    db_sess.close()
+
+    return jsonify({"message": "Отзыв успешно удален"}), 200

@@ -119,7 +119,11 @@ ul{
     border-radius: 20px;
     border: 1px solid #FFFFFF;
     padding: 10px 20px;
-    cursor: pointer; /* чтобы показывать, что кликабельно */
+}
+
+.review_info_up{
+    display: flex;
+    justify-content: space-between;
 }
 
 .reviews_username {
@@ -129,6 +133,13 @@ ul{
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.reviews_delete {
+    cursor: pointer;
+    color: #8C8C8C;
+    font-size: 20px;
+    display: inline-block; 
+
+}
 
 .reviews_content {
     display: -webkit-box;          
@@ -136,16 +147,16 @@ ul{
     -webkit-line-clamp: 1;
     overflow: hidden;
     text-overflow: ellipsis;
-    transition: max-height 0.3s ease; /* плавное раскрытие */
-    max-height: 1.2em; /* примерно высота одной строки */
+    transition: max-height 0.3s ease;
+    max-height: 1.2em;
+    cursor: pointer;
 }
 
-/* Когда карточка раскрыта — показываем весь текст */
 .reviews_card.expanded .reviews_content {
-    display: block; /* отменяем -webkit-box */
-    max-height: 1000px; /* достаточно большое значение */
+    display: block;
+    max-height: 1000px;
     overflow: visible;
-    white-space: normal; /* перенос строк */
+    white-space: normal;
     -webkit-line-clamp: unset;
 }
 
