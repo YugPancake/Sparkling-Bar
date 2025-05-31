@@ -89,12 +89,13 @@ def order_info():
     items = []
     for item in order.order_items:
         product = item.item_prod
-        print(f"Product: {product}, name: {getattr(product, 'prod_name', None)}, price: {getattr(product, 'price', None)}, img: {getattr(product, 'img_prod', None)}")
+        print(f"Product: {product}, name: {getattr(product, 'prod_name', None)}, price: {getattr(product, 'price', None)}, img: {getattr(product, 'img_prod', None)}, amount: {item.item_amount}")
         if product and product.prod_name and product.price is not None and product.img_prod:
             items.append({
                 'product_name': product.prod_name,
                 'price': product.price,
                 'img_prod': product.img_prod,
+                'item_amount': item.item_amount 
             })
 
     return jsonify({

@@ -90,6 +90,7 @@
                             <div class="order-modal-name"></div>
                             <div class="order-modal-price"></div>
                         </div>
+                        <div class="specials_card_amount"></div>
                     </div>
                 </div>
             </div>
@@ -192,34 +193,34 @@
                 modalNumber.textContent = `Заказ №${String(data.order_id).padStart(3, '0')}`;
     
                 const container = document.getElementById('orderItemsContainer');
-    
                 const cardTemplate = container.querySelector('.order-modal-card');
     
-
-                container.innerHTML = '';
-                container.appendChild(cardTemplate);
+                container.innerHTML = ''; // Очищаем контейнер
+                container.appendChild(cardTemplate); // Добавляем шаблон
     
                 data.items.forEach(item => {
                     if (item.img_prod && item.product_name && item.price) {
                         const card = cardTemplate.cloneNode(true);
                         card.style.display = 'flex'; 
-                    
+    
                         const img = card.querySelector('.order-modal-img');
                         img.src = item.img_prod; 
                         img.alt = item.product_name;
-                    
+    
                         const name = card.querySelector('.order-modal-name');
                         name.textContent = item.product_name;
-                    
+    
                         const price = card.querySelector('.order-modal-price');
                         price.textContent = `${item.price} Р`;
-                    
+    
+                        const amount = card.querySelector('.specials_card_amount');
+                        amount.textContent = `x ${item.item_amount}`; 
+    
                         container.appendChild(card); 
                     } else {
                         console.warn('Пропущен пустой товар:', item);
                     }
                 });
-                
     
                 document.getElementById('orderModal').style.display = 'block';
             })
