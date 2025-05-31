@@ -69,6 +69,15 @@
     cursor: pointer;
 }
 
+.product_page_button_order {
+    transition: all 0.3s ease;
+}
+
+.product_page_button_order.active {
+    background-color: #4CAF50;
+    transform: scale(0.95);
+}
+
 .product_page_button_card.active {
     background-color: #8C8C8C;
     cursor: default;

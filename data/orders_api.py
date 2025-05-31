@@ -5,8 +5,9 @@ from .orders import Order
 from .order_items import OrderItem
 from .cart_items import CartItem
 from .products import Product
-from flask_login import current_user
+from flask_login import current_user, login_required
 from sqlalchemy import func
+from datetime import datetime
 
 blueprint = flask.Blueprint(
     'orders_api',
@@ -104,3 +105,52 @@ def order_info():
         'date': order.o_date.isoformat(),
         'items': items
     })
+
+@blueprint.route('/api/order/create_direct', methods=['POST'])
+@login_required
+def create_direct_order():
+    """Создание заказа с одним товаром, минуя корзину"""
+    data = request.get_json()
+    product_id = data.get('product_id')
+    quantity = data.get('quantity', 1)
+    
+    if not product_id:
+        return jsonify(success=False, message="Не указан ID товара"), 400
+
+    db_sess = db_session.create_session()
+    try:
+        # Проверяем существование товара
+        product = db_sess.query(Product).filter(Product.prod_id == product_id).first()
+        if not product:
+            return jsonify(success=False, message="Товар не найден"), 404
+        
+        # Создаем новый заказ
+        order = Order(
+            user_id=current_user.user_id,
+            o_sum=float(product.price) * quantity,
+            o_status="обрабатывается"
+        )
+        db_sess.add(order)
+        db_sess.flush()  # Получаем o_id
+        
+        # Добавляем товар в заказ
+        order_item = OrderItem(
+            item_order_id=order.o_id,
+            item_prod_id=product_id,
+            item_user_id=current_user.user_id,
+            item_amount=quantity
+        )
+        db_sess.add(order_item)
+        
+        db_sess.commit()
+        
+        return jsonify(
+            success=True,
+            order_id=order.o_id,
+            message="Заказ успешно создан"
+        )
+    except Exception as e:
+        db_sess.rollback()
+        return jsonify(success=False, message=str(e)), 500
+    finally:
+        db_sess.close()

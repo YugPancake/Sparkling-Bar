@@ -161,3 +161,4 @@ def add_to_cart():
         return jsonify(success=False, message=str(e)), 500
     finally:
         db_sess.close()
+        
