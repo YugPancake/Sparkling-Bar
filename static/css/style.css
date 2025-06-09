@@ -1,3 +1,4 @@
+
 @font-face {
 	font-family: 'Russo_One';
 	src: url('../fonts/RussoOne-Regular.ttf') format('truetype');
@@ -351,7 +352,6 @@ footer{
 
 .catalog_banner {
     position: relative;
-    display: inline-block;
     width: 100%;
     height: auto;
     overflow: hidden;
@@ -390,4 +390,8 @@ footer{
     display: flex;
     flex-direction: row;
     gap: 10px;
+}
+
+.mobile-menu, .bottom-nav{
+    display: none;
 }
