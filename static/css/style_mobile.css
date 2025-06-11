@@ -31,6 +31,12 @@
         align-items: center;
     }
 
+    .mobile-logo{
+        margin: 10px 0 0 0;
+        display: flex;
+        justify-content: center;
+    }
+
     .search_bar {
         width: 580px;
         margin: 0 10px 0 30px;

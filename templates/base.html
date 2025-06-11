@@ -47,6 +47,13 @@
 			</nav>
 		</header>
 
+
+        <div class="mobile-logo">
+            <a href="{{ url_for('home') }}">
+                <img class="logo" src="{{ url_for('static', filename='image/logo.svg') }}" alt="Логотип" />
+            </a> 
+        </div>
+        
         <div class="mobile-menu">
             <div class="search_bar">
                 <form action="{{ url_for('catalog') }}" method="get" class="search_form">
