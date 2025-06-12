@@ -392,6 +392,6 @@ footer{
     gap: 10px;
 }
 
-.mobile-menu, .bottom-nav{
+.mobile-menu, .bottom-nav, .mobile-logo{
     display: none;
 }

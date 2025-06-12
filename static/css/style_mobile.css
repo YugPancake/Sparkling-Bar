@@ -133,4 +133,25 @@
         flex-wrap: wrap;
     }
 
+    .product_container{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+
+
+    .product_page_image img{
+        max-width: 100%;
+        border-radius: 20px;
+    }
+
+    .product_page_info{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 20px;
+        align-items: flex-start;
+    }
+
   }
