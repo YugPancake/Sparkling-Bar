@@ -154,4 +154,17 @@
         align-items: flex-start;
     }
 
+    .booking_container{
+        display: flex;
+        align-content: space-between;
+        justify-content: space-around;
+        margin-top: 20px;
+        padding: 20px;
+        border-radius: 20px;
+        border: 1px solid #FFFFFF;
+        flex-wrap: wrap;
+        gap: 30px;
+        
+    }
+
   }
