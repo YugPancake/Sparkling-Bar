@@ -13,8 +13,10 @@
         <div class="up-profile">
             <div class="account-card">
                 <p class="account-name"> {{user.user_name}} <br>{{user.user_surname}}</p>
-                <p class="account-p">{{user.phone}}</p>
-                <p class="account-email">{{user.email}}</p>
+                <div class="center_account">
+                    <p class="account-p">{{user.phone}}</p>
+                    <p class="account-email">{{user.email}}</p>
+                </div>
                 <a class="confirm-button" href="/logout">Выйти</a>
             </div>
 
@@ -62,7 +64,7 @@
                         </div>
                         <div class="specials_card_info">
                             <p class="specials_card_title his_title">{{order.product_info.prod_name}}</p>
-                            <p class="specials_card_price his_price">{{order.product_info.price}}</p>
+                            <p class="specials_card_price his_price">{{ order.product_info.price }} Р</p>
                         </div>
                     </div>
                 </div>

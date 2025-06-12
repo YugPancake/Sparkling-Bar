@@ -52,12 +52,16 @@
             {% for user in pending_users %}
             <div class="account-card">
                 <p class="account-name">{{user.user_name}} <br> {{user.user_surname}}</p>
-                <p class="account-p">{{user.phone}}</p>
-                <p class="account-email">{{user.email}}</p>
-                <form method="post" action="{{ url_for('confirm_user')}}">
-                    <input type="hidden" name="user_id" value="{{ user.user_id}}">
-                    <button type="submit" class="confirm-button">Подтвердить</button>
-                </form>
+                <div class="center_account">
+                    <p class="account-p">{{user.phone}}</p>
+                    <p class="account-email">{{user.email}}</p>
+                </div>
+                <div class="confim-button-admin">
+                    <form method="post" action="{{ url_for('confirm_user')}}">
+                        <input type="hidden" name="user_id" value="{{ user.user_id}}">
+                        <button type="submit" class="confirm-button admin_p">Подтвердить</button>
+                    </form>
+                </div>
             </div>
 
             {% else %}

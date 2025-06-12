@@ -1,0 +1,99 @@
+@media (max-width: 1100px) {
+   .history-card {
+        margin: 20px 0;
+        align-items: center;
+        justify-content: center;
+    
+    }
+    .orders{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+    }
+    .accounts{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 830px) {
+
+    .anim{
+       width: 275px;
+       height: min-content;
+    }
+
+    .specials_card_content{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .specials_card_image img{
+        width: 233px;
+        height: auto;
+    }
+
+    .specials_card_info{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-left: 0;
+    }
+    
+}
+
+@media (max-width: 712px) {
+
+    .up-profile{
+        width: 105%;
+        display: flex;
+        flex-direction: column;       
+        align-items: left;          
+        justify-content: center;
+        padding-bottom: 40px;
+    }
+    
+    .account-card {
+        padding:  10px;
+        width: 91%;
+        display: flex;                 
+        flex-direction: row;       
+        align-items: center;          
+        justify-content: space-between; 
+        height: 100px;     
+    }
+    .center_account{
+        width: 33.3%;
+        display: flex;                 
+        flex-direction: column;       
+        align-items: center;          
+        justify-content: center;
+        text-align: center;  
+    }
+    .account-name {
+        width: 33.3%;
+    }
+    .confirm-button {
+        width: 33.3%;
+    }
+    .confim-button-admin{
+        width: 33.3%;
+    }
+    .admin_p{
+        width: 100%;
+    }
+    
+}
+
+@media (max-width: 555px) {
+  
+    .title_and_button {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 80px;   
+    }
+}
