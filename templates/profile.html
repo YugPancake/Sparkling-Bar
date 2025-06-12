@@ -24,7 +24,7 @@
                 <p class="page_title white_text">Заказы</p>
                 
                 <div class="orders-profile" id="orders-profile">
-                    {% for order in table_orders %}
+                    {% for order in table_orders|reverse %}
                         
                         <div class="order-card">
                             <div class="order-up-detail">

@@ -239,8 +239,6 @@ def profile():
                 'table': table_number,
                 'product_info': product_info
             })
-            
-        table_orders.reverse()
 
     return render_template('profile.html', user=user, orders=orders, table_orders=table_orders, orders_data=orders_data)
 
