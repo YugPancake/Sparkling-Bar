@@ -164,10 +164,11 @@
     line-height: 1;
 }
 
-.remember-me-container {
+.checkbox-order-container {
     display: flex;
-    align-items: center;
-    padding-bottom: 50px; 
+    align-items: flex-start;
+    gap: 20px;
+    flex-direction: column;
 }
 
 .pickup-option, .dining-option {
