@@ -51,15 +51,15 @@
         // Функция для обновления цвета кнопки в зависимости от чекбоксов
         function updateButtonState() {
             if (diningCheckbox.checked || pickupCheckbox.checked) {
-                confirmButton.style.backgroundColor = ''; // сбросить стиль, вернуть стандартный
+                confirmButton.style.backgroundColor = '';
                 confirmButton.disabled = false;
+                confirmButton.style.cursor = 'pointer';
             } else {
                 confirmButton.style.backgroundColor = '#8C8C8C';
-                confirmButton.disabled = true; // можно дополнительно отключить кнопку
+                confirmButton.disabled = true;
+                confirmButton.style.cursor = 'default';
             }
         }
-    
-        // Вызовем при загрузке страницы
         updateButtonState();
     
         // Добавим слушатели на чекбоксы
