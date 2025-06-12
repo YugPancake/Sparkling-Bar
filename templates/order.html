@@ -29,13 +29,16 @@
             </div>
             
             <div class="remember-me-container">
-                <input type="checkbox" class="remember_me" id="remember_me" name="remember_me">
-                <label class="remember_me_text" for="remember_me">Забрать на баре</label>
+                <input type="checkbox" class="pickup-option" id="pickup" name="pickup">
+                <label class="remember_me_text" for="pickup">Забрать на баре</label>
             </div>
             <div class="remember-me-container">
-                <input type="checkbox" class="remember_me" id="remember_me" name="remember_me">
-                <label class="remember_me_text" for="remember_me">Заказать на стол</label>
+                <input type="checkbox" class="dining-option" id="dining" name="dining">
+                <label class="remember_me_text" for="dining">Заказать на стол</label>
             </div>
+            
+            <!-- Добавляем элемент для сообщения о номере стола -->
+            <div id="tableNumberMessage" class="table-message"></div>
             
             <button class="button" id="confirmOrder">Оплатить</button>
         </div>
@@ -44,43 +47,50 @@
     <script>
         const tableMessageDiv = document.getElementById('tableNumberMessage');
         const confirmButton = document.getElementById('confirmOrder');
+        const diningCheckbox = document.getElementById('dining');
 
+        // Обработчик для кнопки подтверждения
         confirmButton.addEventListener('click', () => {
-            tableMessageDiv.textContent = 'Ваш стол № (1)';
-        });
-        const diningCheckbox = document.getElementById('diningTable');
-        diningCheckbox.addEventListener('change', () => {
             if (diningCheckbox.checked) {
                 tableMessageDiv.textContent = 'Ваш стол № (1)';
-            } else {
-                tableMessageDiv.textContent = '';
             }
-        });
-        confirmOrder.addEventListener('click', () => {
             createOrder();
         });
         
-    function createOrder() {
-        fetch('/api/order', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                    })
+        // Обработчик для чекбокса "Заказать на стол"
+        if (diningCheckbox) {
+            diningCheckbox.addEventListener('change', () => {
+                if (diningCheckbox.checked) {
+                    tableMessageDiv.textContent = 'Ваш стол № (1)';
+                } else {
+                    tableMessageDiv.textContent = '';
+                }
+            });
+        }
+        
+        function createOrder() {
+            fetch('/api/order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    // Добавьте сюда необходимые данные для заказа
                 })
-                .then(response => {
-                    if (!response.ok) throw new Error('Ошибка сети');
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.success) {
-                        console.log(data);
-                    } else {
-                        alert(data.message || 'Ошибка');
-                    }
-                })
-                .catch(() => alert('Ошибка при отправке запроса'));
-    }
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Ошибка сети');
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    console.log(data);
+                    // Перенаправление или другие действия после успешного заказа
+                } else {
+                    alert(data.message || 'Ошибка');
+                }
+            })
+            .catch(() => alert('Ошибка при отправке запроса'));
+        }
     </script>
 {% endblock %}
