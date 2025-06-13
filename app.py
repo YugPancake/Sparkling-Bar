@@ -24,6 +24,7 @@ from requests import get, post
 from fuzzywuzzy import process
 import random
 from random import choice
+from datetime import date
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret_key'
@@ -325,7 +326,13 @@ def order():
         })
         total_price += i.ci_amount * product.price
     print(cart_items)
-    return render_template('order.html', title="Ваш заказ", order_items=cart_items, total_price=total_price)
+    
+    today = date.today()
+    user_reservs = db_sess.query(Reserv).filter(Reserv.user_id == current_user.user_id, Reserv.reserv_date >= today).all()
+
+    reservs_list = [reserv.to_dict() for reserv in user_reservs]
+    
+    return render_template('order.html', title="Ваш заказ", order_items=cart_items, total_price=total_price, reservs=reservs_list)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

@@ -201,3 +201,13 @@
     background-repeat: no-repeat; 
     background-position: center; 
 }
+
+.booking-link{
+    color: #F08BFF;
+    cursor: pointer;
+}
+
+.table-message{
+    font-size: 16px;
+    color: #8C8C8C;
+}

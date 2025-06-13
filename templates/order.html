@@ -31,24 +31,27 @@
             <div class="checkbox-order-container">
                 <input type="checkbox" class="pickup-option" id="pickup" name="pickup">
                 <label class="remember_me_text" for="pickup">Забрать на баре</label>
-                <input type="checkbox" class="dining-option" id="dining" name="dining">
-                <label class="remember_me_text" for="dining">Заказать на стол</label>
+                
+                {% if reservs|length > 0 %}
+                    <input type="checkbox" class="dining-option" id="dining" name="dining">
+                    <label class="remember_me_text" for="dining">Заказать на стол</label>
+                    <div id="tableNumberMessage" class="table-message"></div>
+                {% else %}
+                    <a href="{{ url_for('table_map') }}" class="booking-link">Забронировать стол</a>
+                {% endif %}
             </div>
-            
-            <!-- Добавляем элемент для сообщения о номере стола -->
-            <div id="tableNumberMessage" class="table-message"></div>
             
             <button class="button" id="confirmOrder">Оплатить</button>
         </div>
     </div>
     
     <script>
+        const reservs = {{ reservs|tojson }};
         const tableMessageDiv = document.getElementById('tableNumberMessage');
         const confirmButton = document.getElementById('confirmOrder');
         const diningCheckbox = document.getElementById('dining');
         const pickupCheckbox = document.getElementById('pickup');
     
-        // Функция для обновления цвета кнопки в зависимости от чекбоксов
         function updateButtonState() {
             if (diningCheckbox.checked || pickupCheckbox.checked) {
                 confirmButton.style.backgroundColor = '';
@@ -62,28 +65,61 @@
         }
         updateButtonState();
     
-        // Добавим слушатели на чекбоксы
+        function onlyDate(d) {
+            return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+        }
+        
+        function getNearestReserv(reservs) {
+            const now = onlyDate(new Date());
+        
+            const futureReservs = reservs.filter(r => {
+                const d = new Date(r.reserv_date);
+                return onlyDate(d) >= now;
+            });
+        
+            if (futureReservs.length === 0) return null;
+        
+            futureReservs.sort((a, b) => new Date(a.reserv_date) - new Date(b.reserv_date));
+            return futureReservs[0];
+        }
+        
         diningCheckbox.addEventListener('change', () => {
-            updateButtonState();
             if (diningCheckbox.checked) {
-                tableMessageDiv.textContent = 'Ваш стол № 1';
+                pickupCheckbox.checked = false;
+            }
+            updateButtonState();
+        
+            if (diningCheckbox.checked) {
+                const nearestReserv = getNearestReserv(reservs);
+                if (nearestReserv) {
+                    tableMessageDiv.textContent = `Ваш стол № ${nearestReserv.table_number}`;
+                } else {
+                    tableMessageDiv.textContent = 'У вас нет активных резервов на сегодня';
+                }
             } else {
                 tableMessageDiv.textContent = '';
             }
         });
-    
+        
         pickupCheckbox.addEventListener('change', () => {
+            if (pickupCheckbox.checked) {
+                diningCheckbox.checked = false;
+                tableMessageDiv.textContent = '';
+            }
             updateButtonState();
         });
     
-        // Обработчик для кнопки подтверждения
         confirmButton.addEventListener('click', () => {
             if (!(diningCheckbox.checked || pickupCheckbox.checked)) {
-                // Если ни один чекбокс не выбран, ничего не делать (кнопка отключена, но на всякий случай)
                 return;
             }
             if (diningCheckbox.checked) {
-                tableMessageDiv.textContent = 'Ваш стол № 1';
+                const nearestReserv = getNearestReserv(reservs);
+                if (nearestReserv) {
+                    tableMessageDiv.textContent = `Ваш стол № ${nearestReserv.table_number}`;
+                } else {
+                    tableMessageDiv.textContent = 'У вас нет активных резервов на сегодня';
+                }
             }
             createOrder();
         });
@@ -104,7 +140,6 @@
             })
             .then(data => {
                 if (data.success) {
-                    console.log(data);
                     window.location.href = '/profile';
                 } else {
                     alert(data.message || 'Ошибка');

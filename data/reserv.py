@@ -23,7 +23,8 @@ class Reserv(SqlAlchemyBase):
             "table_id": self.table_id,
             "slot_id": self.slot_id,
             "reserv_date": self.reserv_date,
-            "price": self.price
+            "price": self.price,
+            "table_number": self.table.table_number if self.table else None 
         }
         if only:
             return {key: data[key] for key in only if key in data}
