@@ -179,6 +179,7 @@
         display: flex;
         flex-direction: column;
         gap: 20px;
+        width: 100%;
         
     }
 
@@ -191,7 +192,7 @@
         gap: 30px;
         box-sizing: border-box;
         min-height: 170px;
-        width: 650px;
+        width: 100%;
     }
 
     .order-summary, .order-options{
