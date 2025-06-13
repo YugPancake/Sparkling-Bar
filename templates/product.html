@@ -234,38 +234,38 @@
     }
 
     document.getElementById('orderNowButton').addEventListener('click', () => {
-    {% if not current_user.is_authenticated %}
-        window.location.href = "{{ url_for('login') }}";
-        return;
-    {% endif %}
-
-    fetch('/api/order/create_direct', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': '{{ csrf_token }}'
-        },
-        body: JSON.stringify({
-            product_id: {{product.prod_id}},
-            quantity: 1
+        {% if not current_user.is_authenticated %}
+            window.location.href = "{{ url_for('login') }}";
+            return;
+        {% endif %}
+    
+        fetch('/api/order/create_direct', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({
+                product_id: {{product.prod_id}},
+                quantity: 1
+            })
         })
-    })
-    .then(response => {
-        if (!response.ok) throw new Error('Ошибка сети');
-        return response.json();
-    })
-    .then(data => {
-        if (data.success) {
-            window.location.href = "{{ url_for('order') }}?order_id=" + data.order_id;
-        } else {
-            alert(data.message || 'Ошибка при создании заказа');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Ошибка сети: ' + error.message);
+        .then(response => {
+            if (!response.ok) throw new Error('Ошибка сети');
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                window.location.href = "{{ url_for('profile') }}";
+            } else {
+                alert(data.message || 'Ошибка при создании заказа');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Ошибка сети: ' + error.message);
+        });
     });
-});
 
     document.getElementById('addToCartButton').addEventListener('click', function() {
         this.classList.add('active');
