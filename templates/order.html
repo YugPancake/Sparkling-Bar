@@ -65,11 +65,16 @@
         // Добавим слушатели на чекбоксы
         diningCheckbox.addEventListener('change', () => {
             updateButtonState();
-            if (diningCheckbox.checked) {
-                tableMessageDiv.textContent = 'Ваш стол № 1';
-            } else {
-                tableMessageDiv.textContent = '';
-            }
+            if (diningCheckbox) {
+                diningCheckbox.addEventListener('change', () => {
+                    if (diningCheckbox.checked) {
+                        const randomTableNumber = Math.floor(Math.random() * 10) + 1; 
+                        tableMessageDiv.textContent = `Ваш стол № ${randomTableNumber}`;
+                    } else {
+                        tableMessageDiv.textContent = '';
+                    }
+    });
+}
         });
     
         pickupCheckbox.addEventListener('change', () => {
